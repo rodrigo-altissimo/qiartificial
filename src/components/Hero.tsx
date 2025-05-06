@@ -59,7 +59,7 @@ const Hero = () => {
                 </Button>
               </a>
               <a href="#servicos">
-                <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10 w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="border-green-500/50 text-black hover:bg-green-500/10 w-full sm:w-auto">
                   Nossos serviços
                 </Button>
               </a>
