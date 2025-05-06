@@ -53,12 +53,16 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-green-500 text-black font-medium hover:bg-green-400 shadow-lg shadow-green-500/30 transition-all duration-300">
-                Solicitar demonstração <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10">
-                Nossos serviços
-              </Button>
+              <a href="#contato">
+                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-medium shadow-lg shadow-green-500/30 transition-all duration-300 w-full sm:w-auto">
+                  Solicitar demonstração <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </a>
+              <a href="#servicos">
+                <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10 w-full sm:w-auto">
+                  Nossos serviços
+                </Button>
+              </a>
             </div>
             
             {/* Rating stars */}

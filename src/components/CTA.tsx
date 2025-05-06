@@ -40,7 +40,7 @@ const CTA = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#contato">
-              <Button size="lg" className="bg-green-500 text-black font-medium hover:bg-green-400 shadow-lg shadow-green-500/30 transition-all duration-300">
+              <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-medium shadow-lg shadow-green-500/30 transition-all duration-300 w-full sm:w-auto">
                 Solicitar demonstração <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </a>
@@ -50,7 +50,7 @@ const CTA = () => {
               target="_blank" 
               rel="noopener noreferrer"
             >
-              <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10">
+              <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10 w-full sm:w-auto">
                 <MessageSquare className="mr-2 h-5 w-5" /> WhatsApp
               </Button>
             </a>
