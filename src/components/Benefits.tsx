@@ -30,22 +30,41 @@ const benefitItems = [
 
 const Benefits = () => {
   return (
-    <section id="beneficios" className="section-padding bg-qiartificial-800 text-white">
-      <div className="container-narrow">
+    <section id="beneficios" className="relative text-white py-24 overflow-hidden">
+      {/* Dark background with grid pattern */}
+      <div className="absolute inset-0 z-0 bg-black">
+        <div className="absolute inset-0 opacity-20" 
+             style={{
+               backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
+               backgroundSize: "40px 40px"
+             }}>
+        </div>
+      </div>
+      
+      {/* Green glow effect */}
+      <div className="absolute top-0 left-0 right-0 z-10">
+        <div className="w-full h-[200px]">
+          <div className="w-full h-[400px] bg-gradient-to-b from-green-500/30 via-green-400/10 to-transparent rounded-[100%] transform -translate-y-1/2"></div>
+        </div>
+      </div>
+      
+      <div className="container-narrow relative z-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefícios das Nossas <span className="bg-gradient-to-r from-qiartificial-300 to-teal-500 bg-clip-text text-transparent">Soluções</span></h2>
+          <div className="inline-block px-6 py-1 bg-black/50 rounded-full border border-green-500/30 mb-4">
+            <span className="text-green-400 text-sm">Por que escolher nossa solução</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefícios das Nossas <span className="text-green-400">Soluções</span></h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
             Descubra como nossas automações podem transformar seu negócio e impulsionar resultados.
           </p>
-          <div className="h-1 w-20 bg-teal-500 mx-auto mt-4"></div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
           {benefitItems.map((benefit, index) => (
-            <div key={index} className="flex items-start">
+            <div key={index} className="flex items-start backdrop-blur-sm bg-black/30 rounded-xl p-6 border border-green-900/30">
               <div className="flex-shrink-0 mt-1">
-                <div className="bg-teal-500 rounded-full p-1">
-                  <Check className="h-5 w-5 text-white" />
+                <div className="bg-green-500 rounded-full p-1">
+                  <Check className="h-5 w-5 text-black" />
                 </div>
               </div>
               <div className="ml-4">

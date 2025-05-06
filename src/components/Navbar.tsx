@@ -26,12 +26,12 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+      isScrolled ? 'bg-black/90 backdrop-blur-md shadow-md py-2' : 'bg-transparent py-4'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>
+            <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-white' : 'text-white'}`}>
               Qiartificial
             </a>
           </div>
@@ -39,19 +39,19 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="space-x-6">
-              <a href="#sobre" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#sobre" className="text-gray-300 hover:text-green-400 transition-colors">
                 Sobre
               </a>
-              <a href="#servicos" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#servicos" className="text-gray-300 hover:text-green-400 transition-colors">
                 Serviços
               </a>
-              <a href="#beneficios" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#beneficios" className="text-gray-300 hover:text-green-400 transition-colors">
                 Benefícios
               </a>
-              <a href="#depoimentos" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#depoimentos" className="text-gray-300 hover:text-green-400 transition-colors">
                 Depoimentos
               </a>
-              <a href="#contato" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#contato" className="text-gray-300 hover:text-green-400 transition-colors">
                 Contato
               </a>
             </div>
@@ -63,8 +63,8 @@ const Navbar = () => {
               <Button 
                 variant={isScrolled ? "default" : "outline"} 
                 className={isScrolled 
-                  ? "bg-green-600 hover:bg-green-700 text-white font-medium shadow-md transition-all duration-300 hover:scale-105" 
-                  : "border-white text-white hover:bg-white/10 border-2 hover:scale-105 transition-all duration-300"
+                  ? "bg-green-500 hover:bg-green-400 text-black font-medium shadow-md transition-all duration-300 hover:scale-105" 
+                  : "border-green-500 text-white hover:bg-green-500/20 border hover:scale-105 transition-all duration-300"
                 }
                 size="sm"
               >
@@ -77,7 +77,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button 
               onClick={toggleMobileMenu}
-              className={`p-2 rounded-md ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+              className="p-2 rounded-md text-white"
               aria-label="Menu"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,21 +89,21 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-lg rounded-lg mt-4 py-4 px-2 absolute left-4 right-4 transition-all duration-300">
+          <div className="md:hidden bg-black/95 backdrop-blur-md shadow-lg rounded-lg mt-4 py-4 px-2 absolute left-4 right-4 transition-all duration-300 border border-green-900/30">
             <div className="flex flex-col space-y-4">
-              <a href="#sobre" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#sobre" className="text-gray-300 hover:text-green-400 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Sobre
               </a>
-              <a href="#servicos" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#servicos" className="text-gray-300 hover:text-green-400 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Serviços
               </a>
-              <a href="#beneficios" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#beneficios" className="text-gray-300 hover:text-green-400 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Benefícios
               </a>
-              <a href="#depoimentos" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#depoimentos" className="text-gray-300 hover:text-green-400 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Depoimentos
               </a>
-              <a href="#contato" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#contato" className="text-gray-300 hover:text-green-400 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Contato
               </a>
               <a 
@@ -113,7 +113,7 @@ const Navbar = () => {
                 className="px-4 py-2"
                 onClick={toggleMobileMenu}
               >
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium shadow-md transition-all duration-300">
+                <Button className="w-full bg-green-500 hover:bg-green-400 text-black font-medium shadow-md transition-all duration-300">
                   <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
                 </Button>
               </a>
