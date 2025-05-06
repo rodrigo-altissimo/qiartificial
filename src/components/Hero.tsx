@@ -8,99 +8,13 @@ const Hero = () => {
       {/* Dark background gradient */}
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-qiartificial-900 to-[#0c1736]" />
       
-      {/* Flow diagram graphic */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center opacity-20">
-        <div className="w-full max-w-6xl overflow-hidden">
-          <svg viewBox="0 0 1200 500" className="w-full" preserveAspectRatio="xMidYMid meet">
-            {/* Grid background */}
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" strokeWidth="0.5" strokeOpacity="0.1"/>
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-            
-            {/* Connection lines */}
-            <g fill="none" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.4">
-              <path d="M 120 100 L 220 100" />
-              <path d="M 320 100 L 420 100" />
-              <path d="M 520 100 L 620 100" />
-              <path d="M 720 100 L 820 100" />
-              <path d="M 920 100 L 1020 100" />
-              
-              <path d="M 120 250 L 220 250" />
-              <path d="M 320 250 L 420 250" />
-              
-              <path d="M 120 400 L 220 400" />
-              <path d="M 320 400 L 420 400" />
-              
-              <path d="M 820 100 C 870 100 870 250 820 250" />
-              <path d="M 520 250 C 570 250 570 400 520 400" />
-              <path d="M 720 250 L 820 250" />
-              <path d="M 920 250 L 1020 250" />
-              
-              <path d="M 1020 250 C 1070 250 1070 100 1120 100" />
-            </g>
-            
-            {/* Nodes */}
-            <g>
-              {/* First row */}
-              <rect x="50" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="250" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="450" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="650" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="850" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="1050" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              
-              {/* Second row */}
-              <rect x="50" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="250" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="450" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="650" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="850" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="1050" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              
-              {/* Third row */}
-              <rect x="50" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="250" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              <rect x="450" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
-              
-              {/* Node connectors/circles */}
-              <circle cx="120" cy="100" r="5" fill="#38bdf8" />
-              <circle cx="320" cy="100" r="5" fill="#38bdf8" />
-              <circle cx="520" cy="100" r="5" fill="#38bdf8" />
-              <circle cx="720" cy="100" r="5" fill="#38bdf8" />
-              <circle cx="920" cy="100" r="5" fill="#38bdf8" />
-              
-              <circle cx="120" cy="250" r="5" fill="#38bdf8" />
-              <circle cx="320" cy="250" r="5" fill="#38bdf8" />
-              <circle cx="520" cy="250" r="5" fill="#38bdf8" />
-              <circle cx="720" cy="250" r="5" fill="#38bdf8" />
-              <circle cx="920" cy="250" r="5" fill="#38bdf8" />
-              
-              <circle cx="120" cy="400" r="5" fill="#38bdf8" />
-              <circle cx="320" cy="400" r="5" fill="#38bdf8" />
-              <circle cx="520" cy="400" r="5" fill="#38bdf8" />
-              
-              {/* Node icons */}
-              <text x="85" y="110" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
-              <text x="278" y="110" fill="#0ea5e9" fontSize="24">&lt;/&gt;</text>
-              <text x="485" y="110" fill="#0ea5e9" fontSize="24">→</text>
-              <text x="685" y="110" fill="#0ea5e9" fontSize="24">@</text>
-              <text x="878" y="110" fill="#0ea5e9" fontSize="24">+</text>
-              <text x="1078" y="110" fill="#0ea5e9" fontSize="24">✓</text>
-              
-              <text x="85" y="260" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
-              <text x="278" y="260" fill="#0ea5e9" fontSize="24">✎</text>
-              <text x="485" y="260" fill="#0ea5e9" fontSize="24">→</text>
-              <text x="685" y="260" fill="#0ea5e9" fontSize="24">@</text>
-              <text x="878" y="260" fill="#0ea5e9" fontSize="24">≡</text>
-              <text x="1078" y="260" fill="#0ea5e9" fontSize="24">✓</text>
-              
-              <text x="85" y="410" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
-              <text x="278" y="410" fill="#0ea5e9" fontSize="24">→</text>
-              <text x="485" y="410" fill="#0ea5e9" fontSize="24">✓</text>
-            </g>
-          </svg>
-        </div>
+      {/* Flow diagram image */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center opacity-30">
+        <img 
+          src="/lovable-uploads/70ec3b04-e01e-43a7-b03c-7043afb7d9a7.png" 
+          alt="Flow diagram de automação" 
+          className="w-full h-full object-cover"
+        />
       </div>
       
       {/* Content */}
