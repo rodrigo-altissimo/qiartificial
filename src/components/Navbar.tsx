@@ -61,11 +61,7 @@ const Navbar = () => {
               rel="noopener noreferrer"
             >
               <Button 
-                variant="outline" 
-                className={isScrolled 
-                  ? "bg-green-500 hover:bg-green-400 text-black border-green-500 font-medium shadow-md transition-all duration-300 hover:scale-105" 
-                  : "border-green-500 text-white hover:bg-green-500/20 border hover:scale-105 transition-all duration-300"
-                }
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition transform hover:scale-105"
                 size="sm"
               >
                 <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
@@ -113,7 +109,7 @@ const Navbar = () => {
                 className="px-4 py-2"
                 onClick={toggleMobileMenu}
               >
-                <Button className="w-full bg-green-500 hover:bg-green-400 text-black font-medium shadow-md transition-all duration-300">
+                <Button className="w-full bg-green-500 hover:bg-green-600 text-white shadow-md rounded-lg transition transform hover:scale-105">
                   <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
                 </Button>
               </a>
