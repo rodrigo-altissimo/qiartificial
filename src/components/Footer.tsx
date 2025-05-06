@@ -1,10 +1,13 @@
+
 import { useState } from 'react';
 import { Mail, Phone, MessageSquare } from 'lucide-react';
 import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfUse from './TermsOfUse';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
+  const [isTermsOfUseOpen, setIsTermsOfUseOpen] = useState(false);
   
   return (
     <footer className="relative text-gray-300 overflow-hidden">
@@ -96,12 +99,18 @@ const Footer = () => {
           <p>&copy; {currentYear} Qiartificial. Todos os direitos reservados.</p>
           <div className="mt-4 md:mt-0 space-x-4">
             <button 
+              id="privacy-policy-button"
               className="hover:text-green-400 transition-colors cursor-pointer"
               onClick={() => setIsPrivacyPolicyOpen(true)}
             >
               Política de Privacidade
             </button>
-            <a href="#" className="hover:text-green-400 transition-colors">Termos de Uso</a>
+            <button 
+              className="hover:text-green-400 transition-colors cursor-pointer"
+              onClick={() => setIsTermsOfUseOpen(true)}
+            >
+              Termos de Uso
+            </button>
           </div>
         </div>
       </div>
@@ -110,6 +119,12 @@ const Footer = () => {
       <PrivacyPolicy 
         open={isPrivacyPolicyOpen} 
         onOpenChange={setIsPrivacyPolicyOpen}
+      />
+
+      {/* Terms of Use Dialog */}
+      <TermsOfUse
+        open={isTermsOfUseOpen}
+        onOpenChange={setIsTermsOfUseOpen}
       />
     </footer>
   );
