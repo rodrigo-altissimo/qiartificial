@@ -1,8 +1,10 @@
-
+import { useState } from 'react';
 import { Mail, Phone, MessageSquare } from 'lucide-react';
+import PrivacyPolicy from './PrivacyPolicy';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
   
   return (
     <footer className="relative text-gray-300 overflow-hidden">
@@ -93,11 +95,22 @@ const Footer = () => {
         <div className="border-t border-green-900/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p>&copy; {currentYear} Qiartificial. Todos os direitos reservados.</p>
           <div className="mt-4 md:mt-0 space-x-4">
-            <a href="#" className="hover:text-green-400 transition-colors">Política de Privacidade</a>
+            <button 
+              className="hover:text-green-400 transition-colors cursor-pointer"
+              onClick={() => setIsPrivacyPolicyOpen(true)}
+            >
+              Política de Privacidade
+            </button>
             <a href="#" className="hover:text-green-400 transition-colors">Termos de Uso</a>
           </div>
         </div>
       </div>
+      
+      {/* Privacy Policy Dialog */}
+      <PrivacyPolicy 
+        open={isPrivacyPolicyOpen} 
+        onOpenChange={setIsPrivacyPolicyOpen}
+      />
     </footer>
   );
 };
