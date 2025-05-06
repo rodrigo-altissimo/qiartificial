@@ -47,43 +47,43 @@ const Contact = () => {
   };
 
   return (
-    <section id="contato" className="section-padding bg-black">
+    <section id="contato" className="section-padding bg-white">
       <div className="container-narrow">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Vamos <span className="text-green-400">conversar</span></h2>
-            <p className="text-gray-300 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Vamos <span className="text-green-400">conversar</span></h2>
+            <p className="text-gray-600 mb-8">
               Entre em contato para descobrir como podemos transformar seus processos 
               com nossas soluções de automação e inteligência artificial.
             </p>
             
             <div className="space-y-6 mb-8">
               <div className="flex items-center">
-                <div className="bg-green-900/30 p-3 rounded-full mr-4">
+                <div className="bg-green-500/10 p-3 rounded-full mr-4">
                   <Phone className="h-5 w-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">Telefone</p>
-                  <p className="text-gray-300">(11) 9999-9999</p>
+                  <p className="font-medium text-gray-800">Telefone</p>
+                  <p className="text-gray-600">(11) 9999-9999</p>
                 </div>
               </div>
               
               <div className="flex items-center">
-                <div className="bg-green-900/30 p-3 rounded-full mr-4">
+                <div className="bg-green-500/10 p-3 rounded-full mr-4">
                   <Mail className="h-5 w-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">Email</p>
-                  <p className="text-gray-300">contato@qiartificial.com.br</p>
+                  <p className="font-medium text-gray-800">Email</p>
+                  <p className="text-gray-600">contato@qiartificial.com.br</p>
                 </div>
               </div>
               
               <div className="flex items-center">
-                <div className="bg-green-900/30 p-3 rounded-full mr-4">
+                <div className="bg-green-500/10 p-3 rounded-full mr-4">
                   <MessageSquare className="h-5 w-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">WhatsApp</p>
+                  <p className="font-medium text-gray-800">WhatsApp</p>
                   <a 
                     href="https://wa.me/5511999999999" 
                     target="_blank" 
@@ -97,12 +97,12 @@ const Contact = () => {
             </div>
           </div>
           
-          <div className="bg-black/60 backdrop-blur-sm rounded-lg border border-green-900/30 p-8 shadow-lg shadow-green-500/10">
+          <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-md">
             <h3 className="text-2xl font-semibold mb-6 text-green-400">Envie uma mensagem</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Nome completo
                 </label>
                 <Input
@@ -111,13 +111,13 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Seu nome"
-                  className="bg-black/50 border-green-900/30 text-white focus:border-green-500"
+                  className="border-gray-300 focus:border-green-500"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email
                 </label>
                 <Input
@@ -127,13 +127,13 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="seu@email.com"
-                  className="bg-black/50 border-green-900/30 text-white focus:border-green-500"
+                  className="border-gray-300 focus:border-green-500"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                   Telefone
                 </label>
                 <Input
@@ -142,12 +142,12 @@ const Contact = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="(00) 00000-0000"
-                  className="bg-black/50 border-green-900/30 text-white focus:border-green-500"
+                  className="border-gray-300 focus:border-green-500"
                 />
               </div>
               
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Mensagem
                 </label>
                 <Textarea
@@ -156,7 +156,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Como podemos ajudar?"
-                  className="bg-black/50 border-green-900/30 text-white min-h-[120px] focus:border-green-500"
+                  className="border-gray-300 min-h-[120px] focus:border-green-500"
                   required
                 />
               </div>
