@@ -44,28 +44,28 @@ const serviceItems = [
 
 const Services = () => {
   return (
-    <section id="servicos" className="section-padding">
+    <section id="servicos" className="section-padding bg-black">
       <div className="container-narrow">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Nossos <span className="text-gradient">Serviços</span></h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Nossos <span className="text-green-400">Serviços</span></h2>
+          <p className="text-gray-300 max-w-2xl mx-auto">
             Transforme seu negócio com nossas soluções de automação e inteligência artificial.
             Aumente a produtividade e reduza custos com tecnologias low-code e no-code.
           </p>
-          <div className="h-1 w-20 bg-qiartificial-500 mx-auto mt-4"></div>
+          <div className="h-1 w-20 bg-green-500 mx-auto mt-4"></div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {serviceItems.map((service, index) => (
-            <Card key={index} className="card-hover border-t-4 border-t-qiartificial-500">
+            <Card key={index} className="card-hover border-t-4 border-t-green-500 bg-black/80 backdrop-blur-sm">
               <CardHeader className="pb-2">
-                <div className="bg-qiartificial-50 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <service.icon className="h-6 w-6 text-qiartificial-600" />
+                <div className="bg-green-500/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                  <service.icon className="h-6 w-6 text-green-400" />
                 </div>
-                <CardTitle className="text-xl font-semibold">{service.title}</CardTitle>
+                <CardTitle className="text-xl font-semibold text-white">{service.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">{service.description}</CardDescription>
+                <CardDescription className="text-gray-300">{service.description}</CardDescription>
               </CardContent>
             </Card>
           ))}
