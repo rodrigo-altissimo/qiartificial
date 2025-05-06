@@ -39,19 +39,19 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="space-x-6">
-              <a href="#sobre" className={`hover:text-qiartificial-500 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#sobre" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
                 Sobre
               </a>
-              <a href="#servicos" className={`hover:text-qiartificial-500 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#servicos" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
                 Serviços
               </a>
-              <a href="#beneficios" className={`hover:text-qiartificial-500 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#beneficios" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
                 Benefícios
               </a>
-              <a href="#depoimentos" className={`hover:text-qiartificial-500 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#depoimentos" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
                 Depoimentos
               </a>
-              <a href="#contato" className={`hover:text-qiartificial-500 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
+              <a href="#contato" className={`hover:text-gray-400 transition-colors ${isScrolled ? 'text-gray-700' : 'text-white'}`}>
                 Contato
               </a>
             </div>
@@ -91,19 +91,19 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg rounded-lg mt-4 py-4 px-2 absolute left-4 right-4 transition-all duration-300">
             <div className="flex flex-col space-y-4">
-              <a href="#sobre" className="text-gray-700 hover:text-qiartificial-500 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#sobre" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Sobre
               </a>
-              <a href="#servicos" className="text-gray-700 hover:text-qiartificial-500 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#servicos" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Serviços
               </a>
-              <a href="#beneficios" className="text-gray-700 hover:text-qiartificial-500 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#beneficios" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Benefícios
               </a>
-              <a href="#depoimentos" className="text-gray-700 hover:text-qiartificial-500 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#depoimentos" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Depoimentos
               </a>
-              <a href="#contato" className="text-gray-700 hover:text-qiartificial-500 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
+              <a href="#contato" className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md" onClick={toggleMobileMenu}>
                 Contato
               </a>
               <a 
