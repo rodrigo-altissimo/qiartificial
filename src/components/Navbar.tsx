@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Smartphone } from 'lucide-react';
+import { Smartphone } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -61,9 +61,9 @@ const Navbar = () => {
               rel="noopener noreferrer"
             >
               <Button 
-                variant={isScrolled ? "default" : "outline"} 
+                variant="outline" 
                 className={isScrolled 
-                  ? "bg-green-500 hover:bg-green-400 text-black font-medium shadow-md transition-all duration-300 hover:scale-105" 
+                  ? "bg-green-500 hover:bg-green-400 text-black border-green-500 font-medium shadow-md transition-all duration-300 hover:scale-105" 
                   : "border-green-500 text-white hover:bg-green-500/20 border hover:scale-105 transition-all duration-300"
                 }
                 size="sm"
