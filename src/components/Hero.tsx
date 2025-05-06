@@ -1,9 +1,10 @@
+
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 const Hero = () => {
   return <section className="relative min-h-[90vh] flex items-center text-white overflow-hidden">
-      {/* Dark background gradient */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-qiartificial-900 to-[#0c1736]" />
+      {/* Dark background gradient - changed from blue to black */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black to-[#121212]" />
       
       {/* Flow diagram image */}
       <div className="absolute inset-0 z-10 flex items-center justify-center opacity-30">
@@ -19,7 +20,7 @@ const Hero = () => {
               Soluções low-code e no-code que transformam a eficiência do seu negócio e potencializam a produtividade da sua equipe.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-qiartificial-800 hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-black hover:bg-gray-100">
                 Solicitar demonstração <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">

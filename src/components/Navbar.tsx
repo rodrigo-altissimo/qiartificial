@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Smartphone } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-qiartificial-800' : 'text-white'}`}>
+            <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>
               Qiartificial
             </a>
           </div>
@@ -62,9 +62,13 @@ const Navbar = () => {
             >
               <Button 
                 variant={isScrolled ? "default" : "outline"} 
-                className={isScrolled ? "bg-qiartificial-600 hover:bg-qiartificial-700" : "border-white text-white hover:bg-white/10"}
+                className={isScrolled 
+                  ? "bg-green-600 hover:bg-green-700 text-white font-medium shadow-md transition-all duration-300 hover:scale-105" 
+                  : "border-white text-white hover:bg-white/10 border-2 hover:scale-105 transition-all duration-300"
+                }
+                size="sm"
               >
-                <MessageSquare className="mr-2 h-4 w-4" /> WhatsApp
+                <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
               </Button>
             </a>
           </div>
@@ -109,8 +113,8 @@ const Navbar = () => {
                 className="px-4 py-2"
                 onClick={toggleMobileMenu}
               >
-                <Button className="w-full bg-qiartificial-600 hover:bg-qiartificial-700">
-                  <MessageSquare className="mr-2 h-4 w-4" /> WhatsApp
+                <Button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium shadow-md transition-all duration-300">
+                  <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
                 </Button>
               </a>
             </div>
