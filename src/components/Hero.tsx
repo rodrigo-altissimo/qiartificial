@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   return (
-    <section className="hero-gradient min-h-[80vh] flex items-center text-white">
+    <section className="bg-gradient-to-r from-qiartificial-900 to-qiartificial-800 min-h-[80vh] flex items-center text-white">
       <div className="container-narrow">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="animate-fade-in">
@@ -25,10 +25,10 @@ const Hero = () => {
           </div>
           <div className="hidden md:block">
             <div className="relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-qiartificial-400 to-teal-500 rounded-lg blur opacity-75"></div>
-              <div className="relative bg-white p-6 rounded-lg">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-qiartificial-400 rounded-lg blur opacity-75"></div>
+              <div className="relative bg-qiartificial-900 p-6 rounded-lg">
                 <img 
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/lovable-uploads/b4ec2253-44b1-408c-a2e9-a51a7abcfe6f.png" 
                   alt="Automação com IA" 
                   className="rounded-md w-full h-auto"
                 />
