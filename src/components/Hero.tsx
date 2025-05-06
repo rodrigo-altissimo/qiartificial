@@ -5,42 +5,106 @@ import { Button } from '@/components/ui/button';
 const Hero = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center text-white overflow-hidden">
-      {/* Background with gradient */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-qiartificial-900 to-qiartificial-800" />
+      {/* Dark background gradient */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-qiartificial-900 to-[#0c1736]" />
       
-      {/* Flow image pattern */}
-      <div className="absolute inset-0 z-0 opacity-30">
-        <div className="absolute w-full h-full">
-          <svg viewBox="0 0 1920 1080" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#0ea5e9" />
-              </linearGradient>
-            </defs>
-            <path 
-              d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-              fill="url(#gradient)"
-              fillOpacity="0.6"
-            />
-            <path 
-              d="M0,64L48,90.7C96,117,192,171,288,170.7C384,171,480,117,576,128C672,139,768,213,864,213.3C960,213,1056,139,1152,133.3C1248,128,1344,192,1392,224L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" 
-              fill="url(#gradient)"
-              fillOpacity="0.4"
-              transform="translate(0, 400)"
-            />
-            <path 
-              d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,186.7C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-              fill="url(#gradient)" 
-              fillOpacity="0.3"
-              transform="translate(0, 600)"
-            />
+      {/* Flow diagram graphic */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center opacity-20">
+        <div className="w-full max-w-6xl overflow-hidden">
+          <svg viewBox="0 0 1200 500" className="w-full" preserveAspectRatio="xMidYMid meet">
+            {/* Grid background */}
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" strokeWidth="0.5" strokeOpacity="0.1"/>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+            
+            {/* Connection lines */}
+            <g fill="none" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.4">
+              <path d="M 120 100 L 220 100" />
+              <path d="M 320 100 L 420 100" />
+              <path d="M 520 100 L 620 100" />
+              <path d="M 720 100 L 820 100" />
+              <path d="M 920 100 L 1020 100" />
+              
+              <path d="M 120 250 L 220 250" />
+              <path d="M 320 250 L 420 250" />
+              
+              <path d="M 120 400 L 220 400" />
+              <path d="M 320 400 L 420 400" />
+              
+              <path d="M 820 100 C 870 100 870 250 820 250" />
+              <path d="M 520 250 C 570 250 570 400 520 400" />
+              <path d="M 720 250 L 820 250" />
+              <path d="M 920 250 L 1020 250" />
+              
+              <path d="M 1020 250 C 1070 250 1070 100 1120 100" />
+            </g>
+            
+            {/* Nodes */}
+            <g>
+              {/* First row */}
+              <rect x="50" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="250" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="450" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="650" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="850" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="1050" y="70" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              
+              {/* Second row */}
+              <rect x="50" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="250" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="450" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="650" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="850" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="1050" y="220" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              
+              {/* Third row */}
+              <rect x="50" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="250" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              <rect x="450" y="370" width="70" height="60" rx="5" fill="#1a365d" stroke="#38bdf8" strokeWidth="1.5" />
+              
+              {/* Node connectors/circles */}
+              <circle cx="120" cy="100" r="5" fill="#38bdf8" />
+              <circle cx="320" cy="100" r="5" fill="#38bdf8" />
+              <circle cx="520" cy="100" r="5" fill="#38bdf8" />
+              <circle cx="720" cy="100" r="5" fill="#38bdf8" />
+              <circle cx="920" cy="100" r="5" fill="#38bdf8" />
+              
+              <circle cx="120" cy="250" r="5" fill="#38bdf8" />
+              <circle cx="320" cy="250" r="5" fill="#38bdf8" />
+              <circle cx="520" cy="250" r="5" fill="#38bdf8" />
+              <circle cx="720" cy="250" r="5" fill="#38bdf8" />
+              <circle cx="920" cy="250" r="5" fill="#38bdf8" />
+              
+              <circle cx="120" cy="400" r="5" fill="#38bdf8" />
+              <circle cx="320" cy="400" r="5" fill="#38bdf8" />
+              <circle cx="520" cy="400" r="5" fill="#38bdf8" />
+              
+              {/* Node icons */}
+              <text x="85" y="110" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
+              <text x="278" y="110" fill="#0ea5e9" fontSize="24">&lt;/&gt;</text>
+              <text x="485" y="110" fill="#0ea5e9" fontSize="24">→</text>
+              <text x="685" y="110" fill="#0ea5e9" fontSize="24">@</text>
+              <text x="878" y="110" fill="#0ea5e9" fontSize="24">+</text>
+              <text x="1078" y="110" fill="#0ea5e9" fontSize="24">✓</text>
+              
+              <text x="85" y="260" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
+              <text x="278" y="260" fill="#0ea5e9" fontSize="24">✎</text>
+              <text x="485" y="260" fill="#0ea5e9" fontSize="24">→</text>
+              <text x="685" y="260" fill="#0ea5e9" fontSize="24">@</text>
+              <text x="878" y="260" fill="#0ea5e9" fontSize="24">≡</text>
+              <text x="1078" y="260" fill="#0ea5e9" fontSize="24">✓</text>
+              
+              <text x="85" y="410" fill="#0ea5e9" fontSize="24" fontWeight="bold">@</text>
+              <text x="278" y="410" fill="#0ea5e9" fontSize="24">→</text>
+              <text x="485" y="410" fill="#0ea5e9" fontSize="24">✓</text>
+            </g>
           </svg>
         </div>
       </div>
       
       {/* Content */}
-      <div className="container-narrow relative z-10">
+      <div className="container-narrow relative z-20">
         <div className="max-w-3xl mx-auto text-center">
           <div className="animate-fade-in">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
