@@ -1,4 +1,3 @@
-
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -37,10 +36,11 @@ const Hero = () => {
       <div className="container-narrow relative z-20">
         <div className="max-w-3xl mx-auto text-center mt-16">
           <div className="animate-fade-in space-y-6">
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center items-center mb-6 gap-4">
+              <img src="/logo-qiartificial.png" alt="Logo QiArtificial" className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" />
               <div className="px-6 py-1 bg-black/50 rounded-full border border-green-500/30 inline-flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                <span className="text-green-400 text-sm">Soluções Low-Code e IA</span>
+                <span className="text-green-400 text-sm font-bold text-2xl md:text-3xl">QiArtificial</span>
               </div>
             </div>
             

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Smartphone } from 'lucide-react';
@@ -31,8 +30,9 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-white' : 'text-white'}`}>
-              Qiartificial
+            <a href="#" className="flex items-center gap-2 text-2xl font-bold text-white">
+              <img src="/logo-qiartificial.png" alt="Logo QiArtificial" className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow" />
+              QiArtificial
             </a>
           </div>
 
