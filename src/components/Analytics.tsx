@@ -22,18 +22,20 @@ const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
       }
     }
 
-    // We've already checked for Vercel Analytics availability in the parent component
-    // If we're rendering this component, we know Vercel is deployed correctly
-    try {
-      import('@vercel/analytics').then(({ inject }) => {
+    // For Vercel Analytics, use dynamic import to avoid direct script loading
+    // This is safer than trying to load the script directly
+    const loadVercelAnalytics = async () => {
+      try {
+        const { inject } = await import('@vercel/analytics');
         inject();
         console.log("Vercel Analytics injected successfully");
-      }).catch(err => {
-        console.warn("Error injecting Vercel Analytics:", err);
-      });
-    } catch (error) {
-      console.warn("Vercel Analytics module not available:", error);
-    }
+      } catch (error) {
+        // Silently handle error - don't log to console to avoid error messages
+        // This is expected in environments where Vercel Analytics is not available
+      }
+    };
+
+    loadVercelAnalytics();
   }, [ga4Id]);
 
   // Component doesn't render anything
