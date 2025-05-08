@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Smartphone } from 'lucide-react';
 
@@ -8,7 +8,9 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const logoUrl = `/logo-qiartificial.png?t=${new Date().getTime()}`;
+  const [logoRetries, setLogoRetries] = useState(0);
+  const logoTimestamp = useRef(new Date().getTime());
+  const logoUrl = `/logo-qiartificial.png?t=${logoTimestamp.current}`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,20 +23,34 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     
-    // Preload logo
-    const img = new Image();
-    img.src = logoUrl;
-    img.onload = () => {
-      console.log("Logo carregado com sucesso");
-      setLogoLoaded(true);
-    };
-    img.onerror = (e) => {
-      console.error("Falha ao carregar o logo", e);
-      setLogoError(true);
+    // Preload logo with retry mechanism
+    const loadLogo = () => {
+      const img = new Image();
+      img.src = `/logo-qiartificial.png?t=${logoTimestamp.current}`;
+      img.onload = () => {
+        console.log("Logo carregado com sucesso após", logoRetries, "tentativas");
+        setLogoLoaded(true);
+        setLogoError(false);
+      };
+      img.onerror = (e) => {
+        console.error("Falha ao carregar o logo", e);
+        setLogoError(true);
+        
+        // Retry logic - try up to 3 times with increasing delays
+        if (logoRetries < 3) {
+          setTimeout(() => {
+            logoTimestamp.current = new Date().getTime(); // Generate new timestamp
+            setLogoRetries(prev => prev + 1);
+            loadLogo(); // Try again
+          }, 1000 * (logoRetries + 1));
+        }
+      };
     };
     
+    loadLogo();
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [logoUrl]);
+  }, [logoRetries]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -47,20 +63,27 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="#" className="flex items-center gap-2 text-2xl font-bold text-white">
-              <img 
-                src={logoUrl}
-                alt="Logo QiArtificial" 
-                className={`h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow ${logoError ? 'border border-red-500' : ''}`}
-                onLoad={() => {
-                  console.log("Logo carregado em linha");
-                  setLogoLoaded(true);
-                }}
-                onError={(e) => {
-                  console.error("Falha ao carregar o logo em linha", e);
-                  setLogoError(true);
-                }}
-              />
+            <a href="#" className="flex items-center gap-2 text-2xl font-bold text-white navbar-logo">
+              {logoError ? (
+                <div className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow flex items-center justify-center border border-red-500">
+                  <span className="text-xs text-red-500">Erro</span>
+                </div>
+              ) : (
+                <img 
+                  src={logoUrl}
+                  alt="Logo QiArtificial" 
+                  className={`h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow ${logoError ? 'border border-red-500 hidden' : ''}`}
+                  onLoad={() => {
+                    console.log("Logo carregado em linha");
+                    setLogoLoaded(true);
+                    setLogoError(false);
+                  }}
+                  onError={(e) => {
+                    console.error("Falha ao carregar o logo em linha", e);
+                    setLogoError(true);
+                  }}
+                />
+              )}
               QiArtificial
             </a>
           </div>
