@@ -10,7 +10,15 @@ import Analytics from "./components/Analytics";
 import React from "react";
 import "./forceReload.css"; // Forçar reload dos recursos
 
-const queryClient = new QueryClient();
+// Force webpack/vite to reload this component
+const timestamp = new Date().getTime();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: timestamp,
+    },
+  },
+});
 
 const App = () => (
   <React.StrictMode>
@@ -18,7 +26,7 @@ const App = () => (
       <BrowserRouter>
         <TooltipProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Index key={`index-${timestamp}`} />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -46,7 +46,7 @@ const Hero = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Automatize <span className="text-white">PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
+              Automatize <span className="text-white uppercase font-extrabold">PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
             </h1>
             
             <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
@@ -70,7 +70,7 @@ const Hero = () => {
             <div className="mt-20 pt-10">
               <div className="flex justify-center mb-2">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <svg key={star} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#F0B31A" stroke="none" className="mx-0.5">
+                  <svg key={star} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F0B31A" stroke="none" className="mx-1">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 ))}
