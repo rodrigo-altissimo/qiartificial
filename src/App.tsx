@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Analytics from "./components/Analytics";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import "./forceReload.css"; // Forçar reload dos recursos
 
 // Create a completely new timestamp on each render
@@ -20,6 +20,10 @@ const ForceReloader = () => {
     // Técnica mais agressiva para forçar recarregamento de recursos
     const forceReload = () => {
       try {
+        // Limpa o localStorage e sessionStorage
+        localStorage.clear();
+        sessionStorage.clear();
+        
         // Adiciona timestamp a todos os links de stylesheet
         const links = document.querySelectorAll('link[rel="stylesheet"]');
         links.forEach(link => {
@@ -79,6 +83,18 @@ const ForceReloader = () => {
             script.setAttribute('src', updatedSrc);
           }
         });
+
+        // Verifica se o script gptengineer.js está presente
+        const gptEngScript = document.querySelector('script[src*="gptengineer.js"]');
+        if (!gptEngScript) {
+          console.warn("Script gptengineer.js não encontrado. Tentando recarregar a página...");
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
+        } else {
+          console.log("Script gptengineer.js encontrado:", gptEngScript);
+        }
+
       } catch (error) {
         console.error("Erro ao forçar reload:", error);
       }
@@ -138,12 +154,45 @@ const queryClient = new QueryClient({
   },
 });
 
+// Componente para verificar se o gptengineer.js está carregado corretamente
+const GptEngineerCheck = () => {
+  useEffect(() => {
+    // Verificar se o script de edição está presente
+    const checkEditScript = setInterval(() => {
+      if (typeof window.__gpteng !== 'undefined') {
+        console.log("GPT Engineer inicializado com sucesso!");
+        clearInterval(checkEditScript);
+      } else {
+        console.warn("GPT Engineer ainda não inicializado...");
+        
+        // Verificar se o script está no DOM
+        const scriptElement = document.querySelector('script[src*="gptengineer.js"]');
+        if (!scriptElement) {
+          console.error("Script gptengineer.js não encontrado no DOM!");
+          
+          // Tenta recriar o script
+          const newScript = document.createElement('script');
+          newScript.src = "https://cdn.gpteng.co/gptengineer.js";
+          newScript.type = "module";
+          document.body.appendChild(newScript);
+          console.log("Tentativa de reinserção do script gptengineer.js");
+        }
+      }
+    }, 2000);
+    
+    return () => clearInterval(checkEditScript);
+  }, []);
+  
+  return null;
+};
+
 const App = () => (
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <TooltipProvider>
           <ForceReloader />
+          <GptEngineerCheck />
           <Routes>
             <Route path="/" element={<Index key={`index-${buildTimestamp}`} />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -151,7 +200,14 @@ const App = () => (
           </Routes>
           <Toaster />
           <Sonner />
-          <Analytics />
+          {/* Componente Analytics agora é condicional */}
+          {window.location.hostname !== 'localhost' && 
+           !window.location.hostname.includes('preview') && 
+           !window.location.hostname.includes('127.0.0.1') && 
+           <Suspense fallback={null}>
+             <Analytics />
+           </Suspense>
+          }
         </TooltipProvider>
       </BrowserRouter>
     </QueryClientProvider>
