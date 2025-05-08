@@ -1,7 +1,6 @@
 
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 interface AnalyticsProps {
   ga4Id?: string;
@@ -9,13 +8,20 @@ interface AnalyticsProps {
 
 const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
   useEffect(() => {
+    // Inicializa o Google Analytics apenas se um ID válido for fornecido
     if (ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
-      ReactGA.initialize(ga4Id);
-      ReactGA.send("pageview");
+      try {
+        ReactGA.initialize(ga4Id);
+        ReactGA.send("pageview");
+        console.log("Google Analytics inicializado com sucesso");
+      } catch (error) {
+        // Silencia erros para não poluir o console
+        console.error("Erro ao inicializar o Google Analytics:", error);
+      }
     }
   }, [ga4Id]);
 
-  return <VercelAnalytics />;
+  return null;
 };
 
 export default Analytics;
