@@ -5,10 +5,18 @@ quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
 
-Versão: 2.0.0 - Adicionado timestamp para forçar o reload: 2025-05-08-1142
+Versão: 3.0.0 - Adicionado timestamp mais específico para forçar o reload: 2025-05-08-1205
 */
 
-body::before {
-  content: '';
+body::after {
+  content: '2025-05-08-1205';
   display: none;
+}
+
+.force-reload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }

@@ -7,15 +7,30 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Analytics from "./components/Analytics";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./forceReload.css"; // Forçar reload dos recursos
 
+// Create a completely new timestamp on each render
+const ForceReloader = () => {
+  const [timestamp] = useState(() => new Date().toISOString());
+  
+  useEffect(() => {
+    console.log("Force reload timestamp:", timestamp);
+  }, [timestamp]);
+  
+  return <div className="force-reload" data-timestamp={timestamp}></div>;
+};
+
 // Force webpack/vite to reload this component
-const timestamp = new Date().getTime();
+const buildTimestamp = new Date().getTime();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: timestamp,
+      gcTime: buildTimestamp,
+      staleTime: 0,
+      cacheTime: 0,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
     },
   },
 });
@@ -25,8 +40,9 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <TooltipProvider>
+          <ForceReloader />
           <Routes>
-            <Route path="/" element={<Index key={`index-${timestamp}`} />} />
+            <Route path="/" element={<Index key={`index-${buildTimestamp}`} />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

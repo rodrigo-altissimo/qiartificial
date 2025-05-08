@@ -6,6 +6,7 @@ import { Smartphone } from 'lucide-react';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +18,12 @@ const Navbar = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Preload logo
+    const img = new Image();
+    img.src = "/logo-qiartificial.png";
+    img.onload = () => setLogoLoaded(true);
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -36,8 +43,9 @@ const Navbar = () => {
                 src="/logo-qiartificial.png" 
                 alt="Logo QiArtificial" 
                 className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow"
+                onLoad={() => console.log("Logo loaded successfully")}
                 onError={(e) => {
-                  console.error("Failed to load logo image");
+                  console.error("Failed to load logo image", e);
                 }}
               />
               QiArtificial
