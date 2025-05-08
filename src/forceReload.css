@@ -5,11 +5,11 @@ quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
 
-Versão: 4.0.0 - Adicionado timestamp único para forçar o reload: 2025-05-08-1335
+Versão: 5.0.0 - Adicionado técnicas avançadas anti-cache: 2025-05-08-1450
 */
 
 body::after {
-  content: '2025-05-08-1335';
+  content: '2025-05-08-1450';
   display: none;
 }
 
@@ -24,4 +24,23 @@ body::after {
 /* Força reload em elementos específicos */
 .navbar-logo, .hero-title, .hero-subtitle {
   transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Força recálculo do CSSOM */
+* {
+  animation-duration: 0.001s;
+  animation-name: forceReloadAnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes forceReloadAnimation {
+  0% {
+    opacity: 0.99999;
+  }
+  100% {
+    opacity: 1;
+  }
 }
