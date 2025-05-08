@@ -1,27 +1,37 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactGA from 'react-ga4';
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 interface AnalyticsProps {
   ga4Id?: string;
 }
 
 const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
+  const [vercelAnalyticsAvailable, setVercelAnalyticsAvailable] = useState(false);
+
   useEffect(() => {
+    // Inicializa o Google Analytics se um ID válido for fornecido
     if (ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
       ReactGA.initialize(ga4Id);
       ReactGA.send("pageview");
     }
+
+    // Verifica se o script do Vercel Analytics está disponível antes de tentar carregá-lo
+    const checkVercelAnalytics = async () => {
+      try {
+        const response = await fetch('/_vercel/insights/script.js', { method: 'HEAD' });
+        setVercelAnalyticsAvailable(response.ok);
+      } catch (error) {
+        console.log('Vercel Analytics não está disponível:', error);
+        setVercelAnalyticsAvailable(false);
+      }
+    };
+
+    checkVercelAnalytics();
   }, [ga4Id]);
 
-  // Verificar se estamos em ambiente de produção
-  const isProd = window.location.hostname !== 'localhost' && 
-                !window.location.hostname.includes('preview') && 
-                !window.location.hostname.includes('127.0.0.1');
-
-  // Renderizar o componente VercelAnalytics apenas se estivermos em ambiente de produção
-  return isProd ? <VercelAnalytics debug={false} /> : null;
+  // Não tenta carregar o Vercel Analytics se não estiver disponível
+  return null;
 };
 
 export default Analytics;
