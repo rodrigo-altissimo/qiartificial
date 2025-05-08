@@ -7,124 +7,140 @@ const ForceReloader = () => {
   useEffect(() => {
     console.log("Force reload timestamp:", timestamp);
     
-    // Técnica mais agressiva para forçar recarregamento de recursos
+    // Técnica avançada para forçar recarregamento de recursos em GitHub Pages
     const forceReload = () => {
       try {
-        // Limpa o localStorage e sessionStorage
+        // Limpa todos os caches possíveis
         localStorage.clear();
         sessionStorage.clear();
         
-        // Adiciona timestamp a todos os links de stylesheet
-        const links = document.querySelectorAll('link[rel="stylesheet"]');
-        links.forEach(link => {
+        // Tenta limpar o cache do navegador
+        if ('caches' in window) {
+          caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+              caches.delete(cacheName);
+            });
+          });
+        }
+        
+        // Força recarregamento de todos os estilos
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
           const href = link.getAttribute('href');
           if (href) {
-            // Remove o link antigo
-            const oldLink = link;
+            const parent = link.parentNode;
+            link.remove();
+            
             const newLink = document.createElement('link');
+            newLink.rel = 'stylesheet';
+            newLink.href = href.includes('?') 
+              ? `${href}&v=${timestamp}` 
+              : `${href}?v=${timestamp}`;
             
-            // Copia todos os atributos
-            Array.from(oldLink.attributes).forEach(attr => {
-              newLink.setAttribute(attr.name, attr.value);
-            });
-            
-            // Adiciona timestamp ao href
-            const updatedHref = href.includes('?') 
-              ? `${href}&t=${timestamp}` 
-              : `${href}?t=${timestamp}`;
-            newLink.setAttribute('href', updatedHref);
-            
-            // Substitui o link antigo pelo novo
-            if (oldLink.parentNode) {
-              oldLink.parentNode.insertBefore(newLink, oldLink);
-              setTimeout(() => {
-                oldLink.parentNode?.removeChild(oldLink);
-              }, 100);
+            if (parent) {
+              parent.appendChild(newLink);
             }
           }
         });
         
-        // Força recarregamento de imagens definindo src novamente
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
+        // Força recarregamento de todas as imagens
+        document.querySelectorAll('img').forEach(img => {
           const src = img.getAttribute('src');
-          if (src) {
-            const cacheBusterSrc = src.includes('?') 
-              ? `${src}&t=${timestamp}` 
-              : `${src}?t=${timestamp}`;
+          if (src && !src.startsWith('data:')) {
+            // Pré-carrega a imagem com cache-busting
+            const newSrc = src.includes('?') 
+              ? `${src}&v=${timestamp}` 
+              : `${src}?v=${timestamp}`;
             
-            // Cria nova imagem com src atualizado
             const newImg = new Image();
-            newImg.onload = function() {
-              img.setAttribute('src', cacheBusterSrc);
+            newImg.onload = () => {
+              img.setAttribute('src', newSrc);
             };
-            newImg.src = cacheBusterSrc;
+            newImg.src = newSrc;
           }
         });
         
-        // Adiciona parâmetros de cache-busting ao URL do script principal
-        const scripts = document.querySelectorAll('script[src]');
-        scripts.forEach(script => {
+        // Força recarregamento de scripts (exceto gptengineer.js)
+        document.querySelectorAll('script[src]:not([src*="gptengineer.js"])').forEach(script => {
           const src = script.getAttribute('src');
-          if (src && !src.includes('gptengineer.js')) {
-            const updatedSrc = src.includes('?') 
-              ? `${src}&t=${timestamp}` 
-              : `${src}?t=${timestamp}`;
-            script.setAttribute('src', updatedSrc);
+          if (src) {
+            const parent = script.parentNode;
+            const nextSibling = script.nextSibling;
+            script.remove();
+            
+            const newScript = document.createElement('script');
+            newScript.src = src.includes('?') 
+              ? `${src}&v=${timestamp}` 
+              : `${src}?v=${timestamp}`;
+            
+            if (parent) {
+              parent.insertBefore(newScript, nextSibling);
+            }
           }
         });
-
-        // Verifica se o script gptengineer.js está presente
-        const gptEngScript = document.querySelector('script[src*="gptengineer.js"]');
-        if (!gptEngScript) {
-          console.warn("Script gptengineer.js não encontrado. Tentando recarregar a página...");
-          setTimeout(() => {
-            window.location.reload();
-          }, 5000);
-        } else {
-          console.log("Script gptengineer.js encontrado:", gptEngScript);
+        
+        // Adiciona metadados para dar dicas ao navegador
+        const meta = document.createElement('meta');
+        meta.name = 'cache-control';
+        meta.content = 'no-cache, no-store, must-revalidate';
+        document.head.appendChild(meta);
+        
+        const pragmaMeta = document.createElement('meta');
+        pragmaMeta.name = 'pragma';
+        pragmaMeta.content = 'no-cache';
+        document.head.appendChild(pragmaMeta);
+        
+        const expiresMeta = document.createElement('meta');
+        expiresMeta.name = 'expires';
+        expiresMeta.content = '0';
+        document.head.appendChild(expiresMeta);
+        
+        // Para GitHub Pages específicamente
+        if (window.location.hostname.includes('github.io')) {
+          console.log("Detectado GitHub Pages, aplicando técnicas anti-cache adicionais");
+          
+          // Técnica específica para GitHub Pages
+          const ghPagesMeta = document.createElement('meta');
+          ghPagesMeta.setAttribute('http-equiv', 'Cache-Control');
+          ghPagesMeta.content = 'no-cache, no-store, must-revalidate';
+          document.head.appendChild(ghPagesMeta);
+          
+          // Adiciona um parâmetro de versão à URL para forçar novas solicitações
+          if (!window.location.search.includes('v=') && !window.location.hash) {
+            const newUrl = window.location.href + (window.location.href.includes('?') ? '&' : '?') + `v=${timestamp}`;
+            window.history.replaceState(null, '', newUrl);
+          }
         }
-
       } catch (error) {
         console.error("Erro ao forçar reload:", error);
       }
     };
     
-    // Executa o forceReload
+    // Executa imediatamente
     forceReload();
     
-    // Cria metadados para forçar recarregamento
-    const meta = document.createElement('meta');
-    meta.name = 'force-reload';
-    meta.content = timestamp;
-    document.head.appendChild(meta);
+    // E também após um pequeno atraso para garantir
+    setTimeout(forceReload, 1000);
     
-    // Adiciona um atributo de timestamp ao <html>
-    document.documentElement.setAttribute('data-timestamp', timestamp);
-    
-    // Limpa os caches do navegador
-    if ('caches' in window) {
-      caches.keys().then(cacheNames => {
-        cacheNames.forEach(cacheName => {
-          console.log(`Attempting to clear cache: ${cacheName}`);
-          caches.delete(cacheName).then(success => {
-            console.log(`Cache ${cacheName} cleared: ${success}`);
-          });
-        });
-      });
-    }
-    
-    // Limpa o meta tag na desmontagem
-    return () => {
-      if (document.head.contains(meta)) {
-        document.head.removeChild(meta);
-      }
-    };
   }, [timestamp]);
   
   return (
     <>
-      <div className="force-reload" data-timestamp={timestamp}></div>
+      {/* Elemento visível apenas para desenvolvimento que mostra o timestamp */}
+      {process.env.NODE_ENV === 'development' && (
+        <div style={{ 
+          position: 'fixed', 
+          bottom: '5px', 
+          right: '5px', 
+          background: 'rgba(0,0,0,0.7)', 
+          color: 'lime', 
+          padding: '2px 5px', 
+          fontSize: '10px',
+          zIndex: 9999 
+        }}>
+          v:{timestamp}
+        </div>
+      )}
+      
       {/* Elemento invisível com conteúdo dinâmico para garantir novo render */}
       <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: `<!-- Cache buster: ${timestamp} -->` }} />
     </>

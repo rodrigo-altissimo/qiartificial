@@ -15,12 +15,10 @@ const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
         ReactGA.send("pageview");
         console.log("Google Analytics inicializado com sucesso");
       } catch (error) {
-        console.error("Erro ao inicializar o Google Analytics:", error);
+        // Silencia erros para não poluir o console
       }
     }
-    
-    // Não tentamos mais carregar o Vercel Analytics aqui
-    // O Vercel Analytics será configurado apenas pelo meta tag
+    // Não tenta mais carregar o Vercel Analytics de forma alguma
   }, [ga4Id]);
 
   return null;

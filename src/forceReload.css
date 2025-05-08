@@ -5,11 +5,12 @@ quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
 
-Versão: 7.0.0 - Correção de erros e melhorias anti-cache: 2025-05-08-2000
+Versão: 8.0.0 - Solução anti-cache agressiva: 2025-05-08-3000
 */
 
+/* Timestamp dinâmico */
 body::after {
-  content: '2025-05-08-2000';
+  content: '2025-05-08-3000';
   display: none;
 }
 
@@ -21,14 +22,7 @@ body::after {
   pointer-events: none;
 }
 
-/* Força reload em elementos específicos */
-.navbar-logo, .hero-title, .hero-subtitle {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-font-smoothing: subpixel-antialiased;
-}
-
-/* Força recálculo do CSSOM */
+/* Força reload em todos os elementos - técnica agressiva */
 * {
   animation-duration: 0.001s;
   animation-name: forceReloadAnimation;
@@ -37,6 +31,30 @@ body::after {
   will-change: transform;
 }
 
+/* Força reload em elementos específicos */
+.navbar-logo, .hero-title, .hero-subtitle {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Correção específica para o texto "PROCESSOS" */
+h1 span.text-white.uppercase, h1 span.text-green-400 {
+  animation-duration: 0.1s;
+  animation-name: highlightText;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  display: inline-block;
+}
+
+/* Correção específica para o logo */
+img[src*="logo-qiartificial"] {
+  animation-duration: 0.2s;
+  animation-name: pulseImage;
+  animation-iteration-count: 1;
+}
+
+/* Animações para garantir reflow */
 @keyframes forceReloadAnimation {
   0% {
     opacity: 0.99999;
@@ -46,10 +64,33 @@ body::after {
   }
 }
 
-/* Adiciona camada de aceleração de hardware */
-html, body {
-  will-change: transform;
-  transform: translateZ(0);
+@keyframes highlightText {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseImage {
+  0% {
+    transform: scale(0.95);
+    filter: brightness(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
 }
 
 /* Desativa cache para todas as imagens */
@@ -58,3 +99,9 @@ img {
   height: auto;
 }
 
+/* Garante que o HTML e body tenham aceleração de hardware */
+html, body {
+  will-change: transform;
+  transform: translateZ(0);
+  overflow-x: hidden;
+}
