@@ -15,7 +15,13 @@ const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
     }
   }, [ga4Id]);
 
-  return <VercelAnalytics />;
+  // Verificar se estamos em ambiente de produção
+  const isProd = window.location.hostname !== 'localhost' && 
+                !window.location.hostname.includes('preview') && 
+                !window.location.hostname.includes('127.0.0.1');
+
+  // Renderizar o componente VercelAnalytics apenas se estivermos em ambiente de produção
+  return isProd ? <VercelAnalytics debug={false} /> : null;
 };
 
 export default Analytics;
