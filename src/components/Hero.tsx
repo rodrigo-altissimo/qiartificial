@@ -1,6 +1,7 @@
-
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+const buildTimestamp = new Date().getTime();
 
 const Hero = () => {
   return (
@@ -39,9 +40,10 @@ const Hero = () => {
           <div className="animate-fade-in space-y-6">
             <div className="flex justify-center items-center mb-6 gap-4">
               <img 
-                src={`/logo-qiartificial.png?v=${new Date().getTime()}`} 
+                src={`/logo-qiartificial.png?v=${buildTimestamp}`} 
                 alt="Logo QiArtificial" 
                 className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" 
+                onError={e => { e.currentTarget.style.display = 'none'; }}
               />
               <div className="px-6 py-1 bg-black/50 rounded-full border border-green-500/30 inline-flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
@@ -50,7 +52,7 @@ const Hero = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Automatize <span className="text-white uppercase font-extrabold" style={{ letterSpacing: '0.05em' }}>PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
+              Automatize <span className="text-white font-extrabold" style={{ letterSpacing: '0.05em', textTransform: 'uppercase' }}>PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
             </h1>
             
             <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">

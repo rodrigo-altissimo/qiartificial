@@ -1,25 +1,32 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QiArtificial</title>
-    <meta name="description" content="Lovable Generated Project" />
+    <meta name="description" content="QiArtificial - Automatize processos com ferramentas Low-Code e IA" />
     <meta name="author" content="QiArtificial" />
+    <!-- Cache control meta tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <!-- Desabilita totalmente o Vercel Analytics -->
     <meta name="vercel-analytics" content="false" />
     <!-- Atualizada a Content Security Policy para permitir apenas os scripts essenciais -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.gpteng.co https://static.cloudflareinsights.com 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://cdn.gpteng.co https://*.cloudflareinsights.com; img-src 'self' data: blob: https://*; style-src 'self' 'unsafe-inline';">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://cdn.gpteng.co https://static.cloudflareinsights.com https://*.cloudflareinsights.com 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://cdn.gpteng.co https://*.cloudflareinsights.com; img-src 'self' data: blob: https://*; style-src 'self' 'unsafe-inline';">
 
     <meta property="og:title" content="QiArtificial" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:description" content="Automatize processos com ferramentas Low-Code e IA" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- Add timestamp parameter to force reload -->
+    <link rel="stylesheet" href="./src/forceReload.css?v=2025-05-08-6000" />
+    <!-- Add timestamp parameter to force reload - using data attribute instead of URL parameter -->
+    <link rel="stylesheet" href="./src/forceReload.css" data-timestamp="2025-05-08-7000" />
     <script type="module" crossorigin src="/assets/index-DIj1M_T8.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CcmaQsaX.css">
   </head>
@@ -28,5 +35,28 @@
     <div id="root"></div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module">
+      // Import main script directly as a module
+      import './src/main.tsx';
+      // Import main script directly as a module - avoid adding query params
+      import { setupApp } from './src/main.tsx';
+      // Force cache refresh
+      // Force cache refresh without query params
+      if (window.applicationCache && window.applicationCache.swapCache) {
+        try { window.applicationCache.swapCache(); } catch(e) {}
+      }
+      // Preload critical resources
+      // Preload critical resources without appending query params to imports
+      const timestamp = new Date().getTime();
+      const logoImage = new Image();
+      logoImage.src = `/logo-qiartificial.png?v=${timestamp}`;
+      logoImage.src = `/logo-qiartificial.png?t=${timestamp}`;
+
+      // Setup application
+      setupApp();
+      // Wait for DOM to be fully loaded
+      document.addEventListener('DOMContentLoaded', function() {
+      });
+    </script>
   </body>
 </html>
