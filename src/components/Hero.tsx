@@ -44,9 +44,7 @@ const Hero = () => {
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Automatize PROCESSOS com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
-            </h1>
+            <h1>TESTE DE DEBUG - NÃO DEVERIA VER ISSO NO SITE?</h1>
             
             <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
               Soluções low-code e no-code que transformam a eficiência do seu negócio e potencializam a produtividade da sua equipe.
