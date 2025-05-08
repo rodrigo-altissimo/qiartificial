@@ -7,6 +7,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+  const logoUrl = `/logo-qiartificial.png?t=${new Date().getTime()}`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,11 +23,18 @@ const Navbar = () => {
     
     // Preload logo
     const img = new Image();
-    img.src = "/logo-qiartificial.png";
-    img.onload = () => setLogoLoaded(true);
+    img.src = logoUrl;
+    img.onload = () => {
+      console.log("Logo carregado com sucesso");
+      setLogoLoaded(true);
+    };
+    img.onerror = (e) => {
+      console.error("Falha ao carregar o logo", e);
+      setLogoError(true);
+    };
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [logoUrl]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -40,12 +49,16 @@ const Navbar = () => {
           <div className="flex items-center">
             <a href="#" className="flex items-center gap-2 text-2xl font-bold text-white">
               <img 
-                src="/logo-qiartificial.png" 
+                src={logoUrl}
                 alt="Logo QiArtificial" 
-                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow"
-                onLoad={() => console.log("Logo loaded successfully")}
+                className={`h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow ${logoError ? 'border border-red-500' : ''}`}
+                onLoad={() => {
+                  console.log("Logo carregado em linha");
+                  setLogoLoaded(true);
+                }}
                 onError={(e) => {
-                  console.error("Failed to load logo image", e);
+                  console.error("Falha ao carregar o logo em linha", e);
+                  setLogoError(true);
                 }}
               />
               QiArtificial

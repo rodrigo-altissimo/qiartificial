@@ -16,6 +16,44 @@ const ForceReloader = () => {
   
   useEffect(() => {
     console.log("Force reload timestamp:", timestamp);
+    
+    // Força recarregamento de recursos
+    const forceReload = () => {
+      const links = document.querySelectorAll('link[rel="stylesheet"]');
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href) {
+          const updatedHref = href.includes('?') 
+            ? `${href}&t=${timestamp}` 
+            : `${href}?t=${timestamp}`;
+          link.setAttribute('href', updatedHref);
+        }
+      });
+      
+      // Força recarregamento de imagens
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        const src = img.getAttribute('src');
+        if (src) {
+          const updatedSrc = src.includes('?') 
+            ? `${src}&t=${timestamp}` 
+            : `${src}?t=${timestamp}`;
+          img.setAttribute('src', updatedSrc);
+        }
+      });
+    };
+    
+    forceReload();
+    
+    // Cria um elemento para forçar recarregamento
+    const meta = document.createElement('meta');
+    meta.name = 'force-reload';
+    meta.content = timestamp;
+    document.head.appendChild(meta);
+    
+    return () => {
+      document.head.removeChild(meta);
+    };
   }, [timestamp]);
   
   return <div className="force-reload" data-timestamp={timestamp}></div>;
