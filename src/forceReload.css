@@ -1,0 +1,7 @@
+
+/* 
+Este arquivo existe apenas para forçar um reload dos recursos
+quando o navegador estiver usando cache. A simples existência
+de um novo arquivo CSS importado forçará o navegador a buscar 
+novos recursos.
+*/
