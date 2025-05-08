@@ -19,65 +19,69 @@ const ForceReloader = () => {
     
     // Técnica mais agressiva para forçar recarregamento de recursos
     const forceReload = () => {
-      // Adiciona timestamp a todos os links de stylesheet
-      const links = document.querySelectorAll('link[rel="stylesheet"]');
-      links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href) {
-          // Remove o link antigo
-          const oldLink = link;
-          const newLink = document.createElement('link');
-          
-          // Copia todos os atributos
-          Array.from(oldLink.attributes).forEach(attr => {
-            newLink.setAttribute(attr.name, attr.value);
-          });
-          
-          // Adiciona timestamp ao href
-          const updatedHref = href.includes('?') 
-            ? `${href}&t=${timestamp}` 
-            : `${href}?t=${timestamp}`;
-          newLink.setAttribute('href', updatedHref);
-          
-          // Substitui o link antigo pelo novo
-          if (oldLink.parentNode) {
-            oldLink.parentNode.insertBefore(newLink, oldLink);
-            setTimeout(() => {
-              oldLink.parentNode?.removeChild(oldLink);
-            }, 100);
+      try {
+        // Adiciona timestamp a todos os links de stylesheet
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+        links.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href) {
+            // Remove o link antigo
+            const oldLink = link;
+            const newLink = document.createElement('link');
+            
+            // Copia todos os atributos
+            Array.from(oldLink.attributes).forEach(attr => {
+              newLink.setAttribute(attr.name, attr.value);
+            });
+            
+            // Adiciona timestamp ao href
+            const updatedHref = href.includes('?') 
+              ? `${href}&t=${timestamp}` 
+              : `${href}?t=${timestamp}`;
+            newLink.setAttribute('href', updatedHref);
+            
+            // Substitui o link antigo pelo novo
+            if (oldLink.parentNode) {
+              oldLink.parentNode.insertBefore(newLink, oldLink);
+              setTimeout(() => {
+                oldLink.parentNode?.removeChild(oldLink);
+              }, 100);
+            }
           }
-        }
-      });
-      
-      // Força recarregamento de imagens definindo src novamente
-      const images = document.querySelectorAll('img');
-      images.forEach(img => {
-        const src = img.getAttribute('src');
-        if (src) {
-          const cacheBusterSrc = src.includes('?') 
-            ? `${src}&t=${timestamp}` 
-            : `${src}?t=${timestamp}`;
-          
-          // Cria nova imagem com src atualizado
-          const newImg = new Image();
-          newImg.onload = function() {
-            img.setAttribute('src', cacheBusterSrc);
-          };
-          newImg.src = cacheBusterSrc;
-        }
-      });
-      
-      // Adiciona parâmetros de cache-busting ao URL do script principal
-      const scripts = document.querySelectorAll('script[src]');
-      scripts.forEach(script => {
-        const src = script.getAttribute('src');
-        if (src && !src.includes('gptengineer.js')) {
-          const updatedSrc = src.includes('?') 
-            ? `${src}&t=${timestamp}` 
-            : `${src}?t=${timestamp}`;
-          script.setAttribute('src', updatedSrc);
-        }
-      });
+        });
+        
+        // Força recarregamento de imagens definindo src novamente
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+          const src = img.getAttribute('src');
+          if (src) {
+            const cacheBusterSrc = src.includes('?') 
+              ? `${src}&t=${timestamp}` 
+              : `${src}?t=${timestamp}`;
+            
+            // Cria nova imagem com src atualizado
+            const newImg = new Image();
+            newImg.onload = function() {
+              img.setAttribute('src', cacheBusterSrc);
+            };
+            newImg.src = cacheBusterSrc;
+          }
+        });
+        
+        // Adiciona parâmetros de cache-busting ao URL do script principal
+        const scripts = document.querySelectorAll('script[src]');
+        scripts.forEach(script => {
+          const src = script.getAttribute('src');
+          if (src && !src.includes('gptengineer.js')) {
+            const updatedSrc = src.includes('?') 
+              ? `${src}&t=${timestamp}` 
+              : `${src}?t=${timestamp}`;
+            script.setAttribute('src', updatedSrc);
+          }
+        });
+      } catch (error) {
+        console.error("Erro ao forçar reload:", error);
+      }
     };
     
     // Executa o forceReload
@@ -106,7 +110,9 @@ const ForceReloader = () => {
     
     // Limpa o meta tag na desmontagem
     return () => {
-      document.head.removeChild(meta);
+      if (document.head.contains(meta)) {
+        document.head.removeChild(meta);
+      }
     };
   }, [timestamp]);
   

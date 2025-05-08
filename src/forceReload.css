@@ -5,11 +5,11 @@ quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
 
-Versão: 5.0.0 - Adicionado técnicas avançadas anti-cache: 2025-05-08-1450
+Versão: 6.0.0 - Correção de erros e melhorias anti-cache: 2025-05-08-1600
 */
 
 body::after {
-  content: '2025-05-08-1450';
+  content: '2025-05-08-1600';
   display: none;
 }
 
@@ -34,6 +34,7 @@ body::after {
   animation-name: forceReloadAnimation;
   animation-iteration-count: 1;
   animation-timing-function: linear;
+  will-change: transform;
 }
 
 @keyframes forceReloadAnimation {
@@ -43,4 +44,10 @@ body::after {
   100% {
     opacity: 1;
   }
+}
+
+/* Adiciona camada de aceleração de hardware */
+html, body {
+  will-change: transform;
+  transform: translateZ(0);
 }
