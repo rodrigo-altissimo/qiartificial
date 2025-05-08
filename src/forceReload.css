@@ -5,11 +5,11 @@ quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
 
-Versão: 3.0.0 - Adicionado timestamp mais específico para forçar o reload: 2025-05-08-1205
+Versão: 4.0.0 - Adicionado timestamp único para forçar o reload: 2025-05-08-1335
 */
 
 body::after {
-  content: '2025-05-08-1205';
+  content: '2025-05-08-1335';
   display: none;
 }
 
@@ -19,4 +19,9 @@ body::after {
   height: 1px;
   opacity: 0;
   pointer-events: none;
+}
+
+/* Força reload em elementos específicos */
+.navbar-logo, .hero-title, .hero-subtitle {
+  transform: translateZ(0);
 }
