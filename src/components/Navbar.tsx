@@ -35,7 +35,11 @@ const Navbar = () => {
               <img 
                 src="/logo-qiartificial.png" 
                 alt="Logo QiArtificial" 
-                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow" 
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 shadow"
+                onError={(e) => {
+                  console.error("Failed to load logo image");
+                  e.currentTarget.style.display = 'none';
+                }}
               />
               QiArtificial
             </a>

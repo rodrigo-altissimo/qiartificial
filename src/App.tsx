@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Analytics from "./components/Analytics";
 import React from "react";
+import "./forceReload.css"; // Forçar reload dos recursos
 
 const queryClient = new QueryClient();
 
