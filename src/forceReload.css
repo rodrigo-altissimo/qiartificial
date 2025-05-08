@@ -4,4 +4,11 @@ Este arquivo existe apenas para forçar um reload dos recursos
 quando o navegador estiver usando cache. A simples existência
 de um novo arquivo CSS importado forçará o navegador a buscar 
 novos recursos.
+
+Versão: 2.0.0 - Adicionado timestamp para forçar o reload: 2025-05-08-1142
 */
+
+body::before {
+  content: '';
+  display: none;
+}
