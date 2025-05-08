@@ -7,50 +7,36 @@ interface AnalyticsProps {
 }
 
 const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
-  const [vercelAnalyticsAvailable, setVercelAnalyticsAvailable] = useState(false);
+  const [analyticsInitialized, setAnalyticsInitialized] = useState(false);
 
   useEffect(() => {
-    // Inicializa o Google Analytics se um ID válido for fornecido
+    // Initialize Google Analytics if a valid ID is provided
     if (ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
       try {
         ReactGA.initialize(ga4Id);
         ReactGA.send("pageview");
-        console.log("Google Analytics inicializado com sucesso");
+        setAnalyticsInitialized(true);
+        console.log("Google Analytics initialized successfully");
       } catch (error) {
-        console.error("Erro ao inicializar o Google Analytics:", error);
+        console.error("Error initializing Google Analytics:", error);
       }
     }
 
-    // Verifica se o script do Vercel Analytics está disponível antes de tentar carregá-lo
-    const checkVercelAnalytics = async () => {
-      try {
-        // Fazer uma verificação mais segura com um tempo limite
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-        
-        const response = await fetch('/_vercel/insights/script.js', { 
-          method: 'HEAD',
-          signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-        setVercelAnalyticsAvailable(response.ok);
-        
-        if (response.ok) {
-          console.log("Vercel Analytics está disponível");
-        } else {
-          console.log("Vercel Analytics não está disponível (status não ok)");
-        }
-      } catch (error) {
-        console.log('Vercel Analytics não está disponível:', error instanceof DOMException ? 'timeout' : error);
-        setVercelAnalyticsAvailable(false);
-      }
-    };
-
-    checkVercelAnalytics();
+    // We've already checked for Vercel Analytics availability in the parent component
+    // If we're rendering this component, we know Vercel is deployed correctly
+    try {
+      import('@vercel/analytics').then(({ inject }) => {
+        inject();
+        console.log("Vercel Analytics injected successfully");
+      }).catch(err => {
+        console.warn("Error injecting Vercel Analytics:", err);
+      });
+    } catch (error) {
+      console.warn("Vercel Analytics module not available:", error);
+    }
   }, [ga4Id]);
 
-  // Não renderiza nada
+  // Component doesn't render anything
   return null;
 };
 
