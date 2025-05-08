@@ -8,7 +8,7 @@ interface AnalyticsProps {
 
 const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
   useEffect(() => {
-    // Apenas inicializa o Google Analytics se um ID válido for fornecido
+    // Inicializa o Google Analytics apenas se um ID válido for fornecido
     if (ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
       try {
         ReactGA.initialize(ga4Id);
@@ -16,9 +16,9 @@ const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
         console.log("Google Analytics inicializado com sucesso");
       } catch (error) {
         // Silencia erros para não poluir o console
+        console.error("Erro ao inicializar o Google Analytics:", error);
       }
     }
-    // Não tenta mais carregar o Vercel Analytics de forma alguma
   }, [ga4Id]);
 
   return null;
