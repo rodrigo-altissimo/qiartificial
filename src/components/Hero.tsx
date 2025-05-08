@@ -1,3 +1,4 @@
+
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -37,14 +38,20 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center mt-16">
           <div className="animate-fade-in space-y-6">
             <div className="flex justify-center items-center mb-6 gap-4">
-              <img src="/logo-qiartificial.png" alt="Logo QiArtificial" className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" />
+              <img 
+                src={`/logo-qiartificial.png?v=${new Date().getTime()}`} 
+                alt="Logo QiArtificial" 
+                className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" 
+              />
               <div className="px-6 py-1 bg-black/50 rounded-full border border-green-500/30 inline-flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                 <span className="text-green-400 text-sm font-bold text-2xl md:text-3xl">QiArtificial</span>
               </div>
             </div>
             
-            <h1>TESTE DE DEBUG - NÃO DEVERIA VER ISSO NO SITE?</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              Automatize <span className="text-white uppercase font-extrabold" style={{ letterSpacing: '0.05em' }}>PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
+            </h1>
             
             <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
               Soluções low-code e no-code que transformam a eficiência do seu negócio e potencializam a produtividade da sua equipe.
@@ -57,7 +64,7 @@ const Hero = () => {
                 </Button>
               </a>
               <a href="#servicos">
-                <Button variant="outline" size="lg" className="border-green-500/50 text-black w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="border-green-500/50 text-white w-full sm:w-auto">
                   Nossos serviços
                 </Button>
               </a>
@@ -67,7 +74,7 @@ const Hero = () => {
             <div className="mt-20 pt-10">
               <div className="flex justify-center mb-2">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <svg key={star} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#F0B31A" stroke="none">
+                  <svg key={star} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#F0B31A" stroke="none" className="mx-1">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 ))}
