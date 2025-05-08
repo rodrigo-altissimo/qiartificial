@@ -28,7 +28,6 @@ const queryClient = new QueryClient({
     queries: {
       gcTime: buildTimestamp,
       staleTime: 0,
-      cacheTime: 0,
       refetchOnMount: true,
       refetchOnWindowFocus: true,
     },
