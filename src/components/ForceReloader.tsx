@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 const ForceReloader = () => {
@@ -23,55 +22,48 @@ const ForceReloader = () => {
           });
         }
         
-        // Força recarregamento de todos os estilos
+        // Força recarregamento de todos os estilos sem usar parâmetros de URL
         document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
           const href = link.getAttribute('href');
           if (href) {
             const parent = link.parentNode;
-            link.remove();
-            
             const newLink = document.createElement('link');
             newLink.rel = 'stylesheet';
-            newLink.href = href.includes('?') 
-              ? `${href}&v=${timestamp}` 
-              : `${href}?v=${timestamp}`;
-            
+            newLink.href = href;
+            // Use data attribute instead of URL parameter
+            newLink.setAttribute('data-timestamp', timestamp);
             if (parent) {
               parent.appendChild(newLink);
             }
           }
         });
         
-        // Força recarregamento de todas as imagens
+        // Força recarregamento de todas as imagens sem usar parâmetros de URL nas importações
         document.querySelectorAll('img').forEach(img => {
           const src = img.getAttribute('src');
           if (src && !src.startsWith('data:')) {
-            // Pré-carrega a imagem com cache-busting
-            const newSrc = src.includes('?') 
-              ? `${src}&v=${timestamp}` 
-              : `${src}?v=${timestamp}`;
-            
+            // Use separate query parameter for images since they're not imported as JS
+            const separator = src.includes('?') ? '&' : '?';
+            const newSrc = `${src}${separator}t=${timestamp}`;
             const newImg = new Image();
             newImg.onload = () => {
-              img.setAttribute('src', newSrc);
+              img.src = newSrc;
             };
             newImg.src = newSrc;
           }
         });
         
-        // Força recarregamento de scripts (exceto gptengineer.js)
+        // Força recarregamento de scripts (exceto gptengineer.js) sem usar parâmetros de URL
         document.querySelectorAll('script[src]:not([src*="gptengineer.js"])').forEach(script => {
           const src = script.getAttribute('src');
           if (src) {
             const parent = script.parentNode;
             const nextSibling = script.nextSibling;
             script.remove();
-            
             const newScript = document.createElement('script');
-            newScript.src = src.includes('?') 
-              ? `${src}&v=${timestamp}` 
-              : `${src}?v=${timestamp}`;
-            
+            newScript.src = src;
+            // Add data attribute instead of URL parameter
+            newScript.setAttribute('data-timestamp', timestamp);
             if (parent) {
               parent.insertBefore(newScript, nextSibling);
             }
@@ -94,21 +86,16 @@ const ForceReloader = () => {
         expiresMeta.content = '0';
         document.head.appendChild(expiresMeta);
         
-        // Para GitHub Pages específicamente
+        // Para GitHub Pages especificamente
         if (window.location.hostname.includes('github.io')) {
           console.log("Detectado GitHub Pages, aplicando técnicas anti-cache adicionais");
-          
           // Técnica específica para GitHub Pages
           const ghPagesMeta = document.createElement('meta');
           ghPagesMeta.setAttribute('http-equiv', 'Cache-Control');
           ghPagesMeta.content = 'no-cache, no-store, must-revalidate';
           document.head.appendChild(ghPagesMeta);
-          
-          // Adiciona um parâmetro de versão à URL para forçar novas solicitações
-          if (!window.location.search.includes('v=') && !window.location.hash) {
-            const newUrl = window.location.href + (window.location.href.includes('?') ? '&' : '?') + `v=${timestamp}`;
-            window.history.replaceState(null, '', newUrl);
-          }
+          // Add a timestamp marker in localStorage instead of URL parameter
+          localStorage.setItem('cache_timestamp', timestamp);
         }
       } catch (error) {
         console.error("Erro ao forçar reload:", error);
@@ -142,7 +129,7 @@ const ForceReloader = () => {
       )}
       
       {/* Elemento invisível com conteúdo dinâmico para garantir novo render */}
-      <div style={{ display: 'none' }} dangerouslySetInnerHTML={{ __html: `<!-- Cache buster: ${timestamp} -->` }} />
+      <div style={{ display: 'none' }} data-timestamp={timestamp} />
     </>
   );
 };
