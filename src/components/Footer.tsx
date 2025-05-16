@@ -1,19 +1,24 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Phone, MessageSquare } from 'lucide-react';
-import PrivacyPolicy from './PrivacyPolicy';
-import TermsOfUse from './TermsOfUse';
+import CustomModal from './CustomModal';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
   const [isTermsOfUseOpen, setIsTermsOfUseOpen] = useState(false);
-  
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsPrivacyPolicyOpen(false);
+    setIsTermsOfUseOpen(false);
+  }, [location]);
+
   return (
     <footer className="relative text-gray-300 overflow-hidden">
       {/* Dark background with grid pattern */}
       <div className="absolute inset-0 z-0 bg-black">
-        <div className="absolute inset-0 opacity-20" 
+        <div className="absolute inset-0 opacity-40" 
              style={{
                backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
                backgroundSize: "40px 40px"
@@ -31,7 +36,7 @@ const Footer = () => {
       <div className="container mx-auto py-12 px-4 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-white mb-4">Qiartificial</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">QiArtificial</h3>
             <p className="mb-4 max-w-md">
               Soluções em automação e inteligência artificial para otimizar processos
               empresariais utilizando ferramentas low-code e no-code.
@@ -96,7 +101,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-green-900/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; {currentYear} Qiartificial. Todos os direitos reservados.</p>
+          <p>&copy; {currentYear} QiArtificial. Todos os direitos reservados.</p>
           <div className="mt-4 md:mt-0 space-x-4">
             <button 
               id="privacy-policy-button"
@@ -113,19 +118,105 @@ const Footer = () => {
             </button>
           </div>
         </div>
-      </div>
-      
-      {/* Privacy Policy Dialog */}
-      <PrivacyPolicy 
-        open={isPrivacyPolicyOpen} 
-        onOpenChange={setIsPrivacyPolicyOpen}
-      />
 
-      {/* Terms of Use Dialog */}
-      <TermsOfUse
-        open={isTermsOfUseOpen}
-        onOpenChange={setIsTermsOfUseOpen}
-      />
+        {/* Modal customizado para Política de Privacidade */}
+        <CustomModal open={isPrivacyPolicyOpen} onClose={() => setIsPrivacyPolicyOpen(false)} title="Política de Privacidade">
+          <div style={{fontSize: 16, lineHeight: 1.7}}>
+            <p><strong>Última atualização:</strong> 06/05/2025</p>
+            <p>Esta Política de Privacidade descreve como coletamos, usamos, armazenamos e protegemos os dados pessoais dos usuários que acessam o site <strong>qiartificial soluções tecnológicas</strong>, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 – LGPD) e demais normas aplicáveis no ordenamento jurídico brasileiro.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>1. Coleta de Dados Pessoais</h2>
+            <p>Coletamos os seguintes dados pessoais, fornecidos diretamente pelo usuário ou automaticamente por meio da navegação no site:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Nome completo</li>
+              <li>Endereço de e-mail</li>
+              <li>Número de telefone</li>
+              <li>Dados de navegação (IP, geolocalização, tipo de dispositivo, sistema operacional, páginas acessadas, cookies, entre outros)</li>
+              <li>Outros dados eventualmente fornecidos pelo usuário em formulários de contato, cadastro ou atendimento</li>
+            </ul>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>2. Finalidade da Coleta de Dados</h2>
+            <p>Os dados pessoais poderão ser utilizados para as seguintes finalidades:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Viabilizar a comunicação com o usuário</li>
+              <li>Responder dúvidas, solicitações ou prestar suporte</li>
+              <li>Enviar comunicações promocionais, informativos ou newsletters (com consentimento)</li>
+              <li>Melhorar a experiência do usuário no site</li>
+              <li>Cumprir obrigações legais ou regulatórias</li>
+            </ul>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>3. Compartilhamento de Dados</h2>
+            <p>Seus dados não serão vendidos, alugados ou compartilhados com terceiros, exceto nas seguintes hipóteses:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Para cumprimento de obrigações legais ou regulatórias</li>
+              <li>Com prestadores de serviço ou parceiros contratados, quando necessário à execução das finalidades descritas</li>
+              <li>Mediante consentimento do titular dos dados</li>
+            </ul>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>4. Cookies e Tecnologias de Rastreamento</h2>
+            <p>Utilizamos cookies e tecnologias semelhantes para:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Garantir funcionalidades básicas do site</li>
+              <li>Analisar o comportamento de navegação para fins estatísticos e de marketing</li>
+              <li>Personalizar o conteúdo e anúncios exibidos</li>
+            </ul>
+            <p>O usuário pode, a qualquer momento, configurar seu navegador para recusar ou remover os cookies.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>5. Armazenamento e Segurança dos Dados</h2>
+            <p>Os dados coletados são armazenados em ambiente seguro, com medidas técnicas e administrativas adequadas para proteger contra acessos não autorizados, vazamentos, perdas ou destruição.</p>
+            <p>O armazenamento dos dados respeita os prazos legais e/ou o tempo necessário para atingir as finalidades informadas.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>6. Direitos do Titular dos Dados</h2>
+            <p>Nos termos da LGPD, você tem direito a:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Confirmar a existência de tratamento de seus dados</li>
+              <li>Acessar seus dados</li>
+              <li>Corrigir dados incompletos, inexatos ou desatualizados</li>
+              <li>Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos</li>
+              <li>Revogar o consentimento, quando aplicável</li>
+              <li>Solicitar a portabilidade dos dados</li>
+            </ul>
+            <p>Para exercer seus direitos, entre em contato conosco através do e-mail: <a href="mailto:contato@qiartificial.com.br" style={{color: '#22c55e'}}>contato@qiartificial.com.br</a>.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>7. Alterações nesta Política</h2>
+            <p>Esta política poderá ser alterada a qualquer momento para garantir conformidade com a legislação vigente. Recomendamos a revisão periódica desta página.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>8. Contato</h2>
+            <p>Em caso de dúvidas sobre esta Política de Privacidade ou sobre o tratamento de seus dados pessoais, entre em contato com:</p>
+            <p><strong>qiartificial soluções tecnológicas</strong><br />
+            E-mail: <a href="mailto:contato@qiartificial.com.br" style={{color: '#22c55e'}}>contato@qiartificial.com.br</a><br />
+            Endereço: Florianópolis/SC</p>
+          </div>
+        </CustomModal>
+
+        {/* Modal customizado para Termos de Uso */}
+        <CustomModal open={isTermsOfUseOpen} onClose={() => setIsTermsOfUseOpen(false)} title="Termos de Uso">
+          <div style={{fontSize: 16, lineHeight: 1.7}}>
+            <p><strong>Última atualização:</strong> 06/05/2025</p>
+            <p>Bem-vindo ao nosso site! Ao acessar ou usar este site/aplicativo, você concorda com os presentes Termos de Uso. Recomendamos a leitura cuidadosa deste documento antes de utilizar nossos serviços.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>1. Aceitação dos Termos</h2>
+            <p>Ao utilizar este site ou qualquer um de seus serviços, você declara que leu, entendeu e concorda em cumprir todas as condições aqui descritas. Caso não concorde com algum dos termos, não utilize o site.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>2. Modificações dos Termos</h2>
+            <p>Reservamo-nos o direito de alterar ou atualizar estes Termos de Uso a qualquer momento, sem aviso prévio. Recomendamos que você revise este documento periodicamente. O uso contínuo do site após quaisquer alterações constitui aceitação dos novos termos.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>3. Cadastro e Conta</h2>
+            <p>Alguns recursos do site podem exigir cadastro. Ao se registrar, o usuário concorda em fornecer informações verdadeiras, completas e atualizadas. O usuário é responsável por manter a confidencialidade de suas credenciais e por todas as atividades que ocorrerem sob sua conta.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>4. Privacidade e Dados</h2>
+            <p>Seus dados serão tratados conforme nossa <span style={{color: '#22c55e'}}>Política de Privacidade</span>. Não comercializamos nem compartilhamos suas informações com terceiros sem seu consentimento, exceto quando exigido por lei.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>5. Uso Permitido</h2>
+            <p>Você concorda em usar o site apenas para fins legais e permitidos. É proibido:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Praticar atos que violem leis ou direitos de terceiros;</li>
+              <li>Interferir com o funcionamento do site;</li>
+              <li>Tentar acessar áreas restritas sem autorização.</li>
+            </ul>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>6. Propriedade Intelectual</h2>
+            <p>Todo o conteúdo do site (textos, imagens, marcas, códigos, etc.) é protegido por direitos autorais e outras leis de propriedade intelectual. É proibida a reprodução, distribuição ou modificação sem autorização prévia e por escrito.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>7. Limitação de Responsabilidade</h2>
+            <p>Embora nos esforcemos para manter os serviços sempre disponíveis e seguros, não nos responsabilizamos por:</p>
+            <ul style={{marginLeft: 24}}>
+              <li>Erros, falhas técnicas ou indisponibilidade do sistema;</li>
+              <li>Perdas decorrentes do uso do site;</li>
+              <li>Conteúdo enviado por usuários ou terceiros.</li>
+            </ul>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>8. Encerramento</h2>
+            <p>Podemos suspender ou encerrar seu acesso ao site a qualquer momento, com ou sem motivo, especialmente em caso de violação destes Termos.</p>
+            <h2 style={{fontWeight: 600, marginTop: 24}}>9. Disposições Gerais</h2>
+            <p>Estes Termos serão regidos pelas leis do Brasil. Fica eleito o foro da comarca de <strong>Florianópolis/SC</strong>, com renúncia a qualquer outro, por mais privilegiado que seja, para dirimir eventuais conflitos oriundos deste documento.</p>
+          </div>
+        </CustomModal>
+      </div>
     </footer>
   );
 };

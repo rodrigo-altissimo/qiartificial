@@ -9,6 +9,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    strictPort: true,
+    open: true,
+    headers: { 'Cache-Control': 'no-store' },
+    watch: { usePolling: true, interval: 100 },
+    proxy: {
+      '/api': 'http://localhost:3001'
+    }
   },
   plugins: [
     react(),
@@ -23,6 +30,17 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     // Force included packages to ensure they're pre-bundled properly
     include: ['react', 'react-dom', 'react-router-dom'],
+  },
+  build: {
+    assetsInlineLimit: 0,
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
+      }
+    }
   },
   // Add configuration to handle HTML proxy files with multiple query parameters
   assetsInclude: [

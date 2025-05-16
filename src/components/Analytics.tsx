@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 
@@ -8,8 +7,8 @@ interface AnalyticsProps {
 
 const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
   useEffect(() => {
-    // Inicializa o Google Analytics apenas se um ID válido for fornecido
-    if (ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
+    // Inicializa o Google Analytics apenas em produção
+    if (import.meta.env.MODE === 'production' && ga4Id && ga4Id !== 'G-XXXXXXXXXX') {
       try {
         ReactGA.initialize(ga4Id);
         ReactGA.send("pageview");
@@ -21,7 +20,14 @@ const Analytics = ({ ga4Id = 'G-XXXXXXXXXX' }: AnalyticsProps) => {
     }
   }, [ga4Id]);
 
-  return null;
+  if (import.meta.env.DEV) return null;        // 👈 bloqueia no dev
+  return (
+    <script
+      defer
+      src="https://analytics.qiartificial.com/script.js"
+      data-domain="qiartificial.com.br"
+    />
+  );
 };
 
 export default Analytics;

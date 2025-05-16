@@ -10,7 +10,7 @@ const testimonials = [
     avatar: "AS"
   },
   {
-    quote: "Os dashboards analíticos desenvolvidos pela Qiartificial nos permitiram identificar gargalos e otimizar nossos processos de vendas, aumentando a receita em 25%.",
+    quote: "Os dashboards analíticos desenvolvidos pela QiArtificial nos permitiram identificar gargalos e otimizar nossos processos de vendas, aumentando a receita em 25%.",
     name: "Carlos Mendes",
     role: "Diretor Comercial, Varejo",
     avatar: "CM"
@@ -30,7 +30,7 @@ const Testimonials = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">O que nossos <span className="text-green-400">clientes</span> dizem</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Conheça as histórias de sucesso de empresas que transformaram seus processos com a Qiartificial.
+            Conheça as histórias de sucesso de empresas que transformaram seus processos com a QiArtificial.
           </p>
           <div className="h-1 w-20 bg-green-500 mx-auto mt-4"></div>
         </div>

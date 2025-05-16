@@ -9,7 +9,7 @@ const Hero = () => {
       {/* Dark background with grid pattern */}
       <div className="absolute inset-0 z-0 bg-black">
         {/* Grid overlay pattern */}
-        <div className="absolute inset-0 opacity-20" 
+        <div className="absolute inset-0 opacity-40" 
              style={{
                backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
                backgroundSize: "40px 40px"
@@ -47,12 +47,14 @@ const Hero = () => {
               />
               <div className="px-6 py-1 bg-black/50 rounded-full border border-green-500/30 inline-flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                <span className="text-green-400 text-sm font-bold text-2xl md:text-3xl">QiArtificial</span>
+                <span className="text-green-400 font-normal text-base" style={{fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'}}>
+                  Soluções Low-Code e IA
+                </span>
               </div>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Automatize <span className="text-white font-extrabold" style={{ letterSpacing: '0.05em', textTransform: 'uppercase' }}>PROCESSOS</span> com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
+              Automatize processos com ferramentas <span className="text-green-400">Low-Code</span> e <span className="text-green-400">Inteligência Artificial</span>
             </h1>
             
             <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
@@ -66,7 +68,7 @@ const Hero = () => {
                 </Button>
               </a>
               <a href="#servicos">
-                <Button variant="outline" size="lg" className="border-green-500/50 text-white w-full sm:w-auto">
+                <Button size="lg" className="bg-green-500 hover:bg-green-400 text-black font-medium shadow-lg shadow-green-500/30 transition-all duration-300 w-full sm:w-auto">
                   Nossos serviços
                 </Button>
               </a>

@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { MessageSquare, ArrowRight } from 'lucide-react';
 
@@ -7,7 +6,7 @@ const CTA = () => {
     <section className="relative py-24 text-white overflow-hidden">
       {/* Dark background with grid pattern */}
       <div className="absolute inset-0 z-0 bg-black">
-        <div className="absolute inset-0 opacity-20" 
+        <div className="absolute inset-0 opacity-40" 
              style={{
                backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
                backgroundSize: "40px 40px"
@@ -29,9 +28,9 @@ const CTA = () => {
       </div>
       
       <div className="container-narrow relative z-20 text-center">
-        <div className="backdrop-blur-sm bg-black/30 rounded-2xl p-10 border border-green-900/30 max-w-4xl mx-auto">
+        <div className="backdrop-blur-sm bg-black/30 rounded-2xl p-10 border-2 border-green-900/30 max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Pronto para transformar seus processos com <span className="text-green-400">automação inteligente</span>?
+            Pronto para transformar seus processos com <span className="text-green-400">automações inteligentes</span>?
           </h2>
           <p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">
             Entre em contato agora mesmo e descubra como nossas soluções podem 
@@ -50,7 +49,7 @@ const CTA = () => {
               target="_blank" 
               rel="noopener noreferrer"
             >
-              <Button variant="outline" size="lg" className="border-green-500/50 text-white hover:bg-green-500/10 w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="border-green-500/70 text-white bg-green-500/20 hover:bg-green-500/40 hover:text-white font-semibold w-full sm:w-auto transition-all duration-300 shadow-md shadow-green-500/10">
                 <MessageSquare className="mr-2 h-5 w-5" /> WhatsApp
               </Button>
             </a>

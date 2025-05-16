@@ -1,5 +1,5 @@
+import "./fix-navbar.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -10,11 +10,16 @@ import ForceReloader from "./components/ForceReloader";
 import GptEngineerCheck from "./components/GptEngineerCheck";
 import AppQueryProvider from "./components/AppQueryProvider";
 import ConditionalAnalytics from "./components/ConditionalAnalytics";
+import { useHotReload } from "./hooks/useHotReload";
+import Navbar from "./components/Navbar";
 
 // Force webpack/vite to reload this component
 const buildTimestamp = new Date().getTime();
 
 const App = () => {
+  // Adiciona hot-reload em desenvolvimento
+  useHotReload();
+
   useEffect(() => {
     // Set a body class to force style recalculation
     document.body.className = `app-loaded`;
@@ -22,7 +27,12 @@ const App = () => {
     // Force reload images without adding params to imports
     setTimeout(() => {
       document.querySelectorAll('img').forEach(img => {
-        if (img.src && !img.src.includes('data:')) {
+        // Só faz reload em imagens locais (não URLs remotas)
+        if (
+          img.src &&
+          !img.src.includes('data:') &&
+          (img.src.startsWith(window.location.origin) || img.src.startsWith('/'))
+        ) {
           const currentSrc = img.src;
           img.src = '';
           setTimeout(() => {
@@ -36,6 +46,7 @@ const App = () => {
 
   return (
     <React.StrictMode>
+      <Navbar />
       <AppQueryProvider>
         <BrowserRouter>
           <TooltipProvider>
@@ -47,7 +58,6 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />
-            <Sonner />
             <ConditionalAnalytics />
           </TooltipProvider>
         </BrowserRouter>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Analytics from './Analytics';
 
@@ -18,14 +17,6 @@ const ConditionalAnalytics = () => {
     
     // Apenas renderiza em produção em domínio próprio
     setShouldRenderAnalytics(!isDevEnvironment);
-    
-    // Também adiciona meta tag para desabilitar o Vercel Analytics dinamicamente
-    if (isDevEnvironment) {
-      const metaTag = document.createElement('meta');
-      metaTag.name = 'vercel-analytics';
-      metaTag.content = 'false';
-      document.head.appendChild(metaTag);
-    }
   }, []);
   
   // Desativa completamente em ambientes que não são de produção

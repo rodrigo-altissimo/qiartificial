@@ -1,4 +1,3 @@
-
 import { Check } from 'lucide-react';
 
 const benefitItems = [
@@ -33,7 +32,7 @@ const Benefits = () => {
     <section id="beneficios" className="relative text-white py-24 overflow-hidden">
       {/* Dark background with grid pattern */}
       <div className="absolute inset-0 z-0 bg-black">
-        <div className="absolute inset-0 opacity-20" 
+        <div className="absolute inset-0 opacity-40" 
              style={{
                backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
                backgroundSize: "40px 40px"
@@ -61,7 +60,7 @@ const Benefits = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
           {benefitItems.map((benefit, index) => (
-            <div key={index} className="flex items-start backdrop-blur-sm bg-black/30 rounded-xl p-6 border border-green-900/30">
+            <div key={index} className="flex items-start backdrop-blur-sm bg-black/30 rounded-xl p-6 border-2 border-green-900/30">
               <div className="flex-shrink-0 mt-1">
                 <div className="bg-green-500 rounded-full p-1">
                   <Check className="h-5 w-5 text-black" />

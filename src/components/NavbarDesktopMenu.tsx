@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Smartphone } from 'lucide-react';
 
@@ -28,8 +27,9 @@ const NavbarDesktopMenu = () => {
         rel="noopener noreferrer"
       >
         <Button 
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition transform hover:scale-105"
-          size="sm"
+          variant="outline"
+          size="lg"
+          className="border-green-700/80 text-white bg-green-700/60 hover:bg-green-500/80 font-semibold w-full sm:w-auto transition-all duration-300 shadow-md shadow-green-500/10 flex items-center gap-2 px-6 py-2 rounded-lg"
         >
           <Smartphone className="mr-2 h-4 w-4" /> WhatsApp
         </Button>
