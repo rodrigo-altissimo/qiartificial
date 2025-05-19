@@ -30,7 +30,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
         background: 'rgba(0, 0, 0, 0.8)',
         zIndex: 9999,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
         padding: 20,
       }}
@@ -48,11 +48,12 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
           padding: 32,
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           margin: 0,
+          marginBottom: 40,
         }}
         onClick={e => e.stopPropagation()}
       >
         <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>{title}</div>
-        <div>{children}</div>
+        <div style={{ color: '#fff', background: 'transparent', fontSize: 16, lineHeight: 1.7, wordBreak: 'break-word', zIndex: 10000 }}>{children}</div>
         <div style={{ marginTop: 24, textAlign: 'right' }}>
           <button
             onClick={onClose}
