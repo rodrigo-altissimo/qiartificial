@@ -27,10 +27,10 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0, 0, 0, 0.6)',
+        background: 'rgba(0, 0, 0, 0.8)',
         zIndex: 9999,
         display: 'flex',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
       }}
@@ -38,8 +38,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
     >
       <div
         style={{
-          background: '#fff',
-          color: '#000',
+          background: '#18181b',
+          color: '#fff',
           borderRadius: 12,
           maxWidth: 700,
           width: '100%',
@@ -47,7 +47,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
           overflowY: 'auto',
           padding: 32,
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-          marginBottom: 32,
+          margin: 0,
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -57,12 +57,13 @@ const CustomModal: React.FC<CustomModalProps> = ({ open, onClose, title, childre
           <button
             onClick={onClose}
             style={{
-              background: '#000',
-              color: '#fff',
+              background: '#22c55e',
+              color: '#18181b',
               border: 'none',
               padding: '10px 20px',
               borderRadius: 8,
               cursor: 'pointer',
+              fontWeight: 600,
             }}
           >
             Fechar
