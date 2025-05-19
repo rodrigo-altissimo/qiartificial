@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logoQiArtificial from '@/assets/logo-qiartificial.png';
 
 const buildTimestamp = new Date().getTime();
 
@@ -40,7 +41,7 @@ const Hero = () => {
           <div className="animate-fade-in space-y-6">
             <div className="flex justify-center items-center mb-6 gap-4">
               <img 
-                src={`/logo-qiartificial.png?v=${buildTimestamp}`} 
+                src={logoQiArtificial}
                 alt="Logo QiArtificial" 
                 className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" 
                 onError={e => { e.currentTarget.style.display = 'none'; }}
