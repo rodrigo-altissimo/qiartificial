@@ -1,8 +1,5 @@
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logoQiArtificial from '@/assets/logo-qiartificial.png';
-
-const buildTimestamp = new Date().getTime();
 
 const Hero = () => {
   return (
@@ -40,12 +37,6 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center mt-16">
           <div className="animate-fade-in space-y-6">
             <div className="flex justify-center items-center mb-6 gap-4">
-              <img 
-                src={logoQiArtificial}
-                alt="Logo QiArtificial" 
-                className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-white p-2 shadow-lg" 
-                onError={e => { e.currentTarget.style.display = 'none'; }}
-              />
               <div className="px-6 py-1 bg-black/50 rounded-full border border-green-500/30 inline-flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                 <span className="text-green-400 font-normal text-base" style={{fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'}}>
