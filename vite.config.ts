@@ -19,8 +19,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -28,17 +27,23 @@ export default defineConfig(({ mode }) => ({
     },
   },
   optimizeDeps: {
-    // Force included packages to ensure they're pre-bundled properly
     include: ['react', 'react-dom', 'react-router-dom'],
   },
   build: {
     assetsInlineLimit: 0,
-    sourcemap: true,
+    sourcemap: false,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+      },
+      mangle: {
+        safari10: true
+      },
+      format: {
+        comments: false
       }
     },
     rollupOptions: {
