@@ -40,10 +40,12 @@ export default defineConfig(({ mode }) => ({
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
       },
       mangle: {
-        safari10: true
+        safari10: true,
+        keep_fnames: true
       },
       format: {
-        comments: false
+        comments: false,
+        beautify: false
       }
     },
     rollupOptions: {
