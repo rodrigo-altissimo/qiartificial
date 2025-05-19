@@ -1,10 +1,9 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import path from "path";
-// Removido componentTagger temporariamente para evitar conflitos no build
 
 export default defineConfig(({ mode }) => ({
-  // Base relativa para funcionar corretamente em produção (Vercel ou GitHub Pages)
+  // Paths relativos em produção (evita 404 em /logo-qiartificial.png, etc)
   base: "./",
 
   server: {
@@ -20,10 +19,9 @@ export default defineConfig(({ mode }) => ({
   },
 
   plugins: [
-    react(),
-    // Desabilite temporariamente o componentTagger em produção para evitar conflitos
-    // mode === "development" && componentTagger(),
-  ].filter(Boolean),
+    // plugin React oficial, sem Fast Refresh em produção
+    react()
+  ],
 
   resolve: {
     alias: {
@@ -36,11 +34,9 @@ export default defineConfig(({ mode }) => ({
   },
 
   build: {
-    // Garante que todos os arquivos estáticos sejam tratados corretamente
     assetsInlineLimit: 0,
     sourcemap: false,
     minify: "terser",
-
     terserOptions: {
       compress: {
         drop_console: true,
@@ -56,7 +52,6 @@ export default defineConfig(({ mode }) => ({
         beautify: false
       }
     },
-
     rollupOptions: {
       output: {
         manualChunks: {
