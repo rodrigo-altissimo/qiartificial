@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 
 export default defineConfig(({ mode }) => ({
   // Paths relativos em produção (evita 404 em /logo-qiartificial.png, etc)
@@ -18,14 +17,11 @@ export default defineConfig(({ mode }) => ({
     }
   },
 
-  plugins: [
-    // plugin React oficial, sem Fast Refresh em produção
-    react()
-  ],
+  plugins: [react()],
 
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src")
+      "@": "/src"
     }
   },
 
@@ -56,7 +52,11 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
-          ui: ["@radix-ui/react-*"]
+          ui: [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-popover",
+            // ...outros que você usa
+          ]
         },
         chunkFileNames: "assets/[name].[hash].js",
         entryFileNames: "assets/[name].[hash].js",
