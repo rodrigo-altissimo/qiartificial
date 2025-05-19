@@ -1,43 +1,51 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
+// Removido componentTagger temporariamente para evitar conflitos no build
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/',
+  // Base relativa para funcionar corretamente em produção (Vercel ou GitHub Pages)
+  base: "./",
+
   server: {
     host: "::",
     port: 8080,
     strictPort: true,
     open: true,
-    headers: { 'Cache-Control': 'no-store' },
+    headers: { "Cache-Control": "no-store" },
     watch: { usePolling: true, interval: 100 },
     proxy: {
-      '/api': 'http://localhost:3001'
+      "/api": "http://localhost:3001"
     }
   },
+
   plugins: [
     react(),
-    mode === 'development' && componentTagger(),
+    // Desabilite temporariamente o componentTagger em produção para evitar conflitos
+    // mode === "development" && componentTagger(),
   ].filter(Boolean),
+
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+      "@": path.resolve(__dirname, "./src")
+    }
   },
+
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ["react", "react-dom", "react-router-dom"]
   },
+
   build: {
+    // Garante que todos os arquivos estáticos sejam tratados corretamente
     assetsInlineLimit: 0,
     sourcemap: false,
-    minify: 'terser',
+    minify: "terser",
+
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+        pure_funcs: ["console.log", "console.info", "console.debug", "console.warn"]
       },
       mangle: {
         safari10: true,
@@ -48,21 +56,17 @@ export default defineConfig(({ mode }) => ({
         beautify: false
       }
     },
+
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@radix-ui/react-*'],
+          vendor: ["react", "react-dom", "react-router-dom"],
+          ui: ["@radix-ui/react-*"]
         },
-        chunkFileNames: 'assets/[name].[hash].js',
-        entryFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash].[ext]'
+        chunkFileNames: "assets/[name].[hash].js",
+        entryFileNames: "assets/[name].[hash].js",
+        assetFileNames: "assets/[name].[hash].[ext]"
       }
     }
-  },
-  // Add configuration to handle HTML proxy files with multiple query parameters
-  assetsInclude: [
-    '**/*.js&v=*',
-    '**/*.html?html-proxy&index=0.js*'
-  ]
+  }
 }));

@@ -177,9 +177,6 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.16(tailwindcss@3.4.17)
-      '@types/node':
-        specifier: ^22.15.18
-        version: 22.15.19
       '@types/react':
         specifier: ^18.3.21
         version: 18.3.21
@@ -188,7 +185,7 @@ importers:
         version: 18.3.7(@types/react@18.3.21)
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
-        version: 3.9.0(vite@5.4.19(@types/node@22.15.19))
+        version: 3.9.0(vite@5.4.19(@types/node@18.19.0))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.3)
@@ -209,7 +206,7 @@ importers:
         version: 15.15.0
       lovable-tagger:
         specifier: ^1.1.7
-        version: 1.1.8(vite@5.4.19(@types/node@22.15.19))
+        version: 1.1.8(vite@5.4.19(@types/node@18.19.0))
       postcss:
         specifier: ^8.4.47
         version: 8.5.3
@@ -224,7 +221,7 @@ importers:
         version: 8.32.0(eslint@9.26.0(jiti@1.21.7))(typescript@5.8.3)
       vite:
         specifier: ^5.4.1
-        version: 5.4.19(@types/node@22.15.19)
+        version: 5.4.19(@types/node@18.19.0)
 
 packages:
 
@@ -1523,8 +1520,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@22.15.19':
-    resolution: {integrity: sha512-3vMNr4TzNQyjHcRZadojpRaD9Ofr6LsonZAoQ+HMUa/9ORTPoxVIw0e0mpqWpdjj8xybyCM+oKOUH2vwFu/oEw==}
+  '@types/node@18.19.0':
+    resolution: {integrity: sha512-667KNhaD7U29mT5wf+TZUnrzPrlL2GNQ5N0BMjO2oNULhBxX0/FKCkm6JMu0Jh7Z+1LwUlR21ekd7KhIboNFNw==}
 
   '@types/prop-types@15.7.14':
     resolution: {integrity: sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==}
@@ -2826,8 +2823,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
   unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
@@ -4096,9 +4093,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@22.15.19':
+  '@types/node@18.19.0':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 5.26.5
+    optional: true
 
   '@types/prop-types@15.7.14': {}
 
@@ -4188,10 +4186,10 @@ snapshots:
       '@typescript-eslint/types': 8.32.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitejs/plugin-react-swc@3.9.0(vite@5.4.19(@types/node@22.15.19))':
+  '@vitejs/plugin-react-swc@3.9.0(vite@5.4.19(@types/node@18.19.0))':
     dependencies:
       '@swc/core': 1.11.24
-      vite: 5.4.19(@types/node@22.15.19)
+      vite: 5.4.19(@types/node@18.19.0)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -4925,7 +4923,7 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lovable-tagger@1.1.8(vite@5.4.19(@types/node@22.15.19)):
+  lovable-tagger@1.1.8(vite@5.4.19(@types/node@18.19.0)):
     dependencies:
       '@babel/parser': 7.27.2
       '@babel/types': 7.27.1
@@ -4933,7 +4931,7 @@ snapshots:
       estree-walker: 3.0.3
       magic-string: 0.30.17
       tailwindcss: 3.4.17
-      vite: 5.4.19(@types/node@22.15.19)
+      vite: 5.4.19(@types/node@18.19.0)
     transitivePeerDependencies:
       - ts-node
 
@@ -5503,7 +5501,8 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  undici-types@6.21.0: {}
+  undici-types@5.26.5:
+    optional: true
 
   unpipe@1.0.0: {}
 
@@ -5566,13 +5565,13 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  vite@5.4.19(@types/node@22.15.19):
+  vite@5.4.19(@types/node@18.19.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
       rollup: 4.40.2
     optionalDependencies:
-      '@types/node': 22.15.19
+      '@types/node': 18.19.0
       fsevents: 2.3.3
 
   which@2.0.2:
