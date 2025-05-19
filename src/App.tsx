@@ -17,31 +17,37 @@ import Navbar from "./components/Navbar";
 const buildTimestamp = new Date().getTime();
 
 const App = () => {
-  // Adiciona hot-reload em desenvolvimento
-  useHotReload();
+  // Hot reload apenas em desenvolvimento
+  if (import.meta.env.DEV) {
+    useHotReload();
+  }
 
   useEffect(() => {
-    // Set a body class to force style recalculation
-    document.body.className = `app-loaded`;
-    document.body.setAttribute('data-timestamp', buildTimestamp.toString());
-    // Force reload images without adding params to imports
-    setTimeout(() => {
-      document.querySelectorAll('img').forEach(img => {
-        // Só faz reload em imagens locais (não URLs remotas)
-        if (
-          img.src &&
-          !img.src.includes('data:') &&
-          (img.src.startsWith(window.location.origin) || img.src.startsWith('/'))
-        ) {
-          const currentSrc = img.src;
-          img.src = '';
-          setTimeout(() => {
-            const separator = currentSrc.includes('?') ? '&' : '?';
-            img.src = `${currentSrc}${separator}t=${buildTimestamp}`;
-          }, 10);
-        }
-      });
-    }, 100);
+    try {
+      document.body.className = `app-loaded`;
+      document.body.setAttribute('data-timestamp', buildTimestamp.toString());
+      
+      // Force reload images without adding params to imports
+      setTimeout(() => {
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+          if (
+            img?.src &&
+            !img.src.includes('data:') &&
+            (img.src.startsWith(window.location.origin) || img.src.startsWith('/'))
+          ) {
+            const currentSrc = img.src;
+            img.src = '';
+            setTimeout(() => {
+              const separator = currentSrc.includes('?') ? '&' : '?';
+              img.src = `${currentSrc}${separator}t=${buildTimestamp}`;
+            }, 10);
+          }
+        });
+      }, 100);
+    } catch (error) {
+      console.error('Error in App useEffect:', error);
+    }
   }, []);
 
   return (
