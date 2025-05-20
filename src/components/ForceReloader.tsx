@@ -39,16 +39,24 @@ const ForceReloader = () => {
             }
           });
           
-          // Força recarregamento de todas as imagens sem usar parâmetros de URL nas importações
+          // Corrigido: ignora imagens de favicon e logo inexistente
           document.querySelectorAll('img').forEach(img => {
             const src = img.getAttribute('src');
-            if (src && !src.startsWith('data:')) {
+            if (
+              src &&
+              !src.startsWith('data:') &&
+              !src.includes('logo-qiartificial.png') &&
+              !src.includes('favicon.ico')
+            ) {
               // Use separate query parameter for images since they're not imported as JS
               const separator = src.includes('?') ? '&' : '?';
               const newSrc = `${src}${separator}t=${timestamp}`;
-              const newImg = new Image();
+              const newImg = new window.Image();
               newImg.onload = () => {
                 img.src = newSrc;
+              };
+              newImg.onerror = () => {
+                // Se a imagem não existe, não faz nada
               };
               newImg.src = newSrc;
             }

@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => ({
-  // Paths relativos em produção (evita 404 em /logo-qiartificial.png, etc)
+  // Paths relativos em produção
   base: "./",
 
   server: {
