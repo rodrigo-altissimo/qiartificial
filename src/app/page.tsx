@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <>
@@ -105,7 +103,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Work / Portfolio Section — Unsplash Images */}
+      {/* Work / Portfolio Section — Abstract Gradients */}
       <section id="work" className="section-light py-24 px-6">
         <div className="max-w-[980px] mx-auto">
           <h2
@@ -121,22 +119,26 @@ export default function Home() {
             <WorkCard
               title="Fintech Rebrand"
               category="Identidade Visual"
-              image="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format"
+              gradient="radial-gradient(ellipse at 30% 20%, rgba(0,113,227,0.6) 0%, rgba(41,151,255,0.3) 40%, rgba(0,0,0,0.9) 100%)"
+              accent="conic-gradient(from 180deg at 50% 70%, rgba(41,151,255,0.4), transparent 60%)"
             />
             <WorkCard
               title="SaaS Design System"
               category="Design System"
-              image="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=800&q=80&auto=format"
+              gradient="radial-gradient(ellipse at 70% 80%, rgba(41,151,255,0.5) 0%, rgba(0,113,227,0.2) 50%, rgba(29,29,31,0.95) 100%)"
+              accent="radial-gradient(circle at 20% 30%, rgba(245,245,247,0.08) 0%, transparent 50%)"
             />
             <WorkCard
               title="E-commerce Redesign"
               category="Interface Digital"
-              image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format"
+              gradient="linear-gradient(135deg, rgba(29,29,31,0.98) 0%, rgba(0,113,227,0.4) 50%, rgba(41,151,255,0.6) 100%)"
+              accent="radial-gradient(circle at 80% 20%, rgba(245,245,247,0.1) 0%, transparent 40%)"
             />
             <WorkCard
               title="Health App"
               category="UI/UX Mobile"
-              image="https://images.unsplash.com/photo-1576153192396-180ecef2a715?w=800&q=80&auto=format"
+              gradient="radial-gradient(ellipse at 50% 50%, rgba(0,113,227,0.5) 0%, rgba(29,29,31,0.9) 70%)"
+              accent="conic-gradient(from 90deg at 30% 60%, rgba(41,151,255,0.3), rgba(0,113,227,0.1), transparent 50%)"
             />
           </div>
         </div>
@@ -147,13 +149,23 @@ export default function Home() {
         <div className="max-w-[980px] mx-auto flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-1/2">
             <div className="relative rounded-2xl overflow-hidden aspect-square">
-              <Image
-                src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&q=80&auto=format"
-                alt="Estúdio de design"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                unoptimized
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "radial-gradient(ellipse at 40% 40%, rgba(0,113,227,0.5) 0%, rgba(41,151,255,0.2) 40%, rgba(29,29,31,0.95) 100%)",
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "conic-gradient(from 220deg at 60% 70%, rgba(41,151,255,0.3), rgba(0,113,227,0.15), transparent 40%)",
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-30"
+                style={{
+                  background: "radial-gradient(circle at 80% 20%, rgba(245,245,247,0.15) 0%, transparent 30%)",
+                }}
               />
             </div>
           </div>
@@ -254,23 +266,31 @@ function ServiceCard({
 function WorkCard({
   title,
   category,
-  image,
+  gradient,
+  accent,
 }: {
   title: string;
   category: string;
-  image: string;
+  gradient: string;
+  accent: string;
 }) {
   return (
-    <div className="work-card rounded-2xl aspect-[4/3] relative">
-      <Image
-        src={image}
-        alt={title}
-        fill
-        className="object-cover rounded-2xl"
-        sizes="(max-width: 768px) 100vw, 50vw"
-        unoptimized
+    <div className="work-card rounded-2xl aspect-[4/3] relative overflow-hidden">
+      <div
+        className="absolute inset-0"
+        style={{ background: gradient }}
       />
-      <div className="work-card-overlay absolute inset-0 rounded-2xl" />
+      <div
+        className="absolute inset-0"
+        style={{ background: accent }}
+      />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
       <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
         <p className="text-xs text-white/60 uppercase tracking-wider mb-2">
           {category}
