@@ -14,8 +14,12 @@ node_modules
 # Build & Logs (AIOX)
 dist/
 build/
+.next/
 *.log
 logs/
+
+# Design-md outputs
+outputs/
 
 # IDE & OS (AIOX)
 .DS_Store
