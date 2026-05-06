@@ -1,0 +1,266 @@
+pack:
+  name: software-engineering
+  title: "Elite Software Engineering Squad"
+  version: "1.1.0"
+  author: "Squad Creator"
+  description: "Elite software engineering squad cloned from the greatest documented minds in software development. Quality benchmark: Hormozi Squad."
+  icon: "⚙️"
+  slash_prefix: "dev"
+  entry_agent: eng-chief
+
+metadata:
+  version: "1.1.0"
+  score: 10.0
+  created: 2026-02-19
+  source_mind: software_engineering_masters
+  fidelity_target: 0.90
+  total_source_files: 50
+  total_source_size_mb: 50
+  mmos_artifacts: 20
+  mental_models: 10
+
+# MMOS Integration
+mmos_integration:
+  enabled: true
+  log_source: true
+  fallback_behavior: "graceful"
+  mind_mapping:
+    eng-chief: synthesis
+    eng-architect: neal_ford
+    eng-clean-code: john_ousterhout
+    eng-agile: kent_beck
+    eng-devops: gene_kim
+    eng-distributed: martin_kleppmann
+    eng-ddd: eric_evans
+    eng-security: tanya_janca
+    eng-api: roy_fielding
+    eng-perf: brendan_gregg
+    eng-refactor: martin_fowler
+    eng-data: joe_reis
+    eng-audit: betsy_beyer
+    eng-tdd: kent_beck_fowler
+
+agents:
+  - id: eng-chief
+    name: "Eng Chief"
+    role: "Orchestrator — routing, diagnosis, coordination"
+    tier: 0
+    primary_sources:
+      - data/minds/eng-chief-dna.yaml
+      - docs/runbook-index.md
+
+  - id: eng-architect
+    name: "Eng Architect"
+    role: "Evolutionary Architecture"
+    tier: 1
+    primary_sources:
+      - data/minds/eng-architect-dna.yaml
+      - docs/minds-enrichment/eng-architect-enrichment.md
+
+  - id: eng-clean-code
+    name: "Eng Clean Code"
+    role: "Software Design & Complexity Reduction"
+    tier: 1
+    primary_sources:
+      - data/minds/eng-clean-code-dna.yaml
+
+  - id: eng-agile
+    name: "Eng Agile"
+    role: "TDD, XP, Iterative Development"
+    tier: 1
+    primary_sources:
+      - data/minds/eng-agile-dna.yaml
+
+  - id: eng-devops
+    name: "Eng DevOps"
+    role: "DevOps, CI/CD, Flow"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-devops-dna.yaml
+
+  - id: eng-distributed
+    name: "Eng Distributed"
+    role: "Distributed Systems & Data-Intensive Apps"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-distributed-dna.yaml
+
+  - id: eng-ddd
+    name: "Eng DDD"
+    role: "Domain-Driven Design"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-ddd-dna.yaml
+      - docs/minds-enrichment/eng-ddd-enrichment.md
+
+  - id: eng-security
+    name: "Eng Security"
+    role: "Application Security & Secure Coding"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-security-dna.yaml
+
+  - id: eng-api
+    name: "Eng API"
+    role: "API Design & Microservices"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-api-dna.yaml
+
+  - id: eng-perf
+    name: "Eng Perf"
+    role: "Performance Engineering & SRE"
+    tier: 2
+    primary_sources:
+      - data/minds/eng-perf-dna.yaml
+      - docs/minds-enrichment/eng-perf-enrichment.md
+
+  - id: eng-refactor
+    name: "Eng Refactor"
+    role: "Refactoring & Technical Debt"
+    tier: 3
+    primary_sources:
+      - data/minds/eng-refactor-dna.yaml
+
+  - id: eng-data
+    name: "Eng Data"
+    role: "Data Engineering & Modern Data Stack"
+    tier: 3
+    primary_sources:
+      - data/minds/eng-data-dna.yaml
+      - docs/minds-enrichment/eng-data-enrichment.md
+
+  - id: eng-audit
+    name: "Eng Audit"
+    role: "Site Reliability & System Auditability"
+    tier: 3
+    primary_sources:
+      - data/minds/eng-audit-dna.yaml
+      - docs/minds-enrichment/eng-audit-enrichment.md
+
+  - id: eng-tdd
+    name: "Eng TDD"
+    role: "Test-Driven Development & Quality Assurance"
+    tier: 1
+    primary_sources:
+      - data/minds/eng-tdd-dna.yaml
+
+# Mental Models
+mental_models:
+  - id: MM_001
+    name: "DORA Metrics"
+    insight: "Measure software delivery performance (Deployment Frequency, Lead Time, MTTR, Change Failure Rate)"
+    type: domain
+  - id: MM_002
+    name: "CAP Theorem"
+    insight: "Pick two: Consistency, Availability, Partition Tolerance"
+    type: technical
+  - id: MM_003
+    name: "Complexity Equation"
+    insight: "Complexity is caused by unmanaged dependencies and obscurity in code"
+    type: technical
+  - id: MM_004
+    name: "Red-Green-Refactor"
+    insight: "Write failing test, make it pass, clean up the code"
+    type: methodology
+  - id: MM_005
+    name: "Deep vs Shallow Modules"
+    insight: "Best modules have simple interfaces and deep implementations"
+    type: architecture
+  - id: MM_006
+    name: "The Three Ways"
+    insight: "Flow, Feedback, Continual Learning"
+    type: methodology
+  - id: MM_007
+    name: "Code Smell Taxonomy"
+    insight: "Identify deeper design problems by recognizing surface-level patterns"
+    type: technical
+  - id: MM_008
+    name: "Fitness Functions"
+    insight: "Automated checks to preserve architectural characteristics"
+    type: architecture
+  - id: MM_009
+    name: "Data Lifecycle"
+    insight: "Generation, Storage, Ingestion, Transformation, Serving"
+    type: domain
+  - id: MM_010
+    name: "Seams & Dependencies"
+    insight: "Find seams to break heavy dependencies and introduce testability"
+    type: technical
+
+workflows:
+  - id: wf-system-design
+    name: "System Design & Architecture"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-architect, eng-distributed, eng-data]
+  - id: wf-code-review
+    name: "Code Review & Quality Gate"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-clean-code, eng-security]
+  - id: wf-security-review
+    name: "Security Audit"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-security]
+  - id: wf-performance-audit
+    name: "Performance Audit"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-perf, eng-audit]
+  - id: wf-incident-response
+    name: "Incident Response"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-devops, eng-audit]
+  - id: wf-test-strategy
+    name: "Testing Strategy Generation"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-agile, eng-tdd]
+  - id: wf-api-design
+    name: "API Design"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-api, eng-security]
+  - id: wf-database-migration
+    name: "Database Migration"
+    version: "1.0.0"
+    agents_involved: [eng-chief, eng-data, eng-devops]
+
+shared_data:
+  quality_thresholds: data/quality-thresholds.yaml
+  decision_matrix: data/decision-matrix.yaml
+  slo_templates: data/slo-templates.yaml
+  tech_radar: data/tech-radar-template.yaml
+
+veto_conditions:
+  enforcement: strict
+  handoff_template: templates/handoff-context-tmpl.yaml
+  mandatory_checklists:
+    security: checklists/security-review.md
+    architecture: checklists/architecture-quality.md
+    clean_code: checklists/clean-code-review.md
+    performance: checklists/performance-review.md
+
+validation_scripts:
+  architecture_validator:
+    path: scripts/validate-architecture-review.py
+    usage: "python squads/software-engineering/scripts/validate-architecture-review.py"
+    trigger: "Before finalizing system design"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+  code_validator:
+    path: scripts/validate-code-review.py
+    usage: "python squads/software-engineering/scripts/validate-code-review.py"
+    trigger: "Before merging code PRs"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+  handoff_validator:
+    path: scripts/validate-handoff.py
+    usage: "python squads/software-engineering/scripts/validate-handoff.py"
+    trigger: "Before specialist handoff"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+  test_strategy_validator:
+    path: scripts/validate-test-strategy.py
+    usage: "python squads/software-engineering/scripts/validate-test-strategy.py"
+    trigger: "Before executing test cycles"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+dependencies:
+  - aios-core

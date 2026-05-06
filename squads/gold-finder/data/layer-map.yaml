@@ -1,0 +1,147 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# LAYER MAP — Gold Finder Squad
+# Tech Abstraction Layer Hierarchy for Layer-Descent Mining
+# ═══════════════════════════════════════════════════════════════════════════════
+
+id: layer-map
+version: "1.0.0"
+squad: gold-finder
+
+description: >
+  Defines the abstraction layers from highest (SaaS/No-Code) to lowest
+  (Protocol/Standard). The layer-miner agent descends through these layers
+  to find solutions that users typically overlook because they search only
+  at their comfort layer.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ABSTRACTION LAYERS (Top → Bottom)
+# ─────────────────────────────────────────────────────────────────────────────
+layers:
+  - level: 0
+    id: saas
+    name: "SaaS / No-Code"
+    description: "Fully managed services with GUI interfaces"
+    examples:
+      - "Notion, Airtable, Zapier, Webflow"
+      - "Canva, Figma, Shopify, Mailchimp"
+    typical_user: "Non-technical users, small teams"
+    cost_profile: "Monthly subscription; scales with seats/usage"
+    discovery_bias: "HIGH — most people search here first"
+    search_patterns:
+      - "best {category} tool"
+      - "{problem} software"
+      - "{category} platform"
+    hidden_gems_likelihood: "LOW — heavily marketed, well-known"
+
+  - level: 1
+    id: low_code
+    name: "Low-Code / Managed Platform"
+    description: "Platforms with visual builders plus code extensibility"
+    examples:
+      - "Retool, Supabase, Firebase, Vercel"
+      - "Bubble, Appsmith, n8n, Directus"
+    typical_user: "Technical users wanting speed; small dev teams"
+    cost_profile: "Freemium; scales with compute/storage"
+    discovery_bias: "MEDIUM — known in dev communities"
+    search_patterns:
+      - "open source {category} platform"
+      - "self-hosted {category}"
+      - "{problem} low-code"
+    hidden_gems_likelihood: "MEDIUM — some underrated options"
+
+  - level: 2
+    id: framework
+    name: "Framework / Library"
+    description: "Code-level solutions that provide structure and abstractions"
+    examples:
+      - "Next.js, Django, Rails, Laravel"
+      - "Prisma, tRPC, Tailwind, Drizzle"
+    typical_user: "Developers, engineering teams"
+    cost_profile: "Free (open source); cost = development time"
+    discovery_bias: "MEDIUM — well-covered in tech media"
+    search_patterns:
+      - "{language} {category} library"
+      - "best {category} framework {year}"
+      - "{problem} npm/pip/crate package"
+    hidden_gems_likelihood: "MEDIUM-HIGH — many niche libraries overlooked"
+
+  - level: 3
+    id: runtime
+    name: "Runtime / Engine"
+    description: "Execution environments and processing engines"
+    examples:
+      - "Deno, Bun, Wasm, V8, LLVM"
+      - "SQLite, DuckDB, ClickHouse, Meilisearch"
+    typical_user: "Senior developers, system architects"
+    cost_profile: "Free; cost = expertise and integration time"
+    discovery_bias: "LOW — requires deeper technical knowledge"
+    search_patterns:
+      - "embedded {category} engine"
+      - "lightweight {category} runtime"
+      - "{category} without {mainstream dependency}"
+    hidden_gems_likelihood: "HIGH — many underappreciated runtimes"
+
+  - level: 4
+    id: protocol
+    name: "Protocol / Standard / Specification"
+    description: "Foundational standards and protocols that tools build upon"
+    examples:
+      - "WebRTC, ActivityPub, WebAuthn, CRDT"
+      - "SQLite format, Parquet, Arrow, WASI"
+      - "LSP, DAP, OpenAPI, JSON Schema"
+    typical_user: "Architects, protocol implementers"
+    cost_profile: "Free; cost = deep implementation effort"
+    discovery_bias: "VERY LOW — most users don't think at this level"
+    search_patterns:
+      - "{category} protocol"
+      - "{category} specification"
+      - "open standard for {problem}"
+      - "{problem} without vendor lock-in"
+    hidden_gems_likelihood: "VERY HIGH — paradigm-shifting solutions live here"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DESCENT STRATEGY
+# ─────────────────────────────────────────────────────────────────────────────
+descent_strategy:
+  description: >
+    The layer-miner starts at the user's current layer (usually SaaS/Low-Code)
+    and descends to find solutions at deeper layers. Each descent reveals
+    solutions with higher non-obviousness but potentially higher implementation
+    effort.
+
+  rules:
+    - "Always identify user's current layer first"
+    - "Descend at least 2 layers below user's comfort zone"
+    - "At each layer, search for solutions to EACH atomic function"
+    - "Document the trade-off: convenience lost vs capability gained"
+    - "Flag when a lower-layer solution makes an upper-layer tool unnecessary"
+
+  layer_crossing_questions:
+    saas_to_lowcode: "Could a self-hosted/open-source alternative eliminate this subscription?"
+    lowcode_to_framework: "Could a library give you this feature without platform lock-in?"
+    framework_to_runtime: "Could a specialized engine do this 10x faster/cheaper?"
+    runtime_to_protocol: "Is there a standard that would make this solution portable and future-proof?"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# COMMON LAYER TRAPS
+# ─────────────────────────────────────────────────────────────────────────────
+layer_traps:
+  - trap: "SaaS Lock-in"
+    description: "Paying monthly for what a $5/mo VPS could do with open-source"
+    detection: "Monthly cost > $50 for a single function"
+    remedy: "Check layers 2-3 for self-hosted alternatives"
+
+  - trap: "Framework Overhead"
+    description: "Using a full framework when a lightweight library would suffice"
+    detection: "Bundle size or dependencies seem excessive for the use case"
+    remedy: "Check layer 3 for specialized runtimes or engines"
+
+  - trap: "NIH Syndrome"
+    description: "Building custom when a protocol/standard already exists"
+    detection: "Custom implementation of something that has an RFC or W3C spec"
+    remedy: "Check layer 4 for existing standards"
+
+  - trap: "Premature Abstraction"
+    description: "Jumping to protocol level when a SaaS tool solves it fine"
+    detection: "Implementation effort >> value gained for the use case"
+    remedy: "Validate that lower-layer complexity is justified"

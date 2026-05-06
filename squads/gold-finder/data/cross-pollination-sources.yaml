@@ -1,0 +1,237 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# CROSS-POLLINATION SOURCES — Gold Finder Squad
+# Industry Categories and Search Patterns for Cross-Industry Discovery
+# ═══════════════════════════════════════════════════════════════════════════════
+
+id: cross-pollination-sources
+version: "1.0.0"
+squad: gold-finder
+
+description: >
+  Defines industry categories, analogous problem domains, and web search
+  patterns that the cross-pollinator agent uses to find solutions from
+  unexpected industries. The key insight: the same functional problem
+  is often solved in a completely different industry with a different name.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INDUSTRY CATEGORIES
+# ─────────────────────────────────────────────────────────────────────────────
+industries:
+  - id: fintech
+    name: "FinTech / Finance"
+    analogous_functions:
+      - "transaction processing → event streaming"
+      - "fraud detection → anomaly detection"
+      - "ledger management → audit trail"
+      - "compliance automation → rule engines"
+    search_patterns:
+      - "fintech open source {function}"
+      - "banking API for {function}"
+      - "financial {function} tool"
+
+  - id: gamedev
+    name: "Game Development"
+    analogous_functions:
+      - "real-time sync → state synchronization"
+      - "asset pipeline → media processing"
+      - "physics engine → simulation"
+      - "lobby/matchmaking → task scheduling"
+      - "level editor → visual builder"
+    search_patterns:
+      - "game engine {function}"
+      - "gamedev {function} library"
+      - "real-time {function} game technology"
+
+  - id: devops
+    name: "DevOps / Infrastructure"
+    analogous_functions:
+      - "deployment pipeline → workflow automation"
+      - "monitoring/alerting → observability"
+      - "container orchestration → process management"
+      - "config management → state management"
+    search_patterns:
+      - "devops {function} tool"
+      - "infrastructure as code {function}"
+      - "cloud native {function}"
+
+  - id: biotech
+    name: "BioTech / Scientific Computing"
+    analogous_functions:
+      - "sequence alignment → pattern matching"
+      - "data pipeline → ETL processing"
+      - "lab notebook → documentation system"
+      - "experiment tracking → A/B testing"
+    search_patterns:
+      - "scientific computing {function}"
+      - "bioinformatics {function} tool"
+      - "research {function} open source"
+
+  - id: media
+    name: "Media / Broadcasting"
+    analogous_functions:
+      - "video transcoding → format conversion"
+      - "content delivery → distribution"
+      - "scheduling/playout → task scheduling"
+      - "rights management → access control"
+    search_patterns:
+      - "media {function} tool"
+      - "broadcasting {function} open source"
+      - "video {function} pipeline"
+
+  - id: logistics
+    name: "Logistics / Supply Chain"
+    analogous_functions:
+      - "route optimization → graph algorithms"
+      - "inventory management → resource tracking"
+      - "shipment tracking → event sourcing"
+      - "demand forecasting → predictive analytics"
+    search_patterns:
+      - "logistics {function} software"
+      - "supply chain {function} open source"
+
+  - id: iot
+    name: "IoT / Embedded Systems"
+    analogous_functions:
+      - "sensor data collection → telemetry"
+      - "edge processing → local-first computing"
+      - "device management → fleet management"
+      - "firmware updates → deployment/updates"
+      - "low-power operation → resource optimization"
+    search_patterns:
+      - "IoT {function} platform"
+      - "embedded {function} library"
+      - "edge computing {function}"
+
+  - id: security
+    name: "Security / Cryptography"
+    analogous_functions:
+      - "access control → authorization"
+      - "encryption → data protection"
+      - "audit logging → compliance trail"
+      - "vulnerability scanning → quality assurance"
+    search_patterns:
+      - "security {function} open source"
+      - "zero-trust {function}"
+      - "cryptographic {function} library"
+
+  - id: education
+    name: "EdTech / Education"
+    analogous_functions:
+      - "course management → content organization"
+      - "progress tracking → analytics"
+      - "quiz/assessment → validation"
+      - "collaborative editing → real-time collaboration"
+    search_patterns:
+      - "edtech {function} platform"
+      - "learning management {function}"
+
+  - id: healthcare
+    name: "HealthTech / Healthcare"
+    analogous_functions:
+      - "patient records → data management"
+      - "appointment scheduling → booking system"
+      - "diagnostic tools → analysis engine"
+      - "compliance (HIPAA) → data governance"
+    search_patterns:
+      - "healthtech {function} tool"
+      - "HIPAA compliant {function}"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CROSS-POLLINATION SEARCH STRATEGY
+# ─────────────────────────────────────────────────────────────────────────────
+search_strategy:
+  description: >
+    For each atomic function identified by problem-reframer, the cross-pollinator
+    maps it to analogous functions across industries and searches for solutions
+    that solve the SAME underlying problem with a different name.
+
+  steps:
+    - step: 1
+      action: "Take each atomic function from the reframing output"
+      example: "Atomic function: 'real-time collaborative editing'"
+
+    - step: 2
+      action: "Map to analogous functions across industries"
+      example: >
+        gamedev: 'state synchronization'
+        iot: 'telemetry aggregation'
+        media: 'live production collaboration'
+
+    - step: 3
+      action: "Generate search queries using industry-specific patterns"
+      example: >
+        "game engine state synchronization library"
+        "IoT telemetry real-time collaboration"
+        "media production collaboration tool"
+
+    - step: 4
+      action: "Execute WebSearch for each query, collect results"
+
+    - step: 5
+      action: "WebFetch top results for detailed evaluation"
+
+    - step: 6
+      action: "Filter for transferability — can this solution work outside its native industry?"
+
+  web_search_tips:
+    - "Use atomic function names, NOT the user's original problem phrasing"
+    - "Include 'open source' or 'self-hosted' to find non-commercial options"
+    - "Add year (e.g., '2025') to filter for current solutions"
+    - "Search GitHub directly for libraries: 'site:github.com {function}'"
+    - "Search HackerNews for discussions: 'site:news.ycombinator.com {function}'"
+    - "Check AlternativeTo for lesser-known alternatives"
+    - "Search ProductHunt for recent launches in the category"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HIGH-VALUE DISCOVERY SOURCES
+# ─────────────────────────────────────────────────────────────────────────────
+discovery_sources:
+  communities:
+    - name: "Hacker News"
+      url: "https://news.ycombinator.com"
+      value: "Early-stage tools, technical discussions, contrarian opinions"
+      search: "site:news.ycombinator.com"
+
+    - name: "Lobsters"
+      url: "https://lobste.rs"
+      value: "Curated technical content, niche tools"
+      search: "site:lobste.rs"
+
+    - name: "r/selfhosted"
+      url: "https://reddit.com/r/selfhosted"
+      value: "Self-hosted alternatives to commercial SaaS"
+      search: "site:reddit.com/r/selfhosted"
+
+    - name: "r/opensource"
+      url: "https://reddit.com/r/opensource"
+      value: "Open-source alternatives and discoveries"
+      search: "site:reddit.com/r/opensource"
+
+  directories:
+    - name: "AlternativeTo"
+      url: "https://alternativeto.net"
+      value: "Crowdsourced software alternatives with filters"
+
+    - name: "Open Source Alternatives"
+      url: "https://openalternative.co"
+      value: "Curated open-source alternatives to popular SaaS"
+
+    - name: "Awesome Lists (GitHub)"
+      value: "Community-curated lists of tools by category"
+      search: "github awesome-{category}"
+
+    - name: "ProductHunt"
+      url: "https://producthunt.com"
+      value: "Newly launched tools, often indie/bootstrapped"
+
+  technical:
+    - name: "GitHub Trending"
+      url: "https://github.com/trending"
+      value: "Rising open-source projects"
+
+    - name: "GitHub Topics"
+      value: "Categorized repositories by topic"
+      search: "github.com/topics/{category}"
+
+    - name: "npm/PyPI/crates.io"
+      value: "Package registries for language-specific libraries"

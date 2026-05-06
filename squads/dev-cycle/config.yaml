@@ -1,0 +1,171 @@
+squad:
+  name: dev-cycle
+  version: 2.1.0
+  short-title: Dev Cycle Squad
+  description: >-
+    Squad operacional dedicado ao ciclo de desenvolvimento — desde a resolução
+    do entry point (PRD/Epic/Stories/Demand) até a consolidação dos resultados.
+    Executor que outros squads delegam quando precisam de desenvolvimento de código.
+    Aceita demandas livres (brownfield ad-hoc) com triage inteligente que analisa,
+    classifica e cria artefatos antes de executar o pipeline.
+    Tasks prescritivas com veto conditions forçam obediência ao pipeline.
+  author: Diego Sottani
+  icon: "DC"
+  entry_agent: cycle-chief
+  slashPrefix: devCycle
+  tested: false
+
+workspace_integration:
+  level: none
+  rationale: "Squad operacional que lê artefatos do projeto alvo, não do workspace AIOX"
+  read_paths: []
+  write_paths: []
+  template_namespace: null
+
+# Pattern Library (DC-xxx)
+pattern_library:
+  prefix: DC
+  naming_convention:
+    format: "{PREFIX}-{CATEGORY}-{NUMBER}"
+    example: "DC-TP-001"
+  categories:
+    - id: TP
+      name: "Task Patterns"
+      description: "Patterns for dev cycle task execution"
+    - id: EP
+      name: "Executor Patterns"
+      description: "Patterns for executor types and selection"
+    - id: PP
+      name: "Process Patterns"
+      description: "Patterns for pipeline process flow"
+    - id: IP
+      name: "Integration Patterns"
+      description: "Patterns for squad-to-squad integration"
+    - id: AP
+      name: "Automation Patterns"
+      description: "Patterns for wave execution automation"
+  patterns: []
+
+# Task Standards (DC-TP-001)
+task_standards:
+  enforce_anatomy: true
+  validator: "DC-TP-001"
+  required_fields:
+    - task_name
+    - status
+    - responsible_executor
+    - execution_type
+    - input
+    - output
+    - action_items
+    - acceptance_criteria
+  optional_fields:
+    - estimated_time
+    - dependencies
+    - templates
+    - quality_gate
+    - handoff
+
+# Executor Types
+executor_types:
+  agent:
+    id: "DC-EP-002"
+    name: "Agent Executor (AI)"
+    characteristics:
+      - orchestration
+      - code_generation
+      - pattern_recognition
+    cost: "$$$$"
+    speed: fast
+    use_for:
+      - "Story implementation"
+      - "Stack research"
+      - "Code generation"
+  hybrid:
+    id: "DC-EP-003"
+    name: "Hybrid Executor"
+    characteristics:
+      - ai_assisted
+      - human_validated
+    cost: "$$"
+    speed: moderate
+    use_for:
+      - "Quality gate validation"
+      - "QA review"
+  worker:
+    id: "DC-EP-004"
+    name: "Worker Executor"
+    characteristics:
+      - deterministic
+      - file_operations
+    cost: "$"
+    speed: very_fast
+    use_for:
+      - "Entry point detection"
+      - "Report consolidation"
+
+executor_selection:
+  requires_orchestration: agent
+  requires_code: agent
+  requires_validation: hybrid
+  requires_consistency: worker
+
+# Execution Mode
+execution_mode:
+  default: yolo
+  options:
+    yolo:
+      description: "Zero human interaction. Fire and forget."
+      human_review: false
+      confirm_wave_plan: false
+      confirm_between_waves: false
+    interactive:
+      description: "Pause at wave gates for user confirmation."
+      human_review: true
+      confirm_wave_plan: true
+      confirm_between_waves: true
+
+# Story Execution Strategy
+story_execution:
+  strategy: sequential
+  isolation: subagent
+  worktree: false
+  rationale: |
+    Sequential + subagent: context isolation without merge conflicts.
+    Each story commits before the next starts. Zero conflicts by design.
+
+# Workflow Configuration
+workflow_config:
+  checkpoint_policy: always_active
+  checkpoint_modes:
+    always_active: "Every checkpoint MUST pass"
+    skip_on_override: "Can skip with manual approval"
+    advisory: "Only alerts, doesn't block"
+  fail_fast: true
+  allow_manual_override: false
+
+# Dependencies on AIOX agents
+aiox_agents_used:
+  - "@pm"
+  - "@sm"
+  - "@po"
+  - "@dev"
+  - "@qa"
+  - "@architect"
+  - "@data-engineer"
+  - "@ux-design-expert"
+
+# External tooling
+tooling:
+  - name: "Agent tool"
+    type: "native"
+    purpose: "Subagent execution for context isolation (no worktree)"
+  - name: "Context7"
+    type: "mcp"
+    purpose: "Library documentation lookup for stack research"
+  - name: "Playwright"
+    type: "mcp"
+    purpose: "Browser automation for product validation (DC-5)"
+  - name: "webapp-testing"
+    type: "skill"
+    purpose: "Playwright testing patterns for DC-5"

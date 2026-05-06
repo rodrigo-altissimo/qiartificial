@@ -1,0 +1,102 @@
+id: wf-tech-debt-reduction
+name: "Technical Debt Reduction Workflow"
+description: "Systematic technical debt identification, prioritization, and elimination"
+squad: software-engineering
+orchestrator: eng-chief
+agents: [eng-audit, eng-refactor, eng-tdd, eng-devops]
+---
+
+steps:
+  - step: 1
+    name: "Debt Discovery"
+    agent: eng-audit
+    action: |
+      Run command: *hotspot-analysis
+      - Measure cyclomatic complexity per file
+      - Map change frequency (git log last 90 days)
+      - Build complexity × frequency matrix
+      - Identify top 10 hotspots
+    output: "debt_inventory.md"
+
+  - step: 2
+    name: "Debt Classification"
+    agent: eng-audit
+    action: |
+      For each hotspot, classify:
+      - Debt type: [design / test / documentation / infrastructure]
+      - Quadrant: [prudent-deliberate / prudent-inadvertent / reckless-deliberate / reckless-inadvertent]
+      - Interest rate: HIGH (core domain, changes often) / LOW (peripheral, rarely changes)
+      - Estimated remediation effort: [S/M/L]
+    output: "debt_classification.md"
+    depends_on: [1]
+
+  - step: 3
+    name: "Testability Assessment"
+    agent: eng-tdd
+    action: |
+      For top 5 hotspots:
+      - Identify existing test coverage
+      - Find seams for test injection
+      - Plan characterization test strategy
+      - Estimate effort to make code testable
+    output: "testability_assessment.md"
+    depends_on: [2]
+
+  - step: 4
+    name: "Refactoring Plan"
+    agent: eng-refactor
+    action: |
+      Run command: *debt-quantify
+      For top 5 hotspots:
+      - Name the code smells (precisely)
+      - Select refactoring technique per smell
+      - Sequence the refactorings safely
+      - Estimate effort per refactoring
+    output: "refactoring_plan.md"
+    depends_on: [3]
+
+  - step: 5
+    name: "Sprint Planning"
+    agent: eng-devops
+    action: |
+      Using error budget framework:
+      - Calculate reliability error budget health
+      - If budget healthy → allocate 20% capacity to debt
+      - If budget at risk → delay debt work, focus on reliability
+      Create sprint plan with:
+      - Specific debt items (not vague "clean up X")
+      - Success criteria (complexity score before/after)
+      - Owner for each item
+    output: "debt_sprint_plan.md"
+    depends_on: [4]
+
+  - step: 6
+    name: "Execution (Iterative)"
+    agent: eng-refactor
+    action: |
+      Execute refactoring plan for each item:
+      - Write characterization tests
+      - Apply named refactorings in sequence
+      - Commit atomically after each refactoring
+      - Verify complexity improvement
+    output: "refactoring_execution_log.md"
+    depends_on: [5]
+
+  - step: 7
+    name: "Validation"
+    agent: eng-audit
+    action: |
+      Validate debt reduction:
+      - Re-run complexity metrics on refactored code
+      - Verify all tests still pass
+      - Confirm hotspot score reduced ≥ 25%
+      - Update debt inventory (mark as resolved)
+    output: "debt_reduction_report.md"
+    depends_on: [6]
+
+deliverables:
+  - debt_inventory.md
+  - debt_classification.md
+  - refactoring_plan.md
+  - debt_sprint_plan.md
+  - debt_reduction_report.md (before/after comparison)

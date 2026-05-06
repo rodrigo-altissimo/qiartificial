@@ -1,0 +1,132 @@
+# Software Engineering Squad - Veto Conditions
+# Tiered gates that PREVENT the squad from proceeding if criteria aren't met.
+# Modelled after SecForge standard governance.
+
+version: "2.0"
+squad: "software-engineering"
+
+tiers:
+  # TIER 0: Non-negotiable system-wide rules (Integrity & Security Level C)
+  tier_0_absolutes:
+    - id: "VETO-001"
+      name: "No Architecture without ADR"
+      condition: "If a new service, database, or major pattern is introduced, an Architecture Decision Record (ADR) MUST exist."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_RETURN"
+      
+    - id: "VETO-002"
+      name: "No Deploy without Tests"
+      condition: "Any PR targeting main/production branches must include unit or integration tests covering > 80% of the new logic."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-003"
+      name: "No Review without Checklist"
+      condition: "Code reviews must complete the standard PR review checklist before merging."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_WARN"
+
+    - id: "VETO-004"
+      name: "Secrets Scanning Gate"
+      condition: "Any commit containing plaintext passwords, AWS keys, or tokens must be blocked immediately via pre-commit hooks or CI."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_ESCALATE"
+
+    - id: "VETO-005"
+      name: "LGPD/PII Data Exposure"
+      condition: "Any new endpoint returning Personally Identifiable Information (PII) must be explicitly audited and anonymized where required."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-006"
+      name: "Dependency CVE Audit"
+      condition: "Builds must fail if any dependency contains a known vulnerability (CVE) ranked High or Critical."
+      severity: "CRITICAL"
+      action: "BLOCK_AND_RETURN"
+
+  # TIER 1: Workflow Phase Gates (Quality & Operational Level C)
+  tier_1_phase_gates:
+    - id: "VETO-101"
+      name: "Design to Implementation Gate"
+      condition: "Code generation cannot begin until the C4 Model (Context and Container) and data schema are explicitly approved by the user."
+      action: "PAUSE_FOR_APPROVAL"
+
+    - id: "VETO-102"
+      name: "Implementation to Review Gate"
+      condition: "Code cannot be submitted for audit/review if basic linting and static analysis (e.g., Sonar, ESLint) fail."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-103"
+      name: "Contract Testing Gate"
+      condition: "Changes to API contracts (REST/gRPC/GraphQL) must pass consumer-driven contract tests."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-104"
+      name: "Load Test Gate"
+      condition: "Any new critical flow or refactor of a core service must pass a baseline load test without exceeding error budgets."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-105"
+      name: "Runbook Required"
+      condition: "No Tier-1 service can be deployed to production without an attached, validated runbook covering common operational failures."
+      action: "BLOCK_AND_RETURN"
+
+  # TIER 2: Agent-Specific Validations (Domain Expertise)
+  tier_2_agent_rules:
+    - id: "VETO-201"
+      agent: "@eng-security"
+      name: "OWASP Top 10 Violation"
+      condition: "If @eng-security detects a glaring injection risk, broken auth, or exposed secret, the workflow halts immediately."
+      action: "BLOCK_AND_ESCALATE"
+
+    - id: "VETO-202"
+      agent: "@eng-api"
+      name: "Breaking API Change"
+      condition: "If @eng-api detects a backwards-incompatible schema change without a major version bump, veto the change."
+      action: "BLOCK_AND_RETURN"
+      
+    - id: "VETO-203"
+      agent: "@eng-data"
+      name: "Destructive DB Migration"
+      condition: "If a database migration drops a column without a deprecation phase (Expand/Contract pattern), veto the migration."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-204"
+      agent: "@eng-perf"
+      name: "P99 Latency Threshold"
+      condition: "If a code change degrades the P99 latency of critical paths by more than 15%, the PR is vetoed."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-205"
+      agent: "@eng-audit"
+      name: "Observability Baseline"
+      condition: "If a new service lacks structured logging, tracing (TraceId), or basic metrics (USE methodology), deployment is halted."
+      action: "BLOCK_AND_RETURN"
+
+    - id: "VETO-206"
+      agent: "@eng-clean-code"
+      name: "Cyclomatic Complexity Limit"
+      condition: "Functions exceeding a cyclomatic complexity of 15 points will be rejected by @eng-clean-code."
+      action: "BLOCK_AND_RETURN"
+
+  # TIER 3: Handoff Mandates (Collaboration & Silo Cracking)
+  tier_3_handoffs:
+    - id: "VETO-301"
+      name: "Security Review Mandate"
+      condition: "Any task modifying Authentication, Authorization, or Payment flows MUST include a handoff to @eng-security."
+      action: "REQUIRE_AGENT_INCLUSION"
+
+    - id: "VETO-302"
+      name: "Architectual Approval Mandate"
+      condition: "Any task modifying the domain event bus or splitting microservices MUST include a handoff to @eng-architect."
+      action: "REQUIRE_AGENT_INCLUSION"
+
+    - id: "VETO-303"
+      name: "Data Engineering Review Mandate"
+      condition: "Any changes to core analytics schemas or event payloads MUST include a handoff to @eng-data."
+      action: "REQUIRE_AGENT_INCLUSION"
+
+    - id: "VETO-304"
+      name: "DevOps Pipeline Mandate"
+      condition: "Any changes to deployment scripts or infrastructure as code (IaC) MUST include a handoff to @eng-devops."
+      action: "REQUIRE_AGENT_INCLUSION"

@@ -1,0 +1,161 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# REFORMULATION PATTERNS — Gold Finder Squad
+# Patterns for Functional Reformulation of Problems
+# ═══════════════════════════════════════════════════════════════════════════════
+
+id: reformulation-patterns
+version: "1.0.0"
+squad: gold-finder
+
+description: >
+  Defines patterns and techniques the problem-reframer uses to transform
+  user problems from solution-oriented descriptions into function-oriented
+  descriptions, then decompose into atomic functions.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# REFORMULATION TECHNIQUES
+# ─────────────────────────────────────────────────────────────────────────────
+techniques:
+
+  - id: RF-001
+    name: "Solution-to-Function Inversion"
+    description: >
+      Strip the solution name from the problem statement and replace with
+      the underlying function it serves.
+    pattern:
+      before: "I need [TOOL NAME] for [PURPOSE]"
+      after: "I need to [FUNCTION] for [CONTEXT]"
+    examples:
+      - before: "I need Notion for project management"
+        after: "I need to organize tasks, track progress, and collaborate with my team"
+      - before: "I need Figma for design"
+        after: "I need to create visual mockups, iterate designs, and hand off specs to developers"
+      - before: "I need Zapier for automation"
+        after: "I need to connect events in tool A to actions in tool B without writing code"
+
+  - id: RF-002
+    name: "Why-Chain Decomposition"
+    description: >
+      Ask 'why' 3-5 times to get from surface problem to root need.
+      Each level reveals deeper functional requirements.
+    pattern:
+      step_1: "Why do you need {stated_need}?"
+      step_2: "Why is {answer_1} important?"
+      step_3: "Why can't you do {answer_2} with what you have?"
+    examples:
+      - chain:
+          - "I need a landing page builder"
+          - "Why? → I need to capture leads for my product"
+          - "Why capture leads? → I need to validate demand before building"
+          - "Why validate demand? → I want to minimize risk of building something nobody wants"
+        root_function: "demand validation with minimal investment"
+
+  - id: RF-003
+    name: "Constraint Removal"
+    description: >
+      Temporarily remove all constraints (budget, tech stack, team size)
+      to see the ideal solution, then add constraints back one by one.
+    pattern:
+      step_1: "If you had unlimited budget and expertise, what would the ideal solution look like?"
+      step_2: "What functions does that ideal solution perform?"
+      step_3: "Now add constraints back — which functions are truly essential?"
+    output: "Prioritized list of functions with constraints noted"
+
+  - id: RF-004
+    name: "Verb Extraction"
+    description: >
+      Extract all verbs from the problem description. Each verb
+      represents a function that needs a solution.
+    pattern:
+      step_1: "List every verb in the problem description"
+      step_2: "Group verbs by category (create, transform, analyze, deliver, etc.)"
+      step_3: "Each verb group = one atomic function"
+    examples:
+      - input: "I need to create blog posts, schedule them, track analytics, and share on social media"
+        verbs: ["create", "schedule", "track", "share"]
+        functions:
+          - "content creation"
+          - "scheduling/publishing"
+          - "analytics/tracking"
+          - "social media distribution"
+
+  - id: RF-005
+    name: "Input-Output Mapping"
+    description: >
+      Define the problem purely as: what goes in, what comes out,
+      and what transformations happen in between.
+    pattern:
+      input: "What data/content/material goes in?"
+      transformation: "What changes need to happen?"
+      output: "What should come out?"
+    examples:
+      - input: "Raw customer feedback (text)"
+        transformation: "Categorize, sentiment analysis, prioritize"
+        output: "Actionable insights ranked by urgency"
+        functions:
+          - "text classification"
+          - "sentiment analysis"
+          - "priority scoring"
+          - "report generation"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ATOMIC FUNCTION TEMPLATE
+# ─────────────────────────────────────────────────────────────────────────────
+atomic_function_template:
+  description: >
+    Each atomic function extracted from the reformulation should be
+    documented in this format for downstream agents.
+
+  format:
+    id: "AF-{number}"
+    name: "{verb} + {object}"
+    description: "{what this function does}"
+    input_type: "{what it takes in}"
+    output_type: "{what it produces}"
+    priority: "critical | important | nice-to-have"
+    current_solution: "{what the user currently uses, if any}"
+    constraints:
+      - "{constraint 1}"
+      - "{constraint 2}"
+
+  example:
+    id: "AF-001"
+    name: "Schedule Content Publishing"
+    description: "Queue content items for automatic publication at specified dates/times"
+    input_type: "Content item + target date/time + target platform"
+    output_type: "Published content on target platform at specified time"
+    priority: "critical"
+    current_solution: "Manual copy-paste at scheduled time"
+    constraints:
+      - "Must support multiple platforms (blog, Twitter, LinkedIn)"
+      - "Must handle timezone differences"
+      - "Budget: < $30/month"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# REFORMULATION QUALITY CRITERIA
+# ─────────────────────────────────────────────────────────────────────────────
+quality_criteria:
+  - id: RQ-001
+    criterion: "No tool names in reformulated problem"
+    description: "The reformulation must describe functions, not tools"
+    test: "Search for brand names — there should be zero"
+
+  - id: RQ-002
+    criterion: "At least 3 atomic functions extracted"
+    description: "Most real problems decompose into 3+ distinct functions"
+    test: "Count atomic functions — minimum 3"
+
+  - id: RQ-003
+    criterion: "Each function has clear input and output"
+    description: "Functions without defined I/O are too vague"
+    test: "Each AF has non-empty input_type and output_type"
+
+  - id: RQ-004
+    criterion: "Priority assigned to each function"
+    description: "Not all functions are equally important"
+    test: "Each AF has priority: critical | important | nice-to-have"
+
+  - id: RQ-005
+    criterion: "Constraints are explicit"
+    description: "Budget, tech stack, team size constraints documented"
+    test: "At least one constraint documented per critical function"

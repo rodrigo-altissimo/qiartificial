@@ -1,0 +1,47 @@
+name: "Scaling Decision Tree"
+description: "Structured workflow for deciding when and how to scale architectural patterns (Monolith -> Modular -> Microservices)."
+
+participants: [eng-architect, eng-ddd, eng-devops, eng-perf]
+
+phases:
+  - id: "phase-1-assessment"
+    name: "Assess Current Pain Points"
+    goals:
+      - "Identify the actual bottleneck preventing scale."
+    tasks:
+      - "eng-perf: Profile the system. Is it a performance scaling issue (CPU/Memory/DB) or an organizational scaling issue (developer velocity/merge conflicts)?"
+      - "eng-devops: Measure deployment frequency and lead time for changes."
+      - "eng-architect: Determine if vertical scaling (bigger server/DB) is still a viable, cost-effective stopgap."
+
+  - id: "phase-2-modularization"
+    name: "Modular Monolith Transition"
+    goals:
+      - "Enforce strict boundaries without network boundaries."
+    trigger: "Organizational scaling pain (teams stepping on each other) or technical debt."
+    tasks:
+      - "eng-ddd: Run an Event Storming session to identify Bounded Contexts."
+      - "eng-architect: Group code into logical modules based on Bounded Contexts (e.g., packages, namespaces)."
+      - "eng-clean-code: Enforce strict dependency rules (modules can only talk via public interfaces, no shared DB queries)."
+
+  - id: "phase-3-prep-extraction"
+    name: "Preparation for Extraction"
+    goals:
+      - "Decouple data and state before extracting a service."
+    tasks:
+      - "eng-data: Split the database schema logically. Ensure Module A does not perform SQL JOINs with Module B."
+      - "eng-api: Introduce synchronous APIs or asynchronous domain events for cross-module communication."
+
+  - id: "phase-4-microservice-extraction"
+    name: "Strangler Fig Extraction"
+    goals:
+      - "Extract a single Bounded Context into a separate deployable service."
+    trigger: "Independent scaling requirements, independent deployment lifecycles, or polyglot needs."
+    tasks:
+      - "eng-architect: Select the easiest, most decoupled module to extract first (or the one with the highest scaling needs)."
+      - "eng-devops: Set up independent CI/CD, monitoring, and tracing for the new service."
+      - "eng-api: Route traffic to the new service at the API Gateway level (Strangler Fig)."
+      - "eng-architect: Ensure the new service has its own dedicated database."
+
+validation:
+  - "Always prefer scaling vertically -> modularizing -> microservices in that order."
+  - "Never extract a microservice if the organization lacks mature CI/CD and observability tooling."

@@ -1,0 +1,136 @@
+# Software Engineering Antipatterns Database
+# Indexed by domain for quick lookup by all agents
+
+architecture_antipatterns:
+  - name: "Distributed Monolith"
+    domain: architecture
+    agent: eng-architect
+    signature: "Multiple services that MUST be deployed together"
+    root_cause: "Services share a database, or call each other synchronously in chains"
+    fix: "Either merge back into a monolith OR break the coupling (events, own DB per service)"
+    severity: critical
+
+  - name: "Big Ball of Mud"
+    domain: architecture
+    agent: eng-architect
+    signature: "No discernible architecture. Everything depends on everything."
+    root_cause: "No boundaries defined. No architectural governance. Growth without design."
+    fix: "Define bounded contexts (DDD). Establish module boundaries. Add fitness functions."
+    severity: critical
+
+  - name: "Resume-Driven Development"
+    domain: architecture
+    agent: eng-chief
+    signature: "Technology chosen because it's trendy, not because it fits"
+    root_cause: "No architectural characteristics analysis. No trade-off evaluation."
+    fix: "Choose technology based on ranked architectural characteristics, not CVs."
+    severity: high
+
+code_antipatterns:
+  - name: "Anemic Domain Model"
+    domain: ddd
+    agent: eng-ddd
+    signature: "Entities with only getters/setters. All logic in 'service' classes."
+    root_cause: "Database-driven design. Thinking in tables, not in domain concepts."
+    fix: "Move behavior INTO entities. Order.addItem() should enforce invariants."
+    severity: high
+
+  - name: "God Class"
+    domain: code-quality
+    agent: eng-clean-code
+    signature: "Class with 300+ lines, 10+ methods, 7+ fields"
+    root_cause: "All responsibility in one place. No SRP."
+    fix: "Extract Class. Identify cohesive subsets. Split by responsibility."
+    severity: high
+
+  - name: "Primitive Obsession"
+    domain: code-quality
+    agent: eng-refactor
+    signature: "Using string for email, int for money, string for phone number"
+    root_cause: "Avoiding small classes. Thinking 'it's just a string.'"
+    fix: "Replace Primitive with Value Object. Money(100, 'BRL'). Email('user@example.com')."
+    severity: medium
+
+  - name: "Comments as Deodorant"
+    domain: code-quality
+    agent: eng-clean-code
+    signature: "Comments explaining what bad code does, instead of making the code clear"
+    root_cause: "Code is so unclear it needs comments to be understood"
+    fix: "Extract Method + Rename. Make the code self-documenting. Delete the comment."
+    severity: medium
+
+devops_antipatterns:
+  - name: "Snowflake Servers"
+    domain: devops
+    agent: eng-devops
+    signature: "Each server is manually configured and unique. No one knows the exact state."
+    root_cause: "Manual provisioning. No IaC. Configuration drift."
+    fix: "Infrastructure as Code (Terraform, Pulumi). Immutable infrastructure. Phoenix servers."
+    severity: critical
+
+  - name: "Deploy and Pray"
+    domain: devops
+    agent: eng-devops
+    signature: "Deploy to production and hope it works. No canary, no rollback plan."
+    root_cause: "No progressive delivery. No observability. No rollback mechanism."
+    fix: "Canary deployments. Feature flags. Automated rollback on error rate spike."
+    severity: critical
+
+  - name: "Alert Fatigue"
+    domain: devops
+    agent: eng-devops
+    signature: "Hundreds of alerts firing. Team ignores them. Real incidents get missed."
+    root_cause: "Alerts on symptoms instead of causes. No severity tiers. No tuning."
+    fix: "Every alert must be actionable. If you get alerted and do nothing → delete the alert."
+    severity: high
+
+security_antipatterns:
+  - name: "Security as Afterthought"
+    domain: security
+    agent: eng-security
+    signature: "Security review happens right before launch or after an incident"
+    root_cause: "Security not integrated into development process. No shift-left."
+    fix: "Threat model during design. SAST in CI. Dependency scanning. Security in code review."
+    severity: critical
+
+  - name: "Secrets in Git"
+    domain: security
+    agent: eng-security
+    signature: "API keys, passwords, tokens committed to version control"
+    root_cause: "No .gitignore. No pre-commit hooks. No secrets management."
+    fix: "Pre-commit hook (gitleaks). Secrets vault. Rotate all exposed secrets immediately."
+    severity: critical
+
+data_antipatterns:
+  - name: "Schema-on-Read Without Contracts"
+    domain: data
+    agent: eng-data
+    signature: "Data dumped into lake with no schema. Consumers parse and hope."
+    root_cause: "No data contracts. 'We'll figure it out later.'"
+    fix: "Data contracts between producers and consumers. Schema validation on ingestion."
+    severity: high
+
+  - name: "Non-Idempotent Pipeline"
+    domain: data
+    agent: eng-data
+    signature: "Re-running pipeline creates duplicate data"
+    root_cause: "INSERT without deduplication. No idempotency key."
+    fix: "Use MERGE/upsert. Idempotency key on every pipeline run. Safe to re-run."
+    severity: high
+
+testing_antipatterns:
+  - name: "Ice Cream Cone Testing"
+    domain: testing
+    agent: eng-agile
+    signature: "Most tests are E2E (slow, flaky). Few unit tests. Inverted pyramid."
+    root_cause: "Testing added after the fact. No TDD. Tests written at the highest level."
+    fix: "Invert: 70% unit, 20% integration, 10% E2E. New code uses TDD."
+    severity: high
+
+  - name: "Mocking Madness"
+    domain: testing
+    agent: eng-tdd
+    signature: "Tests mock everything. Tests pass but code still breaks in production."
+    root_cause: "Mocks coupled to implementation details. Tests verify interaction, not behavior."
+    fix: "Prefer Fakes (InMemoryRepo) for integration. Stubs for unit. Mocks sparingly."
+    severity: medium

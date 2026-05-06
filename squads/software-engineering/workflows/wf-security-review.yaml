@@ -1,0 +1,75 @@
+name: Security Review Workflow
+description: Multi-agent security review for a feature or system
+squad: software-engineering
+trigger: ["Security review", "Security audit", "Is this secure"]
+
+phases:
+  - phase: 1-threat-model
+    name: Threat Modeling
+    agent: eng-security
+    description: STRIDE analysis of the feature/system
+    steps:
+      - action: identify_assets
+        prompt: "Identify sensitive data, trust boundaries, and entry points"
+      - action: stride_analysis
+        prompt: "Run STRIDE analysis on each component"
+      - action: classify_threats
+        prompt: "Classify threats by risk (likelihood × impact)"
+    output: STRIDE threat model with risk-ranked threats
+    handoff: eng-architect
+
+  - phase: 2-architecture-security
+    name: Architecture Security Review
+    agent: eng-architect
+    description: Review architectural security decisions
+    steps:
+      - action: trust_boundaries
+        prompt: "Verify trust boundaries align with network boundaries"
+      - action: auth_architecture
+        prompt: "Review authentication and authorization architecture"
+      - action: data_flow
+        prompt: "Trace sensitive data flow — encryption at rest and in transit"
+    output: Architecture security findings
+    handoff: eng-devops
+
+  - phase: 3-infrastructure-security
+    name: Infrastructure Security
+    agent: eng-devops
+    description: Review infrastructure and pipeline security
+    steps:
+      - action: iac_scan
+        prompt: "Scan IaC for security misconfigurations (tfsec, checkov)"
+      - action: container_scan
+        prompt: "Scan container images for CVEs (Trivy)"
+      - action: pipeline_security
+        prompt: "Verify CI/CD pipeline security (signed artifacts, RBAC)"
+      - action: secrets_audit
+        prompt: "Verify no secrets in code, env vars, or logs"
+    output: Infrastructure security report
+    handoff: eng-security
+
+  - phase: 4-code-security
+    name: Code Security Review
+    agent: eng-security
+    description: Deep code security review
+    steps:
+      - action: owasp_scan
+        prompt: "Run OWASP Top 10 checklist against the codebase"
+      - action: dependency_scan
+        prompt: "Scan dependencies for known vulnerabilities"
+      - action: security_headers
+        prompt: "Verify HTTP security headers"
+    output: Code security findings with severity and fixes
+    handoff: eng-audit
+
+  - phase: 5-sign-off
+    name: Security Sign-Off
+    agent: eng-audit
+    description: Final security quality gate
+    checklist: security-review
+    steps:
+      - action: run_checklist
+        prompt: "Run full security review checklist"
+      - action: verdict
+        prompt: "Issue security verdict: PASS / CONDITIONAL / FAIL"
+    output: Security audit report with verdict

@@ -1,0 +1,120 @@
+id: wf-system-design
+name: "System Design Workflow"
+description: "End-to-end workflow for designing a new system or major feature architecture"
+squad: software-engineering
+orchestrator: eng-chief
+agents: [eng-architect, eng-ddd, eng-api, eng-security, eng-distributed, eng-perf]
+---
+
+steps:
+  - step: 1
+    name: "Requirements & Context"
+    agent: eng-chief
+    action: |
+      Gather and validate requirements:
+      - What problem does this system solve?
+      - Who are the users? At what scale?
+      - What are the top 3 non-functional requirements?
+      - What are the constraints (time, team, budget, compliance)?
+    output: "requirements_brief.md"
+
+  - step: 2
+    name: "Architectural Characteristics"
+    agent: eng-architect
+    action: |
+      Run task: design-system-architecture (Phase 1-2 only)
+      - Define and rank architectural characteristics
+      - Select architectural style
+      - Validate with team size and maturity
+    output: "architectural_characteristics.md"
+    depends_on: [1]
+
+  - step: 3
+    name: "Domain Model"
+    agent: eng-ddd
+    action: |
+      Run command: *context-map
+      - Identify bounded contexts
+      - Define ubiquitous language for each context
+      - Draw context map with integration patterns
+      - Identify core domain
+    output: "domain_model.md"
+    depends_on: [2]
+
+  - step: 4
+    name: "API Design"
+    agent: eng-api
+    action: |
+      Run task: design-rest-api
+      - Design resource API for each bounded context
+      - Define versioning strategy
+      - Create OpenAPI spec
+    output: "api_contract.yaml"
+    depends_on: [3]
+
+  - step: 5
+    name: "Security Threat Model"
+    agent: eng-security
+    action: |
+      Run task: threat-model-feature
+      - STRIDE analysis on system DFD
+      - Identify top 5 threats
+      - Define security requirements for architecture
+    output: "threat_model.md"
+    depends_on: [3]
+    parallel_with: [4]
+
+  - step: 6
+    name: "Observability & Performance Design"
+    agent: eng-perf
+    action: |
+      Run command: *slo-design
+      - Define SLOs for each critical service
+      - Specify Four Golden Signals for each service
+      - Define performance acceptance criteria
+    output: "slo_definitions.md"
+    depends_on: [4]
+
+  - step: 7
+    name: "Distributed Systems Review"
+    agent: eng-distributed
+    action: |
+      If distributed components exist:
+      - Apply CAP theorem analysis
+      - Define explicit consistency model per data flow
+      - Identify failure modes and define tolerances
+    output: "distributed_design.md"
+    depends_on: [4]
+    conditional: "if distributed components > 1"
+
+  - step: 8
+    name: "Architecture Review & ADRs"
+    agent: eng-architect
+    action: |
+      Run checklist: architecture-quality
+      Write ADRs for top 3 decisions
+      Create fitness functions for top characteristics
+    output: "adr_001.md, fitness_functions.md"
+    depends_on: [5, 6, 7]
+
+  - step: 9
+    name: "Design Review Sign-off"
+    agent: eng-audit
+    action: |
+      Cross-dimension review of all outputs:
+      - Architectural coherence
+      - Security coverage
+      - Domain alignment
+      - Publish final design document
+    output: "system_design_final.md"
+    depends_on: [8]
+
+deliverables:
+  - requirements_brief.md
+  - architectural_characteristics.md
+  - domain_model.md
+  - api_contract.yaml
+  - threat_model.md
+  - slo_definitions.md
+  - adr_001.md (+ subsequent ADRs)
+  - system_design_final.md (signed off)

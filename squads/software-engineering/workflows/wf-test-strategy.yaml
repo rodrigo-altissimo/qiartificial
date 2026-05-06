@@ -1,0 +1,72 @@
+name: Test Strategy Workflow
+description: Multi-agent workflow for designing a comprehensive test strategy
+squad: software-engineering
+trigger: ["Test strategy", "Testing plan", "How to test"]
+
+phases:
+  - phase: 1-assessment
+    name: Current State Assessment
+    agent: eng-tdd
+    description: Assess current test coverage and identify gaps
+    steps:
+      - action: measure_coverage
+        prompt: "Measure current test coverage and identify untested critical paths"
+      - action: identify_hotspots
+        prompt: "Use git churn analysis to find high-risk untested areas"
+      - action: classify_legacy
+        prompt: "Identify legacy code areas that need characterization tests"
+    output: Coverage report with gap analysis and risk assessment
+    handoff: eng-agile
+
+  - phase: 2-strategy-design
+    name: Strategy Design
+    agent: eng-agile
+    description: Design the testing pyramid and TDD workflow
+    steps:
+      - action: design_pyramid
+        prompt: "Define testing pyramid: unit (70%), integration (20%), E2E (10%)"
+      - action: define_tdd_flow
+        prompt: "Establish TDD Red-Green-Refactor discipline for new code"
+      - action: define_ci_policy
+        prompt: "Define CI test policy: which tests run on commit, on merge, nightly"
+    output: Test strategy document with pyramid, TDD flow, and CI policy
+    handoff: eng-tdd
+
+  - phase: 3-legacy-rescue
+    name: Legacy Code Rescue
+    agent: eng-tdd
+    description: Plan for getting legacy code under test
+    steps:
+      - action: find_seams
+        prompt: "Identify seams in top 5 most critical untested areas"
+      - action: plan_characterization
+        prompt: "Plan characterization tests for each area"
+      - action: plan_dependency_breaking
+        prompt: "Plan dependency-breaking techniques needed"
+    output: Legacy rescue plan with seam analysis and test plan
+    handoff: eng-security
+
+  - phase: 4-security-testing
+    name: Security Testing Integration
+    agent: eng-security
+    description: Integrate security testing into the strategy
+    steps:
+      - action: sast_integration
+        prompt: "Add SAST (static analysis security testing) to CI pipeline"
+      - action: dependency_scanning
+        prompt: "Add dependency vulnerability scanning to CI"
+      - action: security_tests
+        prompt: "Identify security-specific test cases (auth, injection, access)"
+    output: Security test integration plan
+    handoff: eng-audit
+
+  - phase: 5-quality-gate
+    name: Strategy Validation
+    agent: eng-audit
+    description: Validate the test strategy covers all dimensions
+    steps:
+      - action: coverage_verification
+        prompt: "Verify: unit, integration, E2E, security, and performance testing all addressed"
+      - action: ci_verification
+        prompt: "Verify: test execution time < 15 minutes in CI"
+    output: Test strategy approval

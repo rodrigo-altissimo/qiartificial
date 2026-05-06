@@ -1,0 +1,288 @@
+pack:
+  name: gold-finder
+  version: 1.0.0
+  short-title: Gold Finder Squad
+  description: >-
+    Pipeline squad that discovers non-obvious, high-impact tech/tool solutions
+    for any given problem. Combines functional reformulation, layer-descent mining,
+    cross-industry pollination via web research, and weighted scoring to produce
+    ranked Gold/Silver/Bronze recommendations with full cost-benefit analysis.
+  author: Squad Architect
+  icon: "🥇"
+  slashPrefix: goldFinder
+  language: en
+  domain: tech/tools
+  entry_agent: gold-chief
+
+# Pattern Library (GF-xxx)
+pattern_library:
+  prefix: GF
+  naming_convention:
+    format: "{PREFIX}-{CATEGORY}-{NUMBER}"
+    example: "GF-TP-001"
+  categories:
+    - id: TP
+      name: "Task Patterns"
+      description: "Patterns for solution discovery task structure"
+    - id: EP
+      name: "Executor Patterns"
+      description: "Patterns for executor types and selection"
+    - id: PP
+      name: "Process Patterns"
+      description: "Patterns for research workflow processes"
+    - id: IP
+      name: "Integration Patterns"
+      description: "Patterns for web search and tool integrations"
+    - id: AP
+      name: "Automation Patterns"
+      description: "Patterns for automated discovery logic"
+    - id: DP
+      name: "Documentation Patterns"
+      description: "Patterns for report and recommendation structure"
+  patterns: []
+
+# Task Standards (GF-TP-001 inspired)
+task_standards:
+  enforce_anatomy: true
+  validator: "GF-TP-001"
+  required_fields:
+    - task_name
+    - status
+    - responsible_executor
+    - execution_type
+    - input
+    - output
+    - action_items
+    - acceptance_criteria
+  optional_fields:
+    - estimated_time
+    - dependencies
+    - templates
+    - quality_gate
+    - handoff
+
+# Executor Types
+executor_types:
+  human:
+    id: "GF-EP-001"
+    name: "Human Executor"
+    use_for:
+      - "Final solution selection"
+      - "Budget approval decisions"
+      - "Implementation priority calls"
+  agent:
+    id: "GF-EP-002"
+    name: "Agent Executor (AI)"
+    use_for:
+      - "Problem reframing and decomposition"
+      - "Layer-descent analysis"
+      - "Cross-industry web research"
+      - "Solution scoring and ranking"
+      - "Report compilation"
+  hybrid:
+    id: "GF-EP-003"
+    name: "Hybrid Executor"
+    use_for:
+      - "Complexity triage validation"
+      - "Report quality review"
+  worker:
+    id: "GF-EP-004"
+    name: "Worker Executor"
+    use_for:
+      - "Web search execution"
+      - "Report formatting and export"
+
+# Workflow Configuration
+workflow_config:
+  checkpoint_policy: always_active
+  fail_fast: true
+  allow_manual_override: false
+
+# Pipeline Modes
+pipeline_modes:
+  full:
+    trigger: "complexity_score >= 18"
+    phases: 6
+    description: "Complete analysis with parallel mining and cross-pollination"
+  condensed:
+    trigger: "complexity_score < 18"
+    phases: 4
+    description: "Quick scan with combined search and ranking"
+
+# Complexity Scoring (for triage)
+complexity_triage:
+  dimensions:
+    - name: ambiguity
+      range: "1-10"
+      description: "How unclear is the problem definition?"
+    - name: domain_breadth
+      range: "1-10"
+      description: "How many domains does this span?"
+    - name: novelty
+      range: "1-10"
+      description: "How novel/unprecedented is the requirement?"
+  threshold: 18
+  full_mode: ">= 18"
+  condensed_mode: "< 18"
+
+# Agents
+agents:
+  - id: gold-chief
+    file: agents/gold-chief.md
+    tier: orchestrator
+    role: "Triage complexity, route full/condensed, compile final report"
+
+  - id: problem-reframer
+    file: agents/problem-reframer.md
+    tier: 0
+    role: "Functional reformulation + atomic decomposition of problems"
+
+  - id: layer-miner
+    file: agents/layer-miner.md
+    tier: 1
+    role: "Layer descent (SaaS to Protocol) + obsolete premise detection"
+
+  - id: cross-pollinator
+    file: agents/cross-pollinator.md
+    tier: 1
+    role: "Cross-industry solution discovery via web search"
+    tools:
+      - WebSearch
+      - WebFetch
+
+  - id: solution-ranker
+    file: agents/solution-ranker.md
+    tier: 2
+    role: "Cost-of-convenience analysis + weighted scoring + synthesis"
+
+# Workflows
+workflows:
+  - id: wf-gold-analysis
+    file: workflows/wf-gold-analysis.yaml
+    description: "Full pipeline: triage -> reframe -> mine/pollinate -> rank -> report"
+
+# Tasks
+tasks:
+  - id: triage-problem
+    file: tasks/triage-problem.md
+    description: "Score problem complexity and route to full or condensed mode"
+    command: "*triage"
+    agent: gold-chief
+
+  - id: reframe-problem
+    file: tasks/reframe-problem.md
+    description: "Reformulate problem functionally and decompose into atomic functions"
+    command: "*reframe"
+    agent: problem-reframer
+
+  - id: mine-layers
+    file: tasks/mine-layers.md
+    description: "Descend through abstraction layers to find hidden solutions"
+    command: "*mine"
+    agent: layer-miner
+
+  - id: detect-obsolete
+    file: tasks/detect-obsolete.md
+    description: "Identify obsolete premises constraining solution space"
+    command: "*detect-obsolete"
+    agent: layer-miner
+
+  - id: cross-pollinate
+    file: tasks/cross-pollinate.md
+    description: "Search across industries for transferable solutions"
+    command: "*pollinate"
+    agent: cross-pollinator
+
+  - id: search-tools
+    file: tasks/search-tools.md
+    description: "Execute targeted web searches for specific tools"
+    command: "*search"
+    agent: cross-pollinator
+
+  - id: rank-solutions
+    file: tasks/rank-solutions.md
+    description: "Score and rank solutions using 5-dimension weighted system"
+    command: "*rank"
+    agent: solution-ranker
+
+  - id: calculate-cost
+    file: tasks/calculate-cost.md
+    description: "Calculate cost-of-convenience for mainstream vs alternative"
+    command: "*cost"
+    agent: solution-ranker
+
+  - id: compile-report
+    file: tasks/compile-report.md
+    description: "Compile final Gold/Silver/Bronze report"
+    command: "*report"
+    agent: gold-chief
+
+  - id: export-report
+    file: tasks/export-report.md
+    description: "Export report in markdown format"
+    command: "*export"
+    agent: gold-chief
+
+  - id: quick-scan
+    file: tasks/quick-scan.md
+    description: "Condensed mode: combined search + rank in one pass"
+    command: "*quick"
+    agent: cross-pollinator
+
+  - id: validate-reframing
+    file: tasks/validate-reframing.md
+    description: "Validate quality of problem reframing output"
+    command: "*validate-reframe"
+    agent: problem-reframer
+
+  - id: validate-coverage
+    file: tasks/validate-coverage.md
+    description: "Validate solution coverage across layers and industries"
+    command: "*validate-coverage"
+    agent: gold-chief
+
+# Templates
+templates:
+  - id: final-report-template
+    file: templates/final-report-template.md
+    description: "Template for the final Gold/Silver/Bronze recommendation report"
+
+  - id: recommendation-card-template
+    file: templates/recommendation-card-template.md
+    description: "Template for individual solution recommendation cards"
+
+  - id: trade-off-map-template
+    file: templates/trade-off-map-template.md
+    description: "Template for trade-off comparison maps"
+
+# Checklists
+checklists:
+  - id: report-quality
+    file: checklists/report-quality.md
+    description: "Quality checklist for final report before delivery"
+
+  - id: reframing-quality
+    file: checklists/reframing-quality.md
+    description: "Quality checklist for problem reframing output"
+
+# Data Files
+data:
+  - id: scoring-criteria
+    file: data/scoring-criteria.yaml
+    description: "5-dimension scoring weights and thresholds"
+
+  - id: layer-map
+    file: data/layer-map.yaml
+    description: "Tech abstraction layer hierarchy"
+
+  - id: obsolete-premises
+    file: data/obsolete-premises.yaml
+    description: "Common obsolete premises in tech decisions"
+
+  - id: cross-pollination-sources
+    file: data/cross-pollination-sources.yaml
+    description: "Industry categories and search patterns for cross-pollination"
+
+  - id: reformulation-patterns
+    file: data/reformulation-patterns.yaml
+    description: "Patterns for functional reformulation of problems"

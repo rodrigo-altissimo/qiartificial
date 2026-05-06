@@ -1,0 +1,188 @@
+---
+task: design-domain-events
+squad: software-engineering
+agent: eng-ddd
+tags: [domain-events, ddd, eventual-consistency]
+---
+
+# Task: Design Domain Event System
+
+## Purpose
+Design domain events for bounded context integration with eventual consistency guarantees.
+
+## Steps
+
+### 1. Assess Current State
+```
+Current situation: [describe current state]
+Gap identified: [what needs to change]
+Impact: [business/technical impact]
+```
+
+### 2. Design Solution
+```
+Approach: [chosen approach with rationale]
+Alternatives considered: [what else was evaluated]
+Trade-offs: [what are we accepting]
+Dependencies: [what needs to be in place first]
+```
+
+### 3. Implement
+```
+Implementation steps:
+  1. [step 1 — specific action]
+  2. [step 2 — specific action]
+  3. [step 3 — specific action]
+  4. [step 4 — specific action]
+Risk mitigation: [how to reduce risk]
+```
+
+### 4. Verify
+```
+Verification criteria:
+  - [criterion 1 — measurable]
+  - [criterion 2 — measurable]
+  - [criterion 3 — measurable]
+Rollback plan: [how to revert if issues arise]
+```
+
+## Deliverables
+- [ ] Assessment document
+- [ ] Design document / ADR
+- [ ] Implementation complete
+- [ ] Verification passed
+- [ ] Documentation updated
+
+## Quality Gate
+- Solution reviewed by eng-ddd
+- All verification criteria met
+- No regressions introduced
+
+
+## Practical Examples
+
+### Example: Bounded Context Map (E-commerce)
+```
+┌─────────────┐     events      ┌──────────────┐
+│   Orders    │ ──────────────→ │   Billing    │
+│  Context    │   OrderPlaced   │  Context     │
+└──────┬──────┘                 └──────────────┘
+       │ events
+       │ OrderShipped
+       ▼
+┌─────────────┐     API         ┌──────────────┐
+│  Shipping   │ ←───────────── │  Inventory   │
+│  Context    │  checkStock()   │  Context     │
+└─────────────┘                 └──────────────┘
+
+Relationships:
+  Orders → Billing:     Customer-Supplier (Orders publishes, Billing subscribes)
+  Orders → Shipping:    Customer-Supplier (Orders publishes, Shipping subscribes)
+  Shipping → Inventory: Conformist (Shipping uses Inventory's model)
+```
+
+### Example: Aggregate (Order)
+```
+Order (Aggregate Root)
+  ├── OrderItem (Entity, internal to aggregate)
+  ├── ShippingAddress (Value Object)
+  └── PaymentReference (Value Object, references Payment context by ID)
+
+Invariants enforced:
+  - Order total = sum(item.price × item.quantity)
+  - Cannot add item if order status = SHIPPED
+  - Maximum 50 items per order
+
+Cross-aggregate: customer_id (just an ID, not a Customer object)
+```
+
+## Common Pitfalls
+1. **Shared database** — each context must own its data
+2. **Anemic domain model** — logic in services instead of entities
+3. **Too-large aggregates** — keep small, reference by ID
+4. **Sync integration** — prefer async events between contexts
+5. **No ubiquitous language** — developers invent their own terms
+
+
+## War Room Protocol
+
+### When This Task Is Triggered By An Incident
+
+```
+MINUTE 0-5: ASSESS
+  □ Confirm the issue is real (not false positive)
+  □ Check: Is it customer-facing?
+  □ Check: Is data at risk?
+  □ Classify severity:
+     SEV1: > 50% users affected → all-hands
+     SEV2: < 50% users degraded → team + lead
+     SEV3: internal only → on-call
+
+MINUTE 5-15: CONTAIN
+  □ Can we rollback the last deploy?
+  □ Can we toggle a feature flag?
+  □ Can we scale up resources?
+  □ Can we redirect traffic?
+  □ Communicate: team channel + status page
+
+MINUTE 15-30: DIAGNOSE
+  □ Check dashboards (4 Golden Signals)
+  □ Check logs (grep for errors in last 30 min)
+  □ Check recent changes (deploys, config, infra)
+  □ Check dependencies (are they healthy?)
+  □ Form hypothesis: "I think the problem is ___"
+
+MINUTE 30-60: FIX
+  □ If hypothesis confirmed → implement fix
+  □ If not confirmed → gather more data, new hypothesis
+  □ Deploy fix through normal pipeline (or hotfix if SEV1)
+  □ Verify fix: check dashboards, check affected users
+
+AFTER RESOLUTION:
+  □ Update status page: "Resolved"
+  □ Notify stakeholders
+  □ Schedule post-mortem (within 48h)
+  □ Create action items to prevent recurrence
+```
+
+### Handoff Protocol
+
+```
+WHEN HANDING THIS TASK TO ANOTHER ENGINEER:
+
+Provide:
+  1. Context: What is the task and why?
+  2. Current state: What has been done so far?
+  3. Next steps: What needs to happen next?
+  4. Blockers: Any known issues or dependencies?
+  5. Contacts: Who to ask for help?
+  6. Artifacts: Links to relevant docs, PRs, dashboards
+
+Format:
+  ## Handoff — [Task Name]
+  **From:** [your name]  **To:** [their name]  **Date:** YYYY-MM-DD
+  
+  **Context:** [1-2 sentences]
+  **Done:** [bulleted list]
+  **Next:** [bulleted list]
+  **Blockers:** [if any]
+  **Links:** [dashboards, PRs, docs]
+```
+
+### Quality Gate
+
+```
+THIS TASK IS COMPLETE WHEN:
+  □ All acceptance criteria met
+  □ Tests written and passing
+  □ Code reviewed by peer
+  □ Documentation updated
+  □ Deployed to staging and verified
+  □ Product owner accepted
+  □ No P0 or P1 issues outstanding
+
+THIS TASK MAY BE DEFERRED IF:
+  ○ Blocked by external dependency (document and escalate)
+  ○ Scope discovered to be larger than estimated (split task)
+  ○ Higher priority item emerged (document reason for deferral)
+```

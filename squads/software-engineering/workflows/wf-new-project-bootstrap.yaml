@@ -1,0 +1,117 @@
+name: New Project Bootstrap Workflow
+description: Multi-agent workflow for bootstrapping a new project from scratch
+squad: software-engineering
+trigger: ["New project", "Start project", "Bootstrap", "Greenfield"]
+
+phases:
+  - phase: 1-requirements
+    name: Requirements & Strategy
+    agent: eng-chief
+    description: Triage and plan the project
+    steps:
+      - action: understand_requirements
+        prompt: "What is the project? What problem does it solve? Who are the users?"
+      - action: classify_subdomains
+        prompt: "Identify core, supporting, and generic subdomains"
+      - action: team_assessment
+        prompt: "Team size, skills, and operational maturity"
+      - action: timeline
+        prompt: "What is the timeline and MVP scope?"
+    output: Project brief with scope, subdomains, and constraints
+    handoff: eng-ddd
+
+  - phase: 2-domain
+    name: Domain Modeling
+    agent: eng-ddd
+    description: Model the business domain
+    steps:
+      - action: event_storming
+        prompt: "Run event storming to discover domain events and aggregates"
+      - action: bounded_contexts
+        prompt: "Define bounded contexts and context map"
+      - action: ubiquitous_language
+        prompt: "Establish ubiquitous language glossary"
+    output: Domain model with bounded contexts and aggregates
+    handoff: eng-architect
+
+  - phase: 3-architecture
+    name: Architecture Design
+    agent: eng-architect
+    description: Choose and document system architecture
+    steps:
+      - action: characteristics
+        prompt: "Identify and rank architectural characteristics"
+      - action: style_selection
+        prompt: "Choose architectural style (monolith, modular, microservices)"
+      - action: fitness_functions
+        prompt: "Define fitness functions for top 3 characteristics"
+      - action: adr
+        prompt: "Write ADR-001 for the architecture decision"
+    output: Architecture document with style, characteristics, and ADRs
+    handoff: eng-api
+
+  - phase: 4-api
+    name: API Design
+    agent: eng-api
+    description: Design the system APIs
+    steps:
+      - action: resource_design
+        prompt: "Design REST resources, endpoints, and schemas"
+      - action: error_design
+        prompt: "Design error handling and response format"
+      - action: auth_design
+        prompt: "Design authentication and authorization model"
+    output: API specification (OpenAPI)
+    handoff: eng-devops
+
+  - phase: 5-infrastructure
+    name: Infrastructure & CI/CD
+    agent: eng-devops
+    description: Set up development and deployment infrastructure
+    steps:
+      - action: repository
+        prompt: "Set up repository with branch strategy and CI pipeline"
+      - action: pipeline
+        prompt: "Design CI/CD pipeline (build, test, scan, deploy)"
+      - action: environments
+        prompt: "Set up dev, staging, and production environments"
+      - action: observability
+        prompt: "Set up basic observability (logging, metrics, health check)"
+    output: Infrastructure ready with CI/CD pipeline
+    handoff: eng-security
+
+  - phase: 6-security
+    name: Security Foundation
+    agent: eng-security
+    description: Establish security baseline
+    steps:
+      - action: threat_model
+        prompt: "Initial threat model for core features"
+      - action: dependencies
+        prompt: "Set up dependency vulnerability scanning in CI"
+      - action: secrets
+        prompt: "Set up secrets management"
+    output: Security baseline established
+    handoff: eng-agile
+
+  - phase: 7-process
+    name: Development Process
+    agent: eng-agile
+    description: Establish development practices
+    steps:
+      - action: tdd
+        prompt: "Establish TDD discipline with first test"
+      - action: stories
+        prompt: "Write first sprint's user stories with acceptance criteria"
+      - action: dod
+        prompt: "Define Definition of Done"
+    output: Sprint 1 ready to start
+
+  - phase: 8-sign-off
+    name: Bootstrap Sign-Off
+    agent: eng-audit
+    description: Verify all foundations are in place
+    steps:
+      - action: audit
+        prompt: "Verify: domain model, architecture, API, CI/CD, security, tests — all in place"
+    output: Project bootstrap verified and approved

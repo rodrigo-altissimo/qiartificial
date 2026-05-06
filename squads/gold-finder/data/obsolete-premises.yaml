@@ -1,0 +1,176 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OBSOLETE PREMISES — Gold Finder Squad
+# Common Outdated Assumptions in Tech Decisions
+# ═══════════════════════════════════════════════════════════════════════════════
+
+id: obsolete-premises
+version: "1.0.0"
+squad: gold-finder
+
+description: >
+  Catalog of commonly held beliefs that were once true but are now outdated.
+  The layer-miner uses these to challenge assumptions that artificially
+  constrain the solution space.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PREMISE CATEGORIES
+# ─────────────────────────────────────────────────────────────────────────────
+categories:
+
+  infrastructure:
+    - id: OP-INF-001
+      premise: "You need a server to run a backend"
+      was_true_until: "~2018"
+      reality_now: >
+        Edge functions (Cloudflare Workers, Deno Deploy, Vercel Edge) run
+        backend logic at CDN edge nodes. Serverless eliminates server management.
+      unlock: "Consider edge-first architectures; eliminate server costs"
+      detection_signals:
+        - "I need to set up a server for..."
+        - "Which hosting provider should I use for my API?"
+
+    - id: OP-INF-002
+      premise: "Databases must be centralized on a server"
+      was_true_until: "~2020"
+      reality_now: >
+        SQLite runs embedded in-process. Turso/LiteFS replicate SQLite globally.
+        DuckDB handles analytics in-process. CRDTs enable local-first databases.
+      unlock: "Embedded databases eliminate infrastructure complexity"
+      detection_signals:
+        - "I need to set up PostgreSQL/MySQL for..."
+        - "Which database hosting should I use?"
+
+    - id: OP-INF-003
+      premise: "Real-time features require WebSocket servers"
+      was_true_until: "~2021"
+      reality_now: >
+        Server-Sent Events (SSE) handle most real-time use cases simpler.
+        Services like Ably, Pusher, or PartyKit abstract WebSocket complexity.
+        LiveView/HTMX patterns reduce need for client-side real-time state.
+      unlock: "SSE or managed real-time services; simpler than custom WebSockets"
+
+  development:
+    - id: OP-DEV-001
+      premise: "You need React/Vue/Angular for interactive UIs"
+      was_true_until: "~2022"
+      reality_now: >
+        HTMX brings interactivity with HTML attributes. Alpine.js adds
+        reactivity without a build step. Web Components work natively.
+        Astro/Fresh/Qwik offer island architecture for partial hydration.
+      unlock: "Simpler stacks for 80% of interactive UI needs"
+      detection_signals:
+        - "Which frontend framework should I choose?"
+        - "I need React for this simple interactive feature"
+
+    - id: OP-DEV-002
+      premise: "Mobile apps require native development or React Native"
+      was_true_until: "~2022"
+      reality_now: >
+        PWAs cover 90% of mobile app use cases. Capacitor wraps web apps
+        as native. Tauri builds desktop+mobile from web tech.
+        Kotlin Multiplatform and Flutter are viable for true cross-platform.
+      unlock: "PWA-first approach; native only when hardware APIs require it"
+
+    - id: OP-DEV-003
+      premise: "You need a complex build system for modern web development"
+      was_true_until: "~2022"
+      reality_now: >
+        Deno and Bun run TypeScript natively without transpilation.
+        ESM imports work in browsers. Vite provides near-zero-config builds.
+        Import maps eliminate bundlers for many use cases.
+      unlock: "Simpler toolchains; question whether you need Webpack/build step"
+
+  data:
+    - id: OP-DAT-001
+      premise: "You need Elasticsearch for full-text search"
+      was_true_until: "~2021"
+      reality_now: >
+        Meilisearch, Typesense, and Zinc are simpler alternatives.
+        SQLite FTS5 handles moderate search needs without external service.
+        PostgreSQL full-text search covers many use cases natively.
+      unlock: "Lightweight search engines; possibly your existing database"
+      detection_signals:
+        - "I need to add search to my app"
+        - "Setting up Elasticsearch cluster for..."
+
+    - id: OP-DAT-002
+      premise: "Data analytics requires a data warehouse"
+      was_true_until: "~2022"
+      reality_now: >
+        DuckDB runs analytical queries on local files (Parquet, CSV, JSON).
+        MotherDuck provides serverless DuckDB. ClickHouse runs embedded.
+        Many analytics can run on SQLite with proper indexing.
+      unlock: "Embedded analytics; no warehouse needed for moderate data"
+
+    - id: OP-DAT-003
+      premise: "You need a separate caching layer (Redis)"
+      was_true_until: "~2023"
+      reality_now: >
+        SQLite WAL mode handles many caching patterns. Edge KV stores
+        (Cloudflare KV, Vercel KV) provide distributed caching.
+        Many frameworks now have built-in caching (Next.js, SvelteKit).
+      unlock: "Built-in caching; embedded solutions; edge KV for distributed"
+
+  ai_ml:
+    - id: OP-AI-001
+      premise: "AI/ML requires cloud APIs (OpenAI, etc.)"
+      was_true_until: "~2024"
+      reality_now: >
+        Ollama runs LLMs locally. llama.cpp enables CPU inference.
+        ONNX Runtime runs models cross-platform. WebLLM runs in browsers.
+        Small specialized models often outperform large general ones.
+      unlock: "Local inference; smaller specialized models; privacy-preserving AI"
+      detection_signals:
+        - "Which AI API should I use?"
+        - "OpenAI is too expensive for my use case"
+
+    - id: OP-AI-002
+      premise: "Vector databases require specialized infrastructure"
+      was_true_until: "~2024"
+      reality_now: >
+        SQLite-vec adds vector search to SQLite. pgvector extends PostgreSQL.
+        Turbopuffer and LanceDB offer serverless vector search.
+        For small datasets, brute-force cosine similarity is fast enough.
+      unlock: "Add vectors to existing database; no separate infrastructure"
+
+  business:
+    - id: OP-BIZ-001
+      premise: "You need Stripe or PayPal for payments"
+      was_true_until: "~2023"
+      reality_now: >
+        Lemon Squeezy, Paddle handle merchant-of-record (taxes included).
+        Polar.sh for open-source monetization. BTCPay Server for crypto.
+        Many regional alternatives offer better rates for specific markets.
+      unlock: "MoR services that handle tax compliance; regional alternatives"
+
+    - id: OP-BIZ-002
+      premise: "Email marketing requires Mailchimp/ConvertKit"
+      was_true_until: "~2022"
+      reality_now: >
+        Resend + React Email for transactional. Listmonk is self-hosted
+        and free. Buttondown for newsletters. Loops for product email.
+        AWS SES + custom templates for high-volume at 1/10th cost.
+      unlock: "Self-hosted or specialized tools at fraction of cost"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DETECTION PROTOCOL
+# ─────────────────────────────────────────────────────────────────────────────
+detection_protocol:
+  description: >
+    When analyzing a user's problem, scan their description for signals
+    that indicate they're operating under an obsolete premise.
+
+  steps:
+    - "Extract all assumptions embedded in the problem statement"
+    - "Match each assumption against the obsolete premises catalog"
+    - "For each match, present the updated reality"
+    - "Recalculate solution space with premise removed"
+    - "Flag any new solution categories that become available"
+
+  output_format: |
+    OBSOLETE PREMISE DETECTED:
+    - Premise: "{premise}"
+    - Was true until: {date}
+    - Current reality: {reality_now}
+    - This unlocks: {unlock}
+    - New solutions to explore: {new_solutions}

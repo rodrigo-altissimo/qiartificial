@@ -1,0 +1,173 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCORING CRITERIA — Gold Finder Squad
+# 5-Dimension Weighted Scoring System
+# ═══════════════════════════════════════════════════════════════════════════════
+
+id: scoring-criteria
+version: "1.0.0"
+squad: gold-finder
+
+description: >
+  Defines the 5 scoring dimensions, their weights, evaluation rubrics,
+  and medal thresholds used by solution-ranker to classify recommendations.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DIMENSIONS
+# ─────────────────────────────────────────────────────────────────────────────
+dimensions:
+  - id: non_obviousness
+    name: "Non-Obviousness"
+    weight: 3.0
+    max_raw_score: 10
+    max_weighted: 30.0
+    description: "Would the user find this solution alone?"
+    rubric:
+      10: "Completely unknown to target audience; requires deep research to discover"
+      8: "Known only in niche communities; not in mainstream tech blogs"
+      6: "Mentioned occasionally but not widely adopted for this use case"
+      4: "Listed in comparison articles but usually overlooked"
+      2: "Common alternative that most tech-savvy users would consider"
+      0: "The obvious, first-result solution everyone knows"
+    evaluation_questions:
+      - "Does this appear in the first page of Google for the problem?"
+      - "Is it listed in popular 'best X tools' articles?"
+      - "Would a senior developer immediately suggest this?"
+      - "Does it come from a different domain or industry?"
+
+  - id: technical_fit
+    name: "Technical Fit"
+    weight: 2.5
+    max_raw_score: 10
+    max_weighted: 25.0
+    description: "How well does it solve the atomic functions identified?"
+    rubric:
+      10: "Solves ALL atomic functions with native features; zero workarounds"
+      8: "Solves 80%+ atomic functions natively; minor gaps easily bridged"
+      6: "Solves core functions well; some secondary functions need workarounds"
+      4: "Solves primary function; significant gaps in secondary functions"
+      2: "Partially addresses the problem; major functionality gaps"
+      0: "Tangentially related; doesn't actually solve the core functions"
+    evaluation_questions:
+      - "Which atomic functions does it solve natively?"
+      - "What workarounds are needed for unsupported functions?"
+      - "Does it integrate with the user's existing stack?"
+      - "Are there API/extensibility options for gaps?"
+
+  - id: cost_efficiency
+    name: "Cost Efficiency"
+    weight: 2.0
+    max_raw_score: 10
+    max_weighted: 20.0
+    description: "Total cost of ownership vs mainstream alternatives"
+    rubric:
+      10: "Free/open-source with no hidden costs; community-supported"
+      8: "Significantly cheaper than mainstream (50%+ savings); transparent pricing"
+      6: "Moderately cheaper (20-50% savings); fair pricing model"
+      4: "Similar cost to mainstream but better value per feature"
+      2: "Same or slightly higher cost; marginal value advantage"
+      0: "More expensive than mainstream with no clear cost justification"
+    evaluation_questions:
+      - "What is the monthly/annual TCO including hidden costs?"
+      - "How does pricing scale with usage/team size?"
+      - "Are there free tiers or open-source alternatives?"
+      - "What is the cost-of-convenience premium of the mainstream option?"
+
+  - id: implementation_effort
+    name: "Implementation Effort"
+    weight: 1.5
+    max_raw_score: 10
+    max_weighted: 15.0
+    description: "How difficult is it to adopt and integrate?"
+    rubric:
+      10: "Drop-in replacement; works in minutes with zero config"
+      8: "Simple setup (< 1 hour); good documentation; familiar patterns"
+      6: "Moderate setup (1-4 hours); some learning curve; decent docs"
+      4: "Significant setup (1-2 days); steep learning curve; sparse docs"
+      2: "Complex migration (1+ weeks); requires expertise; poor docs"
+      0: "Requires fundamental architecture changes; extremely complex"
+    evaluation_questions:
+      - "How long does initial setup take?"
+      - "Is documentation comprehensive and up-to-date?"
+      - "Does it require learning a new paradigm?"
+      - "Can it be adopted incrementally or is it all-or-nothing?"
+
+  - id: longevity
+    name: "Longevity"
+    weight: 1.0
+    max_raw_score: 10
+    max_weighted: 10.0
+    description: "Will this solution still be viable in 2-5 years?"
+    rubric:
+      10: "Open source with large community; protocol-level; industry standard"
+      8: "Well-funded company or active open-source project; growing adoption"
+      6: "Stable project with regular releases; moderate community"
+      4: "Active but small team; uncertain funding; niche adoption"
+      2: "Maintenance mode; declining community; no recent releases"
+      0: "Abandoned/deprecated; no community; high risk of disappearing"
+    evaluation_questions:
+      - "Is it open source? What license?"
+      - "When was the last release/commit?"
+      - "How large is the community (GitHub stars, contributors)?"
+      - "Is the company/project financially sustainable?"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MEDAL THRESHOLDS
+# ─────────────────────────────────────────────────────────────────────────────
+# Maximum possible score: 100 (sum of all max_weighted)
+medals:
+  gold:
+    min_score: 80
+    max_score: 100
+    label: "Gold"
+    icon: "🥇"
+    description: "Exceptional find — high-impact, non-obvious, strong fit"
+    action: "Strongly recommend immediate evaluation"
+
+  silver:
+    min_score: 50
+    max_score: 79
+    label: "Silver"
+    icon: "🥈"
+    description: "Solid alternative — good value, worth considering"
+    action: "Recommend evaluation if primary option doesn't fit"
+
+  bronze:
+    min_score: 30
+    max_score: 49
+    label: "Bronze"
+    icon: "🥉"
+    description: "Honorable mention — niche fit or conditional value"
+    action: "Consider for specific use cases or as backup"
+
+  unranked:
+    min_score: 0
+    max_score: 29
+    label: "Unranked"
+    icon: "—"
+    description: "Below threshold — insufficient value-add over mainstream"
+    action: "Not recommended; document for completeness only"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SCORING FORMULA
+# ─────────────────────────────────────────────────────────────────────────────
+formula:
+  description: >
+    Total Score = SUM(raw_score_i * weight_i) for all 5 dimensions.
+    Maximum = (10*3.0) + (10*2.5) + (10*2.0) + (10*1.5) + (10*1.0) = 100
+  calculation: |
+    total = (non_obviousness * 3.0)
+          + (technical_fit * 2.5)
+          + (cost_efficiency * 2.0)
+          + (implementation_effort * 1.5)
+          + (longevity * 1.0)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MINIMUM VIABLE RECOMMENDATION
+# ─────────────────────────────────────────────────────────────────────────────
+minimum_criteria:
+  min_non_obviousness: 4
+  min_technical_fit: 3
+  description: >
+    A solution must score at least 4/10 on Non-Obviousness and 3/10 on
+    Technical Fit to be included in the report. This prevents recommending
+    obvious solutions or tools that don't actually solve the problem.

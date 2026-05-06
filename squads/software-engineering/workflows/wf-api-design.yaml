@@ -1,0 +1,89 @@
+name: API Design Workflow
+description: Multi-agent workflow for designing a production-grade API
+squad: software-engineering
+trigger: ["Design API", "Create API", "API architecture"]
+
+phases:
+  - phase: 1-requirements
+    name: Requirements Gathering
+    agent: eng-chief
+    description: Understand the API's purpose, consumers, and constraints
+    steps:
+      - action: identify_consumers
+        prompt: "Who will consume this API? (internal services, mobile apps, external partners)"
+      - action: identify_resources
+        prompt: "What are the core resources this API will manage?"
+      - action: identify_constraints
+        prompt: "What are the non-functional requirements? (latency SLO, throughput, auth model)"
+    output: API requirements document with resources, consumers, and constraints
+    handoff: eng-ddd
+
+  - phase: 2-domain-modeling
+    name: Domain Modeling
+    agent: eng-ddd
+    description: Model the domain behind the API
+    steps:
+      - action: identify_aggregates
+        prompt: "Model the core aggregates and their boundaries"
+      - action: define_ubiquitous_language
+        prompt: "Define the ubiquitous language for API resource naming"
+    output: Domain model with aggregates, entities, and value objects
+    handoff: eng-api
+
+  - phase: 3-api-design
+    name: API Interface Design
+    agent: eng-api
+    description: Design the REST API following best practices
+    steps:
+      - action: design_resources
+        prompt: "Design resource URLs, HTTP methods, and status codes"
+      - action: design_schemas
+        prompt: "Design request/response JSON schemas"
+      - action: design_errors
+        prompt: "Design consistent error response format"
+      - action: design_pagination
+        prompt: "Design pagination and filtering strategy"
+      - action: design_versioning
+        prompt: "Define versioning and deprecation strategy"
+    output: OpenAPI specification draft
+    handoff: eng-security
+
+  - phase: 4-security-review
+    name: Security Review
+    agent: eng-security
+    description: Review API security posture
+    steps:
+      - action: auth_review
+        prompt: "Review authentication and authorization model"
+      - action: input_validation
+        prompt: "Verify input validation on all endpoints"
+      - action: rate_limiting
+        prompt: "Design rate limiting tiers"
+    output: Security findings and hardening recommendations
+    handoff: eng-perf
+
+  - phase: 5-performance-check
+    name: Performance Design
+    agent: eng-perf
+    description: Ensure API meets performance SLOs
+    steps:
+      - action: latency_targets
+        prompt: "Define latency targets per endpoint"
+      - action: caching_strategy
+        prompt: "Design caching for read-heavy endpoints"
+      - action: pagination_limits
+        prompt: "Verify pagination prevents unbounded queries"
+    output: Performance design with latency targets and caching plan
+    handoff: eng-audit
+
+  - phase: 6-quality-gate
+    name: Final Quality Gate
+    agent: eng-audit
+    description: Cross-cutting quality review
+    checklist: api-design-review
+    steps:
+      - action: run_checklist
+        prompt: "Run the API design review checklist"
+      - action: generate_score
+        prompt: "Score the API design across all dimensions"
+    output: Quality score and final approval/rejection

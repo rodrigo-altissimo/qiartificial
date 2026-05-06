@@ -1,0 +1,45 @@
+name: "Continuous Feedback Loop (Postmortem)"
+description: "Structured process for conducting blameless postmortems after incidents and feeding learnings back into checklists and workflows."
+
+participants: [eng-chief, eng-agile, eng-audit, eng-devops, eng-architect]
+
+phases:
+  - id: "phase-1-investigation"
+    name: "Root Cause Analysis (RCA)"
+    goals:
+      - "Understand what failed without assigning blame."
+    trigger: "Any sev-1 or sev-2 incident is resolved (wf-incident-response completed)."
+    tasks:
+      - "eng-agile: Schedule and mediate the blameless postmortem meeting within 48 hours of incident resolution."
+      - "eng-devops: Provide timeline of events, metrics, logs, and alerts leading up to the incident."
+      - "eng-architect: Lead the the '5 Whys' root cause analysis to trace the operational failure back to a systemic or architectural flaw."
+
+  - id: "phase-2-documentation"
+    name: "Draft Postmortem Report"
+    goals:
+      - "Document the incident clearly for the organization."
+    tasks:
+      - "eng-audit: Draft the incident report detailing: Impact, Timeline, Root Cause, What went well, What went wrong."
+      - "eng-chief: Review the postmortem for blameless tone (focus on systems, not individuals: e.g., 'The script allowed a malformed input' vs 'Alice ran a bad script')."
+
+  - id: "phase-3-action-items"
+    name: "Systemic Improvements"
+    goals:
+      - "Generate actionable tasks to prevent recurrence."
+    tasks:
+      - "eng-devops: Define tasks to improve alerting, monitoring, or deployment automation."
+      - "eng-architect: Define tasks to improve architectural resilience (circuit breakers, rate limits)."
+      - "eng-agile: Add the generated action items to the top of the next sprint backlog."
+
+  - id: "phase-4-loop-closure"
+    name: "Update Agent DNA & Checklists"
+    goals:
+      - "Calibrate the Squad so the AI agents can prevent this in the future."
+    tasks:
+      - "eng-audit: Update `docs/case-library.yaml` with a new case based on this incident."
+      - "eng-audit: Modify relevant validation checklists (`checklists/`) to include a new check looking for this specific failure mode."
+      - "eng-chief: If necessary, update `config/veto-conditions.yaml` with a new Tier 1 or Tier 2 gate."
+
+validation:
+  - "Action items MUST be prioritized over new feature work."
+  - "The feedback loop is not closed until the Squad's Checklists or Veto Conditions are updated."

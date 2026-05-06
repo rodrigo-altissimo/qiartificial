@@ -1,0 +1,75 @@
+id: wf-code-review
+name: "Code Review Workflow"
+description: "Structured code review using the full squad's expertise"
+squad: software-engineering
+orchestrator: eng-chief
+agents: [eng-clean-code, eng-security, eng-devops, eng-audit]
+---
+
+steps:
+  - step: 1
+    name: "Triage"
+    agent: eng-chief
+    action: |
+      Assess PR scope:
+      - Lines of code changed
+      - Which domains/modules affected
+      - Risk level (security, data, auth, payment involved?)
+      - Route to appropriate specialist reviewers
+    output: "review_triage.md"
+
+  - step: 2
+    name: "Security Review"
+    agent: eng-security
+    action: |
+      Run checklist: security-review (P0 + A01-A03 at minimum)
+      - Check for injection vulnerabilities
+      - Verify authorization on new endpoints
+      - Check secret handling
+      - Report P0 findings immediately (block merge)
+    output: "security_findings.md"
+    depends_on: [1]
+
+  - step: 3
+    name: "Code Design Review"
+    agent: eng-clean-code
+    action: |
+      Run command: *complexity-audit
+      - Identify new code smells
+      - Check naming quality
+      - Verify module depth and abstraction level
+      - Check for unnecessary complexity
+    output: "design_findings.md"
+    depends_on: [1]
+    parallel_with: [2]
+
+  - step: 4
+    name: "Operability Review"
+    agent: eng-devops
+    action: |
+      Check operability of the change:
+      - Is new behavior observable (metrics, logs, traces)?
+      - Is the change deployable safely?
+      - Are migrations backward compatible?
+      - Feature flag needed?
+    output: "operability_findings.md"
+    depends_on: [1]
+    parallel_with: [2, 3]
+
+  - step: 5
+    name: "Verdict"
+    agent: eng-audit
+    action: |
+      Synthesize all findings:
+      - Run checklist: code-review
+      - Consolidate P0/P1/P2/P3 findings
+      - Issue APPROVE / REQUEST CHANGES / REJECT verdict
+    output: "review_verdict.md"
+    depends_on: [2, 3, 4]
+
+deliverables:
+  - review_triage.md
+  - security_findings.md
+  - design_findings.md
+  - operability_findings.md
+  - review_verdict.md (final verdict)

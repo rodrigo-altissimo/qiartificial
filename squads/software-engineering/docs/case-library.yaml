@@ -1,0 +1,399 @@
+# Software Engineering Case Library
+# Real-world scenarios for agents to reference during problem-solving
+
+cases:
+  - id: CASE-001
+    title: "Monolith to Microservices Migration"
+    domain: architecture
+    agents: [eng-architect, eng-devops, eng-ddd]
+    scenario: |
+      E-commerce company with 500K LOC monolith. Deployment takes 4 hours.
+      3 teams stepping on each other's toes. Deploy frequency: once per month.
+    approach: |
+      1. DDD: Event storming revealed 6 bounded contexts (Order, Catalog, Payment, Fulfillment, Customer, Notification)
+      2. Architect: Modular monolith first — module boundaries matching bounded contexts
+      3. DevOps: CI/CD pipeline per module. Deploy time: 15 min.
+      4. Extraction: Payment module extracted first (most independent, highest business value)
+      5. Pattern: Strangler Fig — new features go through extracted services
+    result: |
+      - Deploy frequency: monthly → weekly (3 months) → daily (6 months)
+      - Lead time: 4 weeks → 3 days
+      - Team autonomy: each team owns 1-2 bounded contexts
+    lessons:
+      - "Modular monolith is the best intermediate step"
+      - "Extract the most independent module first"
+      - "Strangler Fig > Big Bang rewrite"
+
+  - id: CASE-002
+    title: "Getting Legacy Code Under Test"
+    domain: testing
+    agents: [eng-tdd, eng-refactor, eng-clean-code]
+    scenario: |
+      10-year-old Python application. 200K LOC. Zero tests. 15 developers.
+      Average of 3 production incidents per week. Fear of changing anything.
+    approach: |
+      1. TDD: Identified top 20 high-churn files via git log analysis
+      2. Characterization tests for top 5 highest-risk files (critical business logic)
+      3. Sprout/Wrap for all new features — zero modifications to untested legacy code
+      4. Refactor: code smell scan on the 20 hotspots — identified 47 smells
+      5. Gradual refactoring: 1 code smell per sprint per developer
+    result: |
+      - Test coverage: 0% → 35% in 3 months (on critical paths: 80%)
+      - Incidents: 3/week → 0.5/week
+      - Developer confidence: "I can change this safely now"
+    lessons:
+      - "Start with high-churn files, not high-coverage percentage"
+      - "Characterization tests before ANY refactoring"
+      - "Sprout/Wrap eliminates the need to modify risky legacy code"
+
+  - id: CASE-003
+    title: "Production Incident — Database Connection Pool Exhaustion"
+    domain: performance
+    agents: [eng-perf, eng-devops, eng-distributed]
+    scenario: |
+      SaaS application. 500 RPS. Suddenly: 50% of requests fail with timeouts.
+      App logs show: "Cannot acquire connection from pool."
+      Database CPU: 15%. App CPU: 20%. Network: normal.
+    approach: |
+      1. Perf: USE Method — Connection pool utilization: 100% (saturated!)
+      2. Diagnosis: One endpoint had a slow query (3 seconds) holding connections
+      3. Root cause: Missing index on a newly added WHERE clause
+      4. Fix: Added index (query: 3s → 5ms). Pool utilization: 100% → 10%.
+      5. Prevention: Slow query alerting (> 100ms). Query review in code review checklist.
+    result: |
+      - Resolution time: 45 minutes (20 min diagnosis, 25 min fix + deploy)
+      - Root cause: One missing index
+      - Prevention: Added slow query monitoring + code review checkpoint
+    lessons:
+      - "100% pool utilization + low CPU = slow queries holding connections"
+      - "USE Method immediately pointed to the bottleneck"
+      - "One slow query can take down the entire system"
+
+  - id: CASE-004
+    title: "Event-Driven Order Processing with Saga"
+    domain: distributed
+    agents: [eng-distributed, eng-ddd, eng-architect]
+    scenario: |
+      Marketplace. Order processing spans: Order Service, Payment Service, Inventory Service.
+      Synchronous calls: if Payment is slow, Order times out. If Inventory is down, everything fails.
+    approach: |
+      1. DDD: Modeled as 3 bounded contexts with domain events
+      2. Distributed: Saga pattern (orchestration) for order fulfillment
+      3. Events: OrderPlaced → PaymentCharged → InventoryReserved → OrderConfirmed
+      4. Compensations: PaymentRefunded (if inventory fails), InventoryReleased (if order cancelled)
+      5. Idempotency: Each step keyed by orderId — safe to retry
+    result: |
+      - No cascading failures (services are decoupled)
+      - Payment downtime: orders queue, process when Payment recovers
+      - p99 latency for order placement: 200ms (was 3s with sync calls)
+    lessons:
+      - "Events decouple services in time — no more synchronous chains"
+      - "Sagas need compensating transactions at EVERY step"
+      - "Idempotency is not optional — it's the foundation"
+
+  - id: CASE-005
+    title: "Data Quality Crisis — Dashboard Shows Wrong Numbers"
+    domain: data
+    agents: [eng-data, eng-audit]
+    scenario: |
+      Business dashboard shows revenue 30% lower than actual.
+      CFO demands investigation. Data engineering team panics.
+    approach: |
+      1. Data: Traced lineage from dashboard → mart → intermediate → staging → source
+      2. Found: staging model had a WHERE clause filtering out records with status='pending_review'
+      3. Root cause: Business changed the meaning of 'pending_review' — it now means 'approved but needs verification'
+      4. Fix: Updated staging model. Added data quality test: row count comparison with source
+      5. Prevention: Data contract between app team and data team defining status values
+    result: |
+      - Dashboard corrected within 4 hours
+      - Data contract established: any status value change requires notification to data team
+      - Quality tests added: row count parity, value distribution alerts
+    lessons:
+      - "Data lineage is essential for debugging data issues"
+      - "Data contracts prevent silent breaking changes"
+      - "Row count comparison between source and destination catches most issues"
+
+  - id: CASE-006
+    title: "High-Profile Failure — Knight Capital Automation Disaster"
+    domain: devops
+    agents: [eng-devops, eng-audit, eng-architect]
+    scenario: |
+      Trading firm lost $460 million in 45 minutes due to a deployment error.
+      Old, unused code (Power Peg) was repurposed but not fully replaced.
+      Deployment was manual to 8 servers; 1 server was missed.
+    approach: |
+      1. DevOps: Implement automated, immutable deployments (no manual ssh).
+      2. Audit: Enforce deployment verification — if a server misses deploy, the system halts.
+      3. Architect: Remove dead code immediately (no zombie code left behind).
+      4. Testing: Dark launches and canary deployments to catch anomalies early.
+    result: |
+      - Total wipeout prevented by canary releases limiting blast radius.
+      - 100% deployment consistency via infrastructure as code.
+    lessons:
+      - "Never repurpose flags from old features for new ones."
+      - "Manual, multi-server pushes are a ticking time bomb."
+      - "Delete dead code. It is an active liability, not a backup."
+
+  - id: CASE-007
+    title: "High-Profile Failure — Crowdstrike Update Outage"
+    domain: testing
+    agents: [eng-tdd, eng-devops, eng-audit]
+    scenario: |
+      Global IT outage caused by a flawed sensor configuration update.
+      Null pointer reading leading to a BSOD loop on 8.5 million Windows devices.
+      QA bypassed because it was a "content" update, not a "code" update.
+    approach: |
+      1. TDD: All configuration changes must be treated as code and tested.
+      2. DevOps: Phased rollouts (rings) starting with internal systems, then early adopters, then general.
+      3. Audit: Fuzz testing for configuration parsers to handle unexpected input.
+    result: |
+      - Faulty configurations blocked at Ring 0.
+      - Parsing engine hardened against null pointers and out-of-bounds reads.
+    lessons:
+      - "Data/Content updates are code updates. Test them rigorously."
+      - "Never execute a global rollout simultaneously."
+      - "Failing gracefully is better than panicking the kernel."
+
+  - id: CASE-008
+    title: "High-Profile Failure — Healthcare.gov Launch"
+    domain: performance
+    agents: [eng-perf, eng-architect, eng-data]
+    scenario: |
+      National healthcare portal crashed on launch day with 250,000 visitors.
+      Architecture was a massive, tightly coupled system with a synchronous bottleneck at the data hub (CGI Federal).
+    approach: |
+      1. Perf: Immediate load testing to identify bottlenecks (found DB connection exhaustion and slow external API calls).
+      2. Architect: Introduced asynchronous queues (message brokers) for user registration.
+      3. Data: Redis caching layer for stateless lookup data (states, basic plans).
+      4. DevOps: Auto-scaling groups implemented after breaking apart the monolith.
+    result: |
+      - System stabilized and handled 100k+ concurrent users.
+      - Page load times dropped from 8 seconds to 1.5 seconds.
+    lessons:
+      - "Synchronous external API calls will choke your system under load."
+      - "Cache aggressively for high-read, low-write data."
+      - "Decouple heavy synchronous processing into asynchronous background jobs."
+
+  - id: CASE-009
+    title: "Architectural Decision — Shopify's Modular Monolith"
+    domain: architecture
+    agents: [eng-architect, eng-ddd, eng-clean-code]
+    scenario: |
+      Hyper-growth e-commerce platform struggling with a massive Ruby on Rails monolith.
+      Engineers breaking each other's code, slow test suites, but microservices seemed too complex for the team size at the time.
+    approach: |
+      1. Architect: Enforced logical boundaries within the monolith (Component-Based Rails).
+      2. DDD: Organized code by domain (Checkout, Fulfillment, Inventory) rather than technical layers (Controllers, Models).
+      3. Clean Code: Strict dependency rules — domains can only communicate via public APIs, not direct DB access.
+    result: |
+      - Developer productivity soared without the operational overhead of microservices.
+      - System remained highly performant and easier to reason about.
+    lessons:
+      - "Microservices are not the only way to scale development."
+      - "Enforce strong architectural boundaries within the codebase."
+      - "Organize by domain, not by framework conventions."
+
+  - id: CASE-010
+    title: "Architectural Decision — Netflix Microservices Evolution"
+    domain: distributed
+    agents: [eng-architect, eng-distributed, eng-devops]
+    scenario: |
+      Streaming service outgrowing its Oracle database and monolithic architecture.
+      Needed extreme horizontal scalability and fault tolerance across multiple AWS regions.
+    approach: |
+      1. Architect: Aggressive decomposition into hundreds of microservices.
+      2. Distributed: Implemented Chaos Monkey to test resilience in production.
+      3. DevOps: Built a world-class paved road (Spinnaker) for developer autonomy.
+      4. Data: Shift to NoSQL (Cassandra) for distributed, highly available data.
+    result: |
+      - Survived entire AWS region outages without customer impact.
+      - Deployed thousands of times a day securely.
+    lessons:
+      - "Design for failure at every level."
+      - "If you do microservices, you must build world-class tooling."
+      - "Chaos engineering is essential for complex distributed systems."
+
+  - id: CASE-011
+    title: "Security Breach — Capital One SSRF"
+    domain: security
+    agents: [eng-security, eng-audit, eng-devops]
+    scenario: |
+      Hacker exploited a Server-Side Request Forgery (SSRF) vulnerability in an open-source WAF.
+      Stole AWS IAM credentials from the metadata service and downloaded 100M customer records from S3.
+    approach: |
+      1. Security: Upgrade metadata service to IMDSv2 (requires token).
+      2. Audit: Implement aggressive principle of least privilege (WAF role shouldn't have S3 read access).
+      3. Security: Audit and block internal IP ranges from being resolved by proxy/WAF.
+    result: |
+      - Exfiltration path completely severed.
+      - WAF properly isolated with restricted IAM roles.
+    lessons:
+      - "Never trust open-source components out of the box without hardening."
+      - "IAM roles must be strictly scoped to exactly what the service needs."
+      - "SSRF is a critical threat in cloud environments."
+
+  - id: CASE-012
+    title: "Performance Crisis — N+1 Queries Killing the API"
+    domain: api
+    agents: [eng-api, eng-data, eng-perf]
+    scenario: |
+      REST API endpoint returning a list of 50 posts with their authors and comments takes 4 seconds.
+      Database CPU spiking due to thousands of tiny queries per request.
+    approach: |
+      1. API: Adopted GraphQL/DataLoader pattern or refined REST payload.
+      2. Data: Rewrote ORM queries to eagerly load relations (JOINs / IN clauses).
+      3. Perf: Added query batching and caching for frequent aggregate fetches.
+    result: |
+      - API response time: 4s → 150ms.
+      - Database queries per request: 51 → 2.
+    lessons:
+      - "ORMs hide the true cost of database access."
+      - "Understand the difference between lazy and eager loading."
+      - "Batch queries when returning hierarchical data."
+
+  - id: CASE-013
+    title: "Testing Bottleneck — Flaky E2E Test Suite"
+    domain: testing
+    agents: [eng-tdd, eng-agile, eng-devops]
+    scenario: |
+      CI pipeline takes 2 hours and fails randomly.
+      Developers ignore test failures because "it's just a flaky test, re-run it."
+    approach: |
+      1. Agile: Stop the line. No new features until CI is green and stable.
+      2. TDD: Shift test pyramid down. Replace 80% of UI tests with fast API and unit tests.
+      3. DevOps: Quarantine flaky tests into a separate non-blocking suite until fixed.
+    result: |
+      - CI pipeline time: 2 hours → 15 minutes.
+      - False positive failures practically eliminated.
+    lessons:
+      - "A flaky test is worse than no test; it destroys trust."
+      - "Push testing down the pyramid — test logic, not the UI."
+      - "Quarantine unreliable tests immediately."
+
+  - id: CASE-014
+    title: "API Design — Evolving a Public API Safely"
+    domain: api
+    agents: [eng-api, eng-architect]
+    scenario: |
+      Company needs to change a core resource structure in their public REST API but has 1,000+ external clients.
+    approach: |
+      1. API: Implement Stripe-style versioning (date-based headers).
+      2. Architect: Internal requests use the newest format, middleware translates requests/responses for older versions based on header.
+      3. API: Sunset policy with 12-month deprecation periods and active client outreach.
+    result: |
+      - Zero breaking changes for existing clients.
+      - Backend code remained clean by only dealing with the latest schema.
+    lessons:
+      - "Never break a public API."
+      - "Translate at the edge, keep the core clean."
+      - "Versioning by header provides a smoother upgrade path than URL versioning."
+
+  - id: CASE-015
+    title: "Domain Confusion — Spaghettified Business Logic"
+    domain: ddd
+    agents: [eng-ddd, eng-clean-code, eng-refactor]
+    scenario: |
+      A B2B SaaS system where 'User', 'Tenant', and 'Subscription' logic was heavily mixed in massive God classes.
+      Adding a new subscription tier broke user authentication.
+    approach: |
+      1. DDD: Identified Ubiquitous Language and split concepts into Bounded Contexts (Identity, Billing, Workspace).
+      2. Clean Code: Introduced Aggregate Roots (Tenant is the root for Workspace, Customer is root for Billing).
+      3. Refactor: Extracted domain services from fat controllers.
+    result: |
+      - Features could be added to Billing without touching Identity.
+      - God classes eliminated, replaced by cohesive domain models.
+    lessons:
+      - "God objects indicate missing domain boundaries."
+      - "Not everything needs to be connected; isolate contexts."
+      - "Protect aggregate boundaries rigorously."
+
+  - id: CASE-016
+    title: "Data Engineering — The Analytics Pipeline That Always Broke"
+    domain: data
+    agents: [eng-data, eng-devops]
+    scenario: |
+      Nightly ETL batch job takes 14 hours and breaks constantly due to changing schemas from upstream services.
+    approach: |
+      1. Data: Migrated from ETL to ELT (Extract, Load, Transform) using dbt.
+      2. DevOps: Treat data as code (version control, CI/CD for transformations).
+      3. Data: Implemented Data Contracts with upstream teams using JSON Schema registries.
+    result: |
+      - Transformations run in minutes utilizing modern cloud data warehouses.
+      - Upstream schema changes are caught by schema registries before breaking the pipeline.
+    lessons:
+      - "Transform inside the warehouse (ELT), not in transit (ETL)."
+      - "Data contracts are mandatory for decoupled architectures."
+      - "Apply software engineering practices to data."
+
+  - id: CASE-017
+    title: "Legacy Code — Refactoring the Core Billing Engine"
+    domain: legacy
+    agents: [eng-legacy, eng-refactor, eng-tdd]
+    scenario: |
+      A 15,000-line C++ file handling all billing rules. Completely untested and written by a developer who left 5 years ago.
+      Needs a new tax compliance feature inserted.
+    approach: |
+      1. Legacy: Used 'Sprout Method' to add the new feature in a separate, fully tested class.
+      2. Refactor: Gradually introduced Seams (interfaces) to mock out database calls.
+      3. TDD: Added Golden Master (Approval) tests capturing output before making structural changes.
+    result: |
+      - New feature shipped safely without breaking existing complex rules.
+      - Groundwork laid to slowly strangle the 15k-line file.
+    lessons:
+      - "Don't rewrite. Identify seams and sprout new code."
+      - "Approval tests/Golden Master are lifesavers for black-box legacy systems."
+      - "Isolate new features from the toxic core."
+
+  - id: CASE-018
+    title: "DevOps — The CI/CD Pipeline from Hell"
+    domain: devops
+    agents: [eng-devops, eng-perf]
+    scenario: |
+      Deploying a simple bug fix takes 3 days due to manual QA handoffs, slow builds, and brittle deployment scripts.
+    approach: |
+      1. DevOps: Value Stream Mapping to identify the biggest bottlenecks (manual QA approvals).
+      2. DevOps: Migrated to Trunk-Based Development with feature toggles.
+      3. Perf: Parallelized test execution and utilized build caching.
+    result: |
+      - Lead time reduced from 3 days to 45 minutes.
+      - Developers deploy their own code safely.
+    lessons:
+      - "Optimize for flow, not utilization."
+      - "Handoffs kill velocity."
+      - "Trunk-based development forces better testing and smaller batches."
+
+  - id: CASE-019
+    title: "Security — Defeating Ransomware in a Hospital Network"
+    domain: security
+    agents: [eng-security, eng-audit, eng-architect]
+    scenario: |
+      Ransomware spread across standard flat hospital network, encrypting patient records and operational data.
+    approach: |
+      1. Architect: Implement Zero Trust Architecture and network segmentation.
+      2. Security: Enforce MFA internally, and deploy Endpoint Detection and Response (EDR) agents everywhere.
+      3. Audit: Establish immutable, offline backups with verified recovery procedures.
+    result: |
+      - Later attacks were isolated to single devices.
+      - Recovery time dropped from weeks to hours via immutable backups.
+    lessons:
+      - "Flat networks are a playground for lateral movement."
+      - "Trust nothing inside your perimeter (Zero Trust)."
+      - "Backups must be immutable and isolated."
+
+  - id: CASE-020
+    title: "System Design — Scaling Global Leaderboards"
+    domain: architecture
+    agents: [eng-architect, eng-data, eng-perf]
+    scenario: |
+      A popular mobile game hit 10M DAU. Traditional relational database could not sort and rank scores globally in real-time.
+    approach: |
+      1. Data: Migrated leaderboard logic to Redis Sorted Sets (ZADD/ZREVRANK).
+      2. Architect: Implemented a read-heavy edge caching architecture.
+      3. Perf: Batched score updates asynchronously via Kafka to prevent overwhelming Redis during peak.
+    result: |
+      - Sub-millisecond latency for fetching player ranks.
+      - Handled bursts of 500k concurrent score submissions.
+    lessons:
+      - "Use the right data structure for the job (Sorted Sets for rankings)."
+      - "Decouple writes from reads under heavy load."
+      - "Event streams buffer the system from massive write spikes."

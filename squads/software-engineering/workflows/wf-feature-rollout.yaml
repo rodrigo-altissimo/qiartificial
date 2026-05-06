@@ -1,0 +1,51 @@
+name: "Feature Rollout Strategy"
+description: "Safe deployment of new features using Feature Flags, Canary Releases, and Gradual Rollouts."
+
+participants: [eng-devops, eng-agile, eng-perf, eng-architect]
+
+phases:
+  - id: "phase-1-dark-launch"
+    name: "Development & Dark Launch"
+    goals:
+      - "Merge code to main without exposing it to users."
+    tasks:
+      - "eng-architect: Ensure the feature is wrapped in a dynamic Feature Flag (e.g., LaunchDarkly, Unleash)."
+      - "eng-agile: Merge the code to the mainline branch (Trunk-Based Development)."
+      - "eng-devops: Verify the feature is deployed to production but defaulted to OFF for all external users."
+
+  - id: "phase-2-internal-testing"
+    name: "Internal Dogfooding"
+    goals:
+      - "Test the feature in production with internal users only."
+    tasks:
+      - "eng-devops: Enable the feature flag for internal team members or specific test accounts."
+      - "eng-agile: Conduct exploratory testing and verify core flows."
+
+  - id: "phase-3-canary"
+    name: "Canary Release (1% - 5%)"
+    goals:
+      - "Expose the feature to a small percentage of live traffic to identify performance or hidden bugs."
+    tasks:
+      - "eng-devops: Gradually dial up the feature flag (e.g., 1% of users, or specific beta cohorts)."
+      - "eng-perf: Monitor system telemetry (CPU, memory, latency, error rates) comparing the canary population against the control group."
+      - "eng-audit: Ensure no security anomalies or excessive log generation occurs."
+
+  - id: "phase-4-gradual-rollout"
+    name: "General Availability (GA) Ramp-up"
+    goals:
+      - "Scale the feature to 100% of users safely."
+    tasks:
+      - "eng-devops: Increase the flag rollout: 10% -> 25% -> 50% -> 100% over hours or days depending on risk."
+      - "eng-perf: Monitor support queues and SLOs at each step."
+      
+  - id: "phase-5-cleanup"
+    name: "Technical Debt Cleanup"
+    goals:
+      - "Remove the feature flag from the codebase."
+    tasks:
+      - "eng-agile: Create a fast-follow ticket to remove the flag."
+      - "eng-architect: Delete the old code paths and the feature flag conditional logic once 100% rollout is stable."
+
+validation:
+  - "Every feature flag must have an expiration/cleanup date."
+  - "Metrics must be actively monitored during the canary phase. If error rates exceed threshold, automatic rollback (flag OFF) should occur."

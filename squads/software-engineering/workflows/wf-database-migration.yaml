@@ -1,0 +1,45 @@
+name: "Database Migration - Expand/Contract"
+description: "Safe database schema changes using the Parallel Change (Expand/Contract) pattern to achieve zero-downtime migrations."
+
+participants: [eng-data, eng-devops, eng-architect, eng-api]
+
+phases:
+  - id: "phase-1-expand"
+    name: "Expand (Add New Schema)"
+    goals:
+      - "Create the new database structures alongside the old ones."
+    tasks:
+      - "eng-data: Create migration script to ADD the new column/table, but DO NOT drop or modify the old one."
+      - "eng-devops: Run migration in staging, verify execution time and locks."
+      - "eng-api: Modify the application code to WRITE to BOTH the old and new schema structures, but READ only from the old structure."
+
+  - id: "phase-2-backfill"
+    name: "Migrate Data (Backfill)"
+    goals:
+      - "Migrate existing data from the old structure to the new structure."
+    tasks:
+      - "eng-data: Write and execute a background script or batch job to migrate historical data in small chunks to avoid locking."
+      - "eng-data: Introduce triggering or CDC (Change Data Capture) if needed to ensure consistency."
+      - "eng-audit: Verify parity between old and new columns via data quality checks."
+
+  - id: "phase-3-transition"
+    name: "Transition (Read from New)"
+    goals:
+      - "Switch the application to read from the new schema."
+    tasks:
+      - "eng-api: Modify the application code to READ from the new structure natively. Stop writing to the old structure if it's no longer needed for rollback."
+      - "eng-devops: Monitor error rates and latency closely during the rollout."
+
+  - id: "phase-4-contract"
+    name: "Contract (Cleanup)"
+    goals:
+      - "Remove the old schema and deprecated code."
+    tasks:
+      - "eng-api: Wait for a full deployment cycle (e.g., 1-2 weeks) to ensure no rollbacks are required."
+      - "eng-api: Remove the dual-write logic from the application."
+      - "eng-data: Create a migration script to DROP the old column/table."
+      - "eng-architect: Document the completed migration in an ADR or changelog."
+
+validation:
+  - "No single PR should contain both the addition of the new column and the deletion of the old column."
+  - "The application must be deployable and function correctly at every individual step."

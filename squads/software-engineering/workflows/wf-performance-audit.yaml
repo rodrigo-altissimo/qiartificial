@@ -1,0 +1,77 @@
+name: Performance Audit Workflow
+description: Multi-agent performance audit for a system or service
+squad: software-engineering
+trigger: ["Performance review", "Why is it slow", "Performance audit"]
+
+phases:
+  - phase: 1-measurement
+    name: Baseline Measurement
+    agent: eng-perf
+    description: Measure current performance baseline
+    steps:
+      - action: define_slo
+        prompt: "What are the performance SLOs? (p99 latency, throughput, error rate)"
+      - action: measure_baseline
+        prompt: "Measure p50/p90/p95/p99 latency for top 10 endpoints"
+      - action: use_method
+        prompt: "Run USE Method: utilization, saturation, errors for all resources"
+    output: Performance baseline with SLO comparison
+    handoff: eng-perf
+
+  - phase: 2-diagnosis
+    name: Bottleneck Diagnosis
+    agent: eng-perf
+    description: Find the system bottleneck
+    steps:
+      - action: profile
+        prompt: "Profile the slowest endpoint (flame graph for CPU, heap dump for memory)"
+      - action: query_analysis
+        prompt: "EXPLAIN ANALYZE top 10 slow queries"
+      - action: n_plus_1
+        prompt: "Check for N+1 query patterns"
+      - action: caching_analysis
+        prompt: "Analyze cache hit rates and identify cacheable data"
+    output: Bottleneck identification with root cause and evidence
+    handoff: eng-distributed
+
+  - phase: 3-distributed-analysis
+    name: Distributed Performance
+    agent: eng-distributed
+    description: Analyze distributed system performance
+    conditions: only_if_distributed
+    steps:
+      - action: trace_analysis
+        prompt: "Analyze distributed traces for cross-service latency"
+      - action: consumer_lag
+        prompt: "Check message consumer lag and processing latency"
+      - action: consistency_overhead
+        prompt: "Evaluate consistency model overhead (is strong consistency justified?)"
+    output: Distributed performance findings
+    handoff: eng-devops
+
+  - phase: 4-infrastructure
+    name: Infrastructure Performance
+    agent: eng-devops
+    description: Review infrastructure for performance bottlenecks
+    steps:
+      - action: resource_sizing
+        prompt: "Are resources properly sized? (CPU, memory, disk IOPS)"
+      - action: autoscaling
+        prompt: "Is autoscaling configured? (HPA, target CPU/memory thresholds)"
+      - action: cdn_caching
+        prompt: "Are static assets served via CDN with proper cache headers?"
+    output: Infrastructure optimization recommendations
+    handoff: eng-perf
+
+  - phase: 5-fix-and-verify
+    name: Fix and Verify
+    agent: eng-perf
+    description: Implement fixes and verify improvement
+    steps:
+      - action: implement_fix
+        prompt: "Implement the top-priority optimization"
+      - action: remeasure
+        prompt: "Re-measure the same metrics. Compare before/after."
+      - action: load_test
+        prompt: "Run load test to verify under stress"
+    output: Performance improvement report with before/after data

@@ -1,0 +1,44 @@
+name: "Dependency Upgrade & Vulnerability Patching"
+description: "Structured workflow for handling automated dependency bumps and critical CVE (Common Vulnerabilities and Exposures) patches."
+
+participants: [eng-security, eng-devops, eng-tdd]
+
+phases:
+  - id: "phase-1-detection"
+    name: "Automated Detection"
+    goals:
+      - "Identify outdated dependencies or new CVEs."
+    tasks:
+      - "eng-security: Configure dependency scanning tools (Dependabot, Snyk, Trivy) on all repositories."
+      - "eng-security: Triage alerts. If CVSS score > 7.0 (High/Critical), trigger an expedited patch cycle."
+      - "eng-devops: Automate PR creation for minor/patch version bumps."
+
+  - id: "phase-2-verification"
+    name: "Testing & Validation"
+    goals:
+      - "Ensure the upgraded dependency doesn't break the application."
+    tasks:
+      - "eng-tdd: Run the full automated test suite (Unit, Integration, E2E) against the generated PR."
+      - "eng-devops: Check for build failures or linting errors introduced by the new version."
+      - "eng-security: For critical CVEs, review the changelog and release notes of the new version to verify the vulnerability is explicitly addressed."
+
+  - id: "phase-3-rollout"
+    name: "Safe Deployment"
+    goals:
+      - "Deploy the patched application."
+    tasks:
+      - "eng-devops: Merge the PR and trigger the standard CI/CD deployment pipeline."
+      - "eng-devops: If the patch is major (breaking change risk), utilize Canary release pattern (wf-feature-rollout)."
+      - "eng-security: Run dynamic analysis (DAST) post-deployment to confirm the vulnerability cannot be exploited."
+
+  - id: "phase-4-remediation"
+    name: "Incident Remediation (If Applicable)"
+    goals:
+      - "Address any exploitation that occurred before the patch."
+    trigger: "If evidence exists that the vulnerability was exploited."
+    tasks:
+      - "eng-security: Initiate Incident Response workflow (wf-incident-response). Rotate secrets, isolate affected instances, and audit logs."
+
+validation:
+  - "Never bypass the test suite for a dependency upgrade, even for a 'critical' patch. A broken application is as bad as a vulnerable one."
+  - "Major version bumps should be scheduled as deliberate technical debt removal, not automated merges."

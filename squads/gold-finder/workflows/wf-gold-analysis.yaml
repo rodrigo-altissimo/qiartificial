@@ -1,0 +1,594 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# WORKFLOW: Gold Analysis — Full Pipeline for Non-Obvious Solution Discovery
+# ═══════════════════════════════════════════════════════════════════════════════
+
+workflow-id: wf-gold-analysis
+name: "Gold Analysis — Solution Discovery Pipeline"
+version: "1.0.0"
+squad: gold-finder
+estimated-time: "10-30 minutes"
+complexity: high
+
+description: >
+  Orchestrates the full Gold Finder pipeline: triage → reframe → mine/pollinate
+  (parallel) → rank → report. Supports two modes based on complexity triage:
+  Full Mode (6 phases, score >= 18) and Condensed Mode (4 phases, score < 18).
+
+trigger:
+  command: "*find"
+  agent: gold-chief
+
+input-template:
+  scoring:
+    source: "data/scoring-criteria.yaml"
+  layers:
+    source: "data/layer-map.yaml"
+  obsolete_premises:
+    source: "data/obsolete-premises.yaml"
+  cross_pollination:
+    source: "data/cross-pollination-sources.yaml"
+  reformulation:
+    source: "data/reformulation-patterns.yaml"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODE SELECTION
+# ─────────────────────────────────────────────────────────────────────────────
+modes:
+  full:
+    trigger: "complexity_score >= 18"
+    phases: [P0, P1, P2, P3, P4, P5]
+    description: "Complete analysis with parallel layer mining and cross-pollination"
+
+  condensed:
+    trigger: "complexity_score < 18"
+    phases: [P0, P1-quick, P2-quick, P3]
+    description: "Quick analysis with combined search and ranking"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FULL MODE PHASES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+phases:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 0: TRIAGE
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 0
+    id: P0
+    name: "Triage"
+    agent: gold-chief
+    tier: orchestrator
+    estimated-time: "1-2 min"
+    modes: [full, condensed]
+
+    description: >
+      Receives the user's raw problem statement, scores complexity across
+      3 dimensions (ambiguity, domain breadth, novelty), and routes to
+      full or condensed mode.
+
+    tasks:
+      - task-id: "P0-T1"
+        name: "Score Complexity"
+        task-ref: "tasks/triage-problem.md"
+        agent: gold-chief
+        required: true
+        description: "Score ambiguity, domain breadth, novelty (1-10 each)"
+        output: "complexity_assessment"
+
+      - task-id: "P0-T2"
+        name: "Route Decision"
+        agent: gold-chief
+        required: true
+        description: "Sum >= 18 → full mode; Sum < 18 → condensed mode"
+        output: "mode_decision"
+
+    checkpoint:
+      name: "CP-0: Triage Complete"
+      criteria:
+        - "All 3 dimensions scored (1-10 each)"
+        - "Total calculated correctly"
+        - "Mode decision made and communicated"
+      human_review: false
+      message: "Problem triaged. Mode: {mode}. Proceeding to reframing."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 1: REFRAME (Full Mode)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 1
+    id: P1
+    name: "Reframe"
+    agent: problem-reframer
+    tier: 0
+    estimated-time: "2-5 min"
+    modes: [full]
+
+    description: >
+      Transforms the problem from solution-oriented to function-oriented.
+      Decomposes into atomic functions with priorities, I/O, and constraints.
+      Quality validated before handoff.
+
+    tasks:
+      - task-id: "P1-T1"
+        name: "Functional Reformulation"
+        task-ref: "tasks/reframe-problem.md"
+        agent: problem-reframer
+        required: true
+        description: "Strip tool names, apply why-chain, extract atomic functions"
+        output: "reframing_output"
+
+      - task-id: "P1-T2"
+        name: "Validate Reframing"
+        task-ref: "tasks/validate-reframing.md"
+        agent: problem-reframer
+        required: true
+        description: "Run reframing quality checklist"
+        output: "validation_result"
+
+    checkpoint:
+      name: "CP-1: Reframing Validated"
+      criteria:
+        - "Reformulated problem has zero tool names"
+        - "At least 3 atomic functions extracted"
+        - "Each function has input, output, and priority"
+        - "Reframing quality checklist passes"
+      human_review: false
+      message: "Problem reframed. {count} atomic functions identified. Proceeding to mining + pollination."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 1-QUICK: QUICK REFRAME (Condensed Mode)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 1
+    id: P1-quick
+    name: "Quick Reframe"
+    agent: problem-reframer
+    tier: 0
+    estimated-time: "1-2 min"
+    modes: [condensed]
+
+    description: >
+      Abbreviated reframing for simpler problems. Applies Solution-to-Function
+      Inversion and Verb Extraction only. Skips full why-chain and detailed
+      constraint analysis.
+
+    tasks:
+      - task-id: "P1Q-T1"
+        name: "Quick Reformulation"
+        task-ref: "tasks/reframe-problem.md"
+        agent: problem-reframer
+        required: true
+        description: "Quick reframe: strip tool names, extract functions"
+        output: "reframing_output"
+        notes: |
+          In condensed mode, skip the full why-chain. Apply RF-001 and RF-004
+          only. Extract 3-5 atomic functions without deep constraint analysis.
+
+    checkpoint:
+      name: "CP-1Q: Quick Reframe Done"
+      criteria:
+        - "At least 3 atomic functions extracted"
+        - "No tool names in reformulation"
+      human_review: false
+      message: "Quick reframe complete. Proceeding to quick scan."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 2: MINE LAYERS (Full Mode — Parallel with Phase 3)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 2
+    id: P2
+    name: "Mine Layers"
+    agent: layer-miner
+    tier: 1
+    estimated-time: "3-8 min"
+    modes: [full]
+    parallel_with: P3
+
+    description: >
+      Descends through 5 abstraction layers (SaaS → Protocol) for each
+      atomic function. Detects obsolete premises. Identifies layer traps.
+      Runs IN PARALLEL with Phase 3 (Cross-Pollinate).
+
+    tasks:
+      - task-id: "P2-T1"
+        name: "Layer Descent"
+        task-ref: "tasks/mine-layers.md"
+        agent: layer-miner
+        required: true
+        description: "Search for solutions at each abstraction layer"
+        output: "layer_mining_results"
+
+      - task-id: "P2-T2"
+        name: "Obsolete Premise Detection"
+        task-ref: "tasks/detect-obsolete.md"
+        agent: layer-miner
+        required: true
+        description: "Check assumptions against obsolete premises catalog"
+        output: "obsolete_premises_detected"
+
+    checkpoint:
+      name: "CP-2: Layer Mining Complete"
+      criteria:
+        - "At least 2 layers below user's comfort zone explored"
+        - "Each atomic function searched at each explored layer"
+        - "Obsolete premises checked"
+        - "At least 5 candidate solutions found"
+      human_review: false
+      message: "Layer mining complete. {count} solutions across {layers} layers."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 3: CROSS-POLLINATE (Full Mode — Parallel with Phase 2)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 3
+    id: P3
+    name: "Cross-Pollinate"
+    agent: cross-pollinator
+    tier: 1
+    estimated-time: "5-15 min"
+    modes: [full]
+    parallel_with: P2
+
+    description: >
+      Searches across industries for solutions that solve the same
+      atomic functions under different names. Uses WebSearch and WebFetch
+      for active web research. Runs IN PARALLEL with Phase 2 (Mine Layers).
+
+    tasks:
+      - task-id: "P3-T1"
+        name: "Cross-Industry Discovery"
+        task-ref: "tasks/cross-pollinate.md"
+        agent: cross-pollinator
+        required: true
+        description: "Map functions to industries, search, verify via web"
+        output: "cross_pollination_results"
+
+    checkpoint:
+      name: "CP-3: Cross-Pollination Complete"
+      criteria:
+        - "At least 3 industries searched"
+        - "WebSearch used for discovery"
+        - "At least 5 candidates discovered"
+        - "Each candidate verified via WebFetch"
+        - "Transferability rated"
+      human_review: false
+      message: "Cross-pollination complete. {count} solutions from {industries} industries."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 2-QUICK: QUICK SEARCH + RANK (Condensed Mode)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 2
+    id: P2-quick
+    name: "Quick Search + Rank"
+    agent: cross-pollinator
+    tier: 1
+    estimated-time: "3-8 min"
+    modes: [condensed]
+
+    description: >
+      Condensed mode: combines cross-pollination and ranking into a single
+      pass. Does quick web search across 2-3 industries, then applies
+      scoring immediately.
+
+    tasks:
+      - task-id: "P2Q-T1"
+        name: "Quick Scan"
+        task-ref: "tasks/quick-scan.md"
+        agent: cross-pollinator
+        required: true
+        description: "Combined search + inline scoring"
+        output: "quick_scan_results"
+
+    checkpoint:
+      name: "CP-2Q: Quick Scan Complete"
+      criteria:
+        - "At least 2 industries searched"
+        - "At least 3 solutions discovered and verified"
+        - "Each solution scored across 5 dimensions"
+        - "Results sorted with medals assigned"
+      human_review: false
+      message: "Quick scan complete. Proceeding to report."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 4: RANK & SCORE (Full Mode)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 4
+    id: P4
+    name: "Rank & Score"
+    agent: solution-ranker
+    tier: 2
+    estimated-time: "3-8 min"
+    modes: [full]
+
+    description: >
+      Takes all solutions from layer-miner and cross-pollinator, applies
+      5-dimension weighted scoring, calculates cost-of-convenience,
+      assigns medals, and produces ranked list.
+
+    tasks:
+      - task-id: "P4-T1"
+        name: "Score Solutions"
+        task-ref: "tasks/rank-solutions.md"
+        agent: solution-ranker
+        required: true
+        description: "Apply 5-dimension scoring to all candidates"
+        output: "ranking_results"
+
+      - task-id: "P4-T2"
+        name: "Cost-of-Convenience"
+        task-ref: "tasks/calculate-cost.md"
+        agent: solution-ranker
+        required: true
+        description: "Calculate convenience premium for mainstream vs alternatives"
+        output: "cost_analysis"
+
+    checkpoint:
+      name: "CP-4: Ranking Complete"
+      criteria:
+        - "All candidates scored across 5 dimensions"
+        - "Weights correctly applied"
+        - "Mainstream baseline scored"
+        - "Minimum criteria applied"
+        - "Medals assigned"
+        - "Cost-of-convenience calculated"
+      human_review: false
+      message: "Ranking complete. {gold} Gold, {silver} Silver, {bronze} Bronze recommendations."
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # PHASE 5: REPORT (Both Modes)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - phase: 5
+    id: P5
+    name: "Compile Report"
+    agent: gold-chief
+    tier: orchestrator
+    estimated-time: "3-8 min"
+    modes: [full, condensed]
+    note: "In condensed mode, this is Phase 3"
+
+    description: >
+      Synthesizes all pipeline outputs into the final Gold/Silver/Bronze
+      report. Includes recommendation cards, trade-off map, cost analysis,
+      and actionable next steps.
+
+    tasks:
+      - task-id: "P5-T1"
+        name: "Compile Report"
+        task-ref: "tasks/compile-report.md"
+        agent: gold-chief
+        required: true
+        description: "Build final report from all pipeline data"
+        output: "final_report"
+
+      - task-id: "P5-T2"
+        name: "Quality Check"
+        agent: gold-chief
+        required: true
+        description: "Validate report against quality checklist"
+        output: "quality_result"
+        notes: |
+          Load checklists/report-quality.md and verify all criteria.
+
+      - task-id: "P5-T3"
+        name: "Deliver Report"
+        task-ref: "tasks/export-report.md"
+        agent: gold-chief
+        required: true
+        description: "Present report to user"
+        output: "delivered_report"
+
+    checkpoint:
+      name: "CP-5: Report Delivered"
+      criteria:
+        - "Report follows template structure"
+        - "Top 3-5 recommendations with full score breakdowns"
+        - "Trade-off map present"
+        - "Quality checklist passes"
+        - "Report delivered to user"
+      human_review: true
+      message: "Gold Finder report delivered. Review recommendations and next steps."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PARALLEL EXECUTION
+# ═══════════════════════════════════════════════════════════════════════════════
+parallel_config:
+  - group: "mining-and-pollination"
+    phases: [P2, P3]
+    description: "Layer mining and cross-pollination run in parallel"
+    sync_point: "P4 (Rank & Score)"
+    both_consume: "reframing_output from P1"
+    independence: >
+      These phases are independent — both consume P1 output but do not
+      depend on each other. P4 waits for BOTH to complete before starting.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ERROR HANDLING
+# ═══════════════════════════════════════════════════════════════════════════════
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_stakeholders: false
+    - create_remediation_task: false
+    - halt_workflow: true
+
+  on_checkpoint_failure:
+    - log_failure_reason: true
+    - return_to_previous_phase: true
+    - max_retries: 2
+
+  specific_failures:
+    web_search_unavailable:
+      description: "WebSearch/WebFetch MCP tools unavailable"
+      fallback: "Use LLM knowledge only; flag results as unverified"
+      severity: warning
+
+    zero_solutions_found:
+      description: "No solutions discovered in mining or pollination"
+      action: "Re-examine atomic functions; broaden search patterns"
+      severity: blocking
+
+    all_solutions_below_minimum:
+      description: "No solution meets minimum criteria (NO >= 4, TF >= 3)"
+      action: "Lower minimum criteria to NO >= 3, TF >= 2; flag as relaxed"
+      severity: warning
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# QUALITY GATES
+# ═══════════════════════════════════════════════════════════════════════════════
+quality-gates:
+  - gate-id: "QG-GF-001"
+    name: "Reframing Quality"
+    enforced-after: "P1"
+    enforced-before: "P2"
+    type: blocking
+    criteria:
+      - id: "QG-GF-001-C1"
+        check: "Reformulated problem has zero tool names"
+        required: true
+      - id: "QG-GF-001-C2"
+        check: "At least 3 atomic functions extracted"
+        required: true
+    pass-action: "Proceed to mining + pollination"
+    fail-action: "Return to P1 for re-reframing"
+
+  - gate-id: "QG-GF-002"
+    name: "Discovery Minimum"
+    enforced-after: "P2+P3"
+    enforced-before: "P4"
+    type: blocking
+    criteria:
+      - id: "QG-GF-002-C1"
+        check: "Combined solutions from P2+P3 >= 5"
+        required: true
+      - id: "QG-GF-002-C2"
+        check: "At least 2 abstraction layers explored"
+        required: true
+    pass-action: "Proceed to ranking"
+    fail-action: "Expand search; retry P2/P3 with broader patterns"
+
+  - gate-id: "QG-GF-003"
+    name: "Scoring Integrity"
+    enforced-after: "P4"
+    enforced-before: "P5"
+    type: blocking
+    criteria:
+      - id: "QG-GF-003-C1"
+        check: "All solutions scored across 5 dimensions"
+        required: true
+      - id: "QG-GF-003-C2"
+        check: "Score math verified (weighted totals correct)"
+        required: true
+      - id: "QG-GF-003-C3"
+        check: "Mainstream baseline scored"
+        required: true
+    pass-action: "Proceed to report"
+    fail-action: "Recalculate scores"
+
+  - gate-id: "QG-GF-004"
+    name: "Report Quality"
+    enforced-after: "P5"
+    type: blocking
+    criteria:
+      - id: "QG-GF-004-C1"
+        check: "Report quality checklist passes"
+        required: true
+      - id: "QG-GF-004-C2"
+        check: "No fabricated tools in recommendations"
+        required: true
+    pass-action: "Deliver report to user"
+    fail-action: "Fix report issues before delivery"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# COMPLETION SIGNALS
+# ═══════════════════════════════════════════════════════════════════════════════
+completion_signal: "<promise>COMPLETE</promise>"
+checkpoint_signal: "<promise>CHECKPOINT:PHASE-X</promise>"
+blocked_signal: "<promise>BLOCKED:T-X.Y</promise>"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OUTPUT ARTIFACTS
+# ═══════════════════════════════════════════════════════════════════════════════
+outputs:
+  pipeline_data:
+    - "Complexity assessment (triage)"
+    - "Reformulated problem + atomic functions"
+    - "Layer mining results (by layer)"
+    - "Cross-pollination results (by industry)"
+    - "Ranking results (scored + medaled)"
+    - "Cost-of-convenience analysis"
+  deliverables:
+    - "Final Gold/Silver/Bronze report"
+    - "Recommendation cards (top 3-5)"
+    - "Trade-off comparison map"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# AGENT ASSIGNMENTS BY PHASE
+# ═══════════════════════════════════════════════════════════════════════════════
+agents_by_phase:
+  P0:
+    primary: ["gold-chief"]
+    secondary: []
+  P1:
+    primary: ["problem-reframer"]
+    secondary: []
+  P2:
+    primary: ["layer-miner"]
+    secondary: []
+  P3:
+    primary: ["cross-pollinator"]
+    secondary: []
+  P4:
+    primary: ["solution-ranker"]
+    secondary: []
+  P5:
+    primary: ["gold-chief"]
+    secondary: []
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# QUALITY CHECKLIST
+# ═══════════════════════════════════════════════════════════════════════════════
+quality_checklist:
+  triage:
+    - "[ ] All 3 complexity dimensions scored"
+    - "[ ] Mode decision documented with rationale"
+  reframing:
+    - "[ ] Zero tool names in reformulation"
+    - "[ ] 3+ atomic functions with I/O and priority"
+  mining:
+    - "[ ] 2+ layers explored below comfort zone"
+    - "[ ] Obsolete premises checked"
+  pollination:
+    - "[ ] 3+ industries searched"
+    - "[ ] WebSearch/WebFetch used for verification"
+  ranking:
+    - "[ ] 5-dimension scoring applied to all candidates"
+    - "[ ] Mainstream baseline scored"
+    - "[ ] Medals correctly assigned"
+  report:
+    - "[ ] Follows template structure"
+    - "[ ] Trade-off map present"
+    - "[ ] No fabricated tools"
+    - "[ ] Actionable next steps"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+metadata:
+  version: "1.0.0"
+  framework: "Gold Finder Pipeline"
+  created: "2026-03-10"
+  primary_use_case: "Discovering non-obvious tech/tool solutions"
+  key_difference: |
+    Unlike simple tool comparison, this workflow systematically descends
+    through abstraction layers and crosses industry boundaries to find
+    solutions users wouldn't discover through normal search behavior.
+    Parallel execution of mining + pollination maximizes discovery breadth.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SUCCESS CRITERIA
+# ═══════════════════════════════════════════════════════════════════════════════
+success-criteria:
+  all_of:
+    - "All phases executed in order (parallel phases synced before P4)"
+    - "Checkpoints CP-0 through CP-5 passed"
+    - "Quality gates QG-GF-001 through QG-GF-004 respected"
+    - "No fabricated solutions in final report"
+    - "At least 1 Gold or Silver recommendation in output"
+    - "Report delivered to user with actionable next steps"

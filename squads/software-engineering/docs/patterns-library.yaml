@@ -1,0 +1,105 @@
+# Software Engineering Patterns Library
+# Reference patterns indexed by category for quick lookup by all agents
+
+architecture_patterns:
+  - name: "Modular Monolith"
+    category: architecture
+    agent: eng-architect
+    when_to_use: "Small team (<10), single deployment, modules with clear boundaries"
+    when_to_avoid: "Very different scaling needs per module, independent deployment needed"
+    key_insight: "Get module boundaries right (via DDD bounded contexts). Extraction to microservices later is straightforward."
+    references: ["Building Evolutionary Architectures — Neal Ford", "Monolith First — Martin Fowler"]
+
+  - name: "Strangler Fig Pattern"
+    category: migration
+    agent: eng-architect
+    when_to_use: "Migrating from monolith to microservices incrementally"
+    when_to_avoid: "Small monolith that's easy to rewrite (rare)"
+    key_insight: "Route new features through the new system. Gradually redirect existing functionality. The old system shrinks and is eventually decommissioned."
+    references: ["Strangler Fig Application — Martin Fowler"]
+
+  - name: "CQRS (Command Query Responsibility Segregation)"
+    category: distributed
+    agent: eng-distributed
+    when_to_use: "Read and write models have very different requirements. Read-heavy system with complex queries."
+    when_to_avoid: "Simple CRUD. Added complexity is rarely justified for simple use cases."
+    key_insight: "Separate read model (optimized for queries) from write model (optimized for consistency). Connected by events."
+    references: ["DDIA — Kleppmann", "CQRS — Greg Young"]
+
+  - name: "Saga Pattern (Choreography)"
+    category: distributed
+    agent: eng-distributed
+    when_to_use: "Distributed transaction across 2-4 services. Teams are autonomous."
+    when_to_avoid: ">5 services in the saga (orchestration is better). Need to see the full flow centrally."
+    key_insight: "Each service listens and reacts. No central coordinator. Simpler but harder to debug."
+    references: ["DDIA — Kleppmann", "Microservices Patterns — Richardson"]
+
+  - name: "Saga Pattern (Orchestration)"
+    category: distributed
+    agent: eng-distributed
+    when_to_use: "Complex distributed transaction (5+ services). Need central visibility."
+    when_to_avoid: "2-3 services (choreography is simpler). Orchestrator becomes a bottleneck/SPF."
+    key_insight: "Central orchestrator coordinates the saga. Easier to monitor and debug. Single point of failure risk."
+    references: ["Microservices Patterns — Richardson"]
+
+  - name: "Anti-Corruption Layer (ACL)"
+    category: integration
+    agent: eng-ddd
+    when_to_use: "Integrating with legacy systems, third-party APIs, or different model philosophies"
+    when_to_avoid: "Two systems already share the same model (rare)"
+    key_insight: "Translation layer protects YOUR model from being contaminated by THEIR model."
+    references: ["Domain-Driven Design — Eric Evans"]
+
+  - name: "Circuit Breaker"
+    category: resilience
+    agent: eng-distributed
+    when_to_use: "Calling an external service that may be slow or unavailable"
+    when_to_avoid: "Local function calls. Adds overhead for no benefit."
+    key_insight: "Fail fast when dependency is down. Prevent cascading failures. Auto-recover when dependency returns."
+    states: ["CLOSED (normal) → OPEN (failing fast) → HALF-OPEN (testing recovery)"]
+    references: ["Release It! — Michael Nygard"]
+
+  - name: "Event Sourcing"
+    category: data
+    agent: eng-distributed
+    when_to_use: "Full audit trail needed. Need to reconstruct state at any point in time."
+    when_to_avoid: "Simple CRUD. Learning curve is steep. Read performance requires projections."
+    key_insight: "Store events (facts), not current state. Reconstruct state by replaying events."
+    references: ["DDIA — Kleppmann", "Event Sourcing — Greg Young"]
+
+testing_patterns:
+  - name: "Characterization Testing"
+    category: testing
+    agent: eng-tdd
+    when_to_use: "Legacy code without tests. Need to refactor safely."
+    key_insight: "Assert what the code DOES, not what it SHOULD do. Creates a safety net."
+    references: ["Working Effectively with Legacy Code — Feathers"]
+
+  - name: "Sprout Method"
+    category: testing
+    agent: eng-tdd
+    when_to_use: "Adding new behavior to legacy code without modifying the legacy code."
+    key_insight: "New behavior in a new, fully-tested method. ONE line added to legacy code to call it."
+    references: ["Working Effectively with Legacy Code — Feathers"]
+
+  - name: "Testing Pyramid"
+    category: testing
+    agent: eng-agile
+    when_to_use: "Always — this is the default testing strategy"
+    key_insight: "Unit (70%) → Integration (20%) → E2E (10%). More unit = faster, cheaper, more reliable."
+    references: ["TDD by Example — Beck", "The Practical Test Pyramid — Ham Vocke"]
+
+data_patterns:
+  - name: "Staging → Intermediate → Marts"
+    category: data
+    agent: eng-data
+    when_to_use: "Analytical data warehouse with dbt or similar transform tool"
+    key_insight: "stg = 1:1 source replica (clean). int = business logic (joins). mart = consumer-ready (denormalized)."
+    references: ["dbt Best Practices", "Fundamentals of Data Engineering"]
+
+  - name: "Schema-on-Write with Evolution"
+    category: data
+    agent: eng-data
+    when_to_use: "Production data pipelines with multiple consumers"
+    key_insight: "Validate schema on write (ingestion). Evolve schema with backward-compatible changes only."
+    references: ["Fundamentals of Data Engineering — Reis & Housley"]

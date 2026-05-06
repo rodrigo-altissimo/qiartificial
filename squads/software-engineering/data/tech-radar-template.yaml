@@ -1,0 +1,529 @@
+# Technology radar classification template
+# Squad: software-engineering
+
+# This file provides default templates and thresholds
+# Referenced by squad agents during analysis
+
+# Decision Matrix Templates
+# Use these for common engineering trade-offs
+
+decisions:
+  monolith_vs_microservices:
+    question: "Monolith or Microservices?"
+    factors:
+      - {name: "Team size", monolith: "< 10 devs", microservices: "> 20 devs"}
+      - {name: "Deployment", monolith: "single deploy", microservices: "independent"}
+      - {name: "Complexity", monolith: "lower", microservices: "higher"}
+    default: "Start monolith (modular), extract when proven need"
+    source: "Martin Fowler — MonolithFirst"
+
+  batch_vs_streaming:
+    question: "Batch or Streaming?"
+    factors:
+      - {name: "Freshness", batch: "hours", streaming: "seconds"}
+      - {name: "Complexity", batch: "lower", streaming: "higher"}
+      - {name: "Cost", batch: "lower", streaming: "higher"}
+    default: "Batch unless business requires sub-minute freshness"
+    source: "Joe Reis — Fundamentals of Data Engineering"
+
+  rest_vs_graphql_vs_grpc:
+    question: "REST, GraphQL, or gRPC?"
+    factors:
+      - {name: "Consumers", rest: "public/broad", graphql: "multiple frontends", grpc: "internal services"}
+      - {name: "Performance", rest: "good", graphql: "variable", grpc: "best"}
+    default: "REST for public, gRPC for internal, GraphQL when multiple frontends"
+    source: "Sam Newman — Building Microservices"
+
+quality_thresholds:
+  security: {min_score: 3, target: 4, source: "OWASP ASVS"}
+  performance: {p99_max_ms: 500, source: "Google SRE"}
+  coverage: {min_percent: 80, target: 90, source: "Industry standard"}
+  complexity: {cyclomatic_max: 10, cognitive_max: 15, source: "SonarSource"}
+
+slo_templates:
+  web_api:
+    availability: "99.9%"
+    latency_p99: "500ms"
+    error_rate: "< 0.1%"
+    source: "Google SRE Book"
+  data_pipeline:
+    freshness: "< 15 minutes"
+    completeness: "NULL rate < 1%"
+    volume: "within 30% of expected"
+    source: "Barr Moses — Data Observability"
+
+
+# ---------------------------------------------------------
+# SQUAD ENGINEERING DNA MATRIX (EXPANDED EXTENSION)
+# ---------------------------------------------------------
+
+## 1. Skill Evolution Pathways
+
+### 1.1 Architecture Progression
+L1 (Entry): Can follow existing C4 models. Implements within bounded context.
+L2 (Mid): Can design new bounded contexts. Writes ADRs for local decisions.
+L3 (Senior): Can split monoliths. Designs eventual consistency flows. Writes cross-domain ADRs.
+L4 (Staff): Defines squad-level architecture vision. Designs multi-region active-active systems.
+L5 (Principal): Influences org-wide tech strategy. Author of industry-recognized patterns.
+
+### 1.2 Observability & Reliability Progression
+L1: Adds simple logs. Uses existing dashboards.
+L2: Instruments code with structured logs & custom metrics. Configures standard alerts.
+L3: Designs OpenTelemetry traces. Writes runbooks. Tunes false-positive alert ratios.
+L4: Implements auto-remediation. Defines error budgets and enforces SLOs.
+L5: Architects org-wide observability platforms capable of PB/day ingestion.
+
+### 1.3 Security Engineering Progression
+L1: Uses parameterized queries. Escapes HTML.
+L2: Performs basic threat modeling (STRIDE) on own features. Integrates SAST/DAST.
+L3: Designs Zero-Trust perimeters. Implements complex RBAC/ABAC models.
+L4: Conducts internal penetration testing. Responds to zero-day incidents across squad.
+L5: Authors custom cryptographic protocols or core security infrastructure.
+
+## 2. Core Operational Metrics Dictionary (SPACE + DORA)
+
+### 2.1 DORA Metrics (Delivery Performance)
+- **Deployment Frequency (DF)**
+  - *Definition*: How often code is deployed to production.
+  - *Elite Target*: On demand (multiple deploys per day).
+  - *Data Source*: CI/CD pipeline logs (e.g., GitHub Actions `deployment` triggers).
+- **Lead Time for Changes (LTC)**
+  - *Definition*: Time from commit pushed to code running in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: Git commit timestamp vs Deployment completion timestamp.
+- **Time to Restore Service (TTRS)**
+  - *Definition*: Time to recover from a failure in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: PagerDuty/Incident creation timestamp vs Resolution timestamp.
+- **Change Failure Rate (CFR)**
+  - *Definition*: Percentage of deployments causing a failure in production.
+  - *Elite Target*: 0-15%.
+  - *Data Source*: Total hotfixes/rollbacks divided by total deployments.
+
+### 2.2 SPACE Framework (Developer Productivity)
+- **Satisfaction and well-being**
+  - *Metrics*: eNPS (empolyee Net Promoter Score), burnout risk surveys, retention rate.
+- **Performance**
+  - *Metrics*: Story points delivered (only useful intra-squad), customer satisfaction impact of shipped features.
+- **Activity**
+  - *Metrics*: PRs merged, commits per day, active days coding, deployments triggered.
+- **Communication and collaboration**
+  - *Metrics*: PR review turnaround time, cross-team dependencies resolved, documentation updates.
+- **Efficiency and flow**
+  - *Metrics*: Time spent waiting on builds, uninterrupted focus time, meeting load.
+
+## 3. Incident Classification Matrix
+
+| Severity | Definition | Impact | Response Time SLA | Expected Resolution Time SLA | Communications |
+|----------|------------|--------|-------------------|------------------------------|----------------|
+| **SEV-1** | Critical system failure | All users blocked | 5 minutes (24/7) | 4 hours | Execs hourly, Status page updated |
+| **SEV-2** | Degraded performance | > 20% users affected | 15 minutes (24/7) | 12 hours | Stakeholders updated |
+| **SEV-3** | Non-critical feature broken | < 20% users, workaround exists | 1 hour (Biz hours)| 3 days | Internal only |
+| **SEV-4** | Annoyance / UI bug | No functional block | Next sprint | Next release | Ticket in backlog |
+
+## 4. Engineering Cost Optimization (FinOps)
+
+### 4.1 Cloud Resource Lifecycle
+- **Development**: Resources Auto-shutdown at 19:00, auto-start at 08:00 (saves ~65% cost). Spot instances used exclusively.
+- **Staging**: Scaled-down replica (10% of production capacity). No multi-AZ requirements.
+- **Production**: Reserved instances (1yr/3yr commitment) for baseline load. Spot instances for stateless async workers. Multi-AZ enabled.
+
+### 4.2 Database Cost Control
+- **Data Tiering Strategy**:
+  - Hot (NVMe SSD): Data < 30 days old. Sub-millisecond read required.
+  - Warm (Standard SSD): Data 30-365 days old. Millisecond read acceptable.
+  - Cold (S3 / Blob Storage): Data > 365 days old. Compressed. Second/Minute retrieval acceptable.
+
+## 5. Standard Infrastructure Components (The Golden Path)
+
+### 5.1 The Stack Menu
+| Component | Preferred Option (Default) | Acceptable Alternative (With Justification) | Banned / Deprecated |
+|-----------|----------------------------|---------------------------------------------|---------------------|
+| Relational DB | PostgreSQL | MySQL 8.0 | Oracle, SQL Server |
+| NoSQL DB | MongoDB (Atlas) | DynamoDB | CouchDB |
+| Cache | Redis | Memcached | In-memory only (in distributed system) |
+| Message Broker | RabbitMQ | Apache Kafka (if throughput > 100k/sec) | ActiveMQ |
+| Frontend | React.js | Vue.js | Angular.js |
+| API Layer | Node.js (Express/Nest) | Go / Python (FastAPI) | Ruby on Rails |
+| CI/CD | GitHub Actions | GitLab CI | Jenkins (legacy only) |
+| Container | Docker + Kubernetes | ECS Fargate | Raw EC2 instances |
+
+# ---------------------------------------------------------
+# SQUAD ENGINEERING DNA MATRIX (EXPANDED EXTENSION)
+# ---------------------------------------------------------
+
+## 1. Skill Evolution Pathways
+
+### 1.1 Architecture Progression
+L1 (Entry): Can follow existing C4 models. Implements within bounded context.
+L2 (Mid): Can design new bounded contexts. Writes ADRs for local decisions.
+L3 (Senior): Can split monoliths. Designs eventual consistency flows. Writes cross-domain ADRs.
+L4 (Staff): Defines squad-level architecture vision. Designs multi-region active-active systems.
+L5 (Principal): Influences org-wide tech strategy. Author of industry-recognized patterns.
+
+### 1.2 Observability & Reliability Progression
+L1: Adds simple logs. Uses existing dashboards.
+L2: Instruments code with structured logs & custom metrics. Configures standard alerts.
+L3: Designs OpenTelemetry traces. Writes runbooks. Tunes false-positive alert ratios.
+L4: Implements auto-remediation. Defines error budgets and enforces SLOs.
+L5: Architects org-wide observability platforms capable of PB/day ingestion.
+
+### 1.3 Security Engineering Progression
+L1: Uses parameterized queries. Escapes HTML.
+L2: Performs basic threat modeling (STRIDE) on own features. Integrates SAST/DAST.
+L3: Designs Zero-Trust perimeters. Implements complex RBAC/ABAC models.
+L4: Conducts internal penetration testing. Responds to zero-day incidents across squad.
+L5: Authors custom cryptographic protocols or core security infrastructure.
+
+## 2. Core Operational Metrics Dictionary (SPACE + DORA)
+
+### 2.1 DORA Metrics (Delivery Performance)
+- **Deployment Frequency (DF)**
+  - *Definition*: How often code is deployed to production.
+  - *Elite Target*: On demand (multiple deploys per day).
+  - *Data Source*: CI/CD pipeline logs (e.g., GitHub Actions `deployment` triggers).
+- **Lead Time for Changes (LTC)**
+  - *Definition*: Time from commit pushed to code running in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: Git commit timestamp vs Deployment completion timestamp.
+- **Time to Restore Service (TTRS)**
+  - *Definition*: Time to recover from a failure in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: PagerDuty/Incident creation timestamp vs Resolution timestamp.
+- **Change Failure Rate (CFR)**
+  - *Definition*: Percentage of deployments causing a failure in production.
+  - *Elite Target*: 0-15%.
+  - *Data Source*: Total hotfixes/rollbacks divided by total deployments.
+
+### 2.2 SPACE Framework (Developer Productivity)
+- **Satisfaction and well-being**
+  - *Metrics*: eNPS (empolyee Net Promoter Score), burnout risk surveys, retention rate.
+- **Performance**
+  - *Metrics*: Story points delivered (only useful intra-squad), customer satisfaction impact of shipped features.
+- **Activity**
+  - *Metrics*: PRs merged, commits per day, active days coding, deployments triggered.
+- **Communication and collaboration**
+  - *Metrics*: PR review turnaround time, cross-team dependencies resolved, documentation updates.
+- **Efficiency and flow**
+  - *Metrics*: Time spent waiting on builds, uninterrupted focus time, meeting load.
+
+## 3. Incident Classification Matrix
+
+| Severity | Definition | Impact | Response Time SLA | Expected Resolution Time SLA | Communications |
+|----------|------------|--------|-------------------|------------------------------|----------------|
+| **SEV-1** | Critical system failure | All users blocked | 5 minutes (24/7) | 4 hours | Execs hourly, Status page updated |
+| **SEV-2** | Degraded performance | > 20% users affected | 15 minutes (24/7) | 12 hours | Stakeholders updated |
+| **SEV-3** | Non-critical feature broken | < 20% users, workaround exists | 1 hour (Biz hours)| 3 days | Internal only |
+| **SEV-4** | Annoyance / UI bug | No functional block | Next sprint | Next release | Ticket in backlog |
+
+## 4. Engineering Cost Optimization (FinOps)
+
+### 4.1 Cloud Resource Lifecycle
+- **Development**: Resources Auto-shutdown at 19:00, auto-start at 08:00 (saves ~65% cost). Spot instances used exclusively.
+- **Staging**: Scaled-down replica (10% of production capacity). No multi-AZ requirements.
+- **Production**: Reserved instances (1yr/3yr commitment) for baseline load. Spot instances for stateless async workers. Multi-AZ enabled.
+
+### 4.2 Database Cost Control
+- **Data Tiering Strategy**:
+  - Hot (NVMe SSD): Data < 30 days old. Sub-millisecond read required.
+  - Warm (Standard SSD): Data 30-365 days old. Millisecond read acceptable.
+  - Cold (S3 / Blob Storage): Data > 365 days old. Compressed. Second/Minute retrieval acceptable.
+
+## 5. Standard Infrastructure Components (The Golden Path)
+
+### 5.1 The Stack Menu
+| Component | Preferred Option (Default) | Acceptable Alternative (With Justification) | Banned / Deprecated |
+|-----------|----------------------------|---------------------------------------------|---------------------|
+| Relational DB | PostgreSQL | MySQL 8.0 | Oracle, SQL Server |
+| NoSQL DB | MongoDB (Atlas) | DynamoDB | CouchDB |
+| Cache | Redis | Memcached | In-memory only (in distributed system) |
+| Message Broker | RabbitMQ | Apache Kafka (if throughput > 100k/sec) | ActiveMQ |
+| Frontend | React.js | Vue.js | Angular.js |
+| API Layer | Node.js (Express/Nest) | Go / Python (FastAPI) | Ruby on Rails |
+| CI/CD | GitHub Actions | GitLab CI | Jenkins (legacy only) |
+| Container | Docker + Kubernetes | ECS Fargate | Raw EC2 instances |
+
+# ---------------------------------------------------------
+# SQUAD ENGINEERING DNA MATRIX (EXPANDED EXTENSION)
+# ---------------------------------------------------------
+
+## 1. Skill Evolution Pathways
+
+### 1.1 Architecture Progression
+L1 (Entry): Can follow existing C4 models. Implements within bounded context.
+L2 (Mid): Can design new bounded contexts. Writes ADRs for local decisions.
+L3 (Senior): Can split monoliths. Designs eventual consistency flows. Writes cross-domain ADRs.
+L4 (Staff): Defines squad-level architecture vision. Designs multi-region active-active systems.
+L5 (Principal): Influences org-wide tech strategy. Author of industry-recognized patterns.
+
+### 1.2 Observability & Reliability Progression
+L1: Adds simple logs. Uses existing dashboards.
+L2: Instruments code with structured logs & custom metrics. Configures standard alerts.
+L3: Designs OpenTelemetry traces. Writes runbooks. Tunes false-positive alert ratios.
+L4: Implements auto-remediation. Defines error budgets and enforces SLOs.
+L5: Architects org-wide observability platforms capable of PB/day ingestion.
+
+### 1.3 Security Engineering Progression
+L1: Uses parameterized queries. Escapes HTML.
+L2: Performs basic threat modeling (STRIDE) on own features. Integrates SAST/DAST.
+L3: Designs Zero-Trust perimeters. Implements complex RBAC/ABAC models.
+L4: Conducts internal penetration testing. Responds to zero-day incidents across squad.
+L5: Authors custom cryptographic protocols or core security infrastructure.
+
+## 2. Core Operational Metrics Dictionary (SPACE + DORA)
+
+### 2.1 DORA Metrics (Delivery Performance)
+- **Deployment Frequency (DF)**
+  - *Definition*: How often code is deployed to production.
+  - *Elite Target*: On demand (multiple deploys per day).
+  - *Data Source*: CI/CD pipeline logs (e.g., GitHub Actions `deployment` triggers).
+- **Lead Time for Changes (LTC)**
+  - *Definition*: Time from commit pushed to code running in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: Git commit timestamp vs Deployment completion timestamp.
+- **Time to Restore Service (TTRS)**
+  - *Definition*: Time to recover from a failure in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: PagerDuty/Incident creation timestamp vs Resolution timestamp.
+- **Change Failure Rate (CFR)**
+  - *Definition*: Percentage of deployments causing a failure in production.
+  - *Elite Target*: 0-15%.
+  - *Data Source*: Total hotfixes/rollbacks divided by total deployments.
+
+### 2.2 SPACE Framework (Developer Productivity)
+- **Satisfaction and well-being**
+  - *Metrics*: eNPS (empolyee Net Promoter Score), burnout risk surveys, retention rate.
+- **Performance**
+  - *Metrics*: Story points delivered (only useful intra-squad), customer satisfaction impact of shipped features.
+- **Activity**
+  - *Metrics*: PRs merged, commits per day, active days coding, deployments triggered.
+- **Communication and collaboration**
+  - *Metrics*: PR review turnaround time, cross-team dependencies resolved, documentation updates.
+- **Efficiency and flow**
+  - *Metrics*: Time spent waiting on builds, uninterrupted focus time, meeting load.
+
+## 3. Incident Classification Matrix
+
+| Severity | Definition | Impact | Response Time SLA | Expected Resolution Time SLA | Communications |
+|----------|------------|--------|-------------------|------------------------------|----------------|
+| **SEV-1** | Critical system failure | All users blocked | 5 minutes (24/7) | 4 hours | Execs hourly, Status page updated |
+| **SEV-2** | Degraded performance | > 20% users affected | 15 minutes (24/7) | 12 hours | Stakeholders updated |
+| **SEV-3** | Non-critical feature broken | < 20% users, workaround exists | 1 hour (Biz hours)| 3 days | Internal only |
+| **SEV-4** | Annoyance / UI bug | No functional block | Next sprint | Next release | Ticket in backlog |
+
+## 4. Engineering Cost Optimization (FinOps)
+
+### 4.1 Cloud Resource Lifecycle
+- **Development**: Resources Auto-shutdown at 19:00, auto-start at 08:00 (saves ~65% cost). Spot instances used exclusively.
+- **Staging**: Scaled-down replica (10% of production capacity). No multi-AZ requirements.
+- **Production**: Reserved instances (1yr/3yr commitment) for baseline load. Spot instances for stateless async workers. Multi-AZ enabled.
+
+### 4.2 Database Cost Control
+- **Data Tiering Strategy**:
+  - Hot (NVMe SSD): Data < 30 days old. Sub-millisecond read required.
+  - Warm (Standard SSD): Data 30-365 days old. Millisecond read acceptable.
+  - Cold (S3 / Blob Storage): Data > 365 days old. Compressed. Second/Minute retrieval acceptable.
+
+## 5. Standard Infrastructure Components (The Golden Path)
+
+### 5.1 The Stack Menu
+| Component | Preferred Option (Default) | Acceptable Alternative (With Justification) | Banned / Deprecated |
+|-----------|----------------------------|---------------------------------------------|---------------------|
+| Relational DB | PostgreSQL | MySQL 8.0 | Oracle, SQL Server |
+| NoSQL DB | MongoDB (Atlas) | DynamoDB | CouchDB |
+| Cache | Redis | Memcached | In-memory only (in distributed system) |
+| Message Broker | RabbitMQ | Apache Kafka (if throughput > 100k/sec) | ActiveMQ |
+| Frontend | React.js | Vue.js | Angular.js |
+| API Layer | Node.js (Express/Nest) | Go / Python (FastAPI) | Ruby on Rails |
+| CI/CD | GitHub Actions | GitLab CI | Jenkins (legacy only) |
+| Container | Docker + Kubernetes | ECS Fargate | Raw EC2 instances |
+
+# ---------------------------------------------------------
+# SQUAD ENGINEERING DNA MATRIX (EXPANDED EXTENSION)
+# ---------------------------------------------------------
+
+## 1. Skill Evolution Pathways
+
+### 1.1 Architecture Progression
+L1 (Entry): Can follow existing C4 models. Implements within bounded context.
+L2 (Mid): Can design new bounded contexts. Writes ADRs for local decisions.
+L3 (Senior): Can split monoliths. Designs eventual consistency flows. Writes cross-domain ADRs.
+L4 (Staff): Defines squad-level architecture vision. Designs multi-region active-active systems.
+L5 (Principal): Influences org-wide tech strategy. Author of industry-recognized patterns.
+
+### 1.2 Observability & Reliability Progression
+L1: Adds simple logs. Uses existing dashboards.
+L2: Instruments code with structured logs & custom metrics. Configures standard alerts.
+L3: Designs OpenTelemetry traces. Writes runbooks. Tunes false-positive alert ratios.
+L4: Implements auto-remediation. Defines error budgets and enforces SLOs.
+L5: Architects org-wide observability platforms capable of PB/day ingestion.
+
+### 1.3 Security Engineering Progression
+L1: Uses parameterized queries. Escapes HTML.
+L2: Performs basic threat modeling (STRIDE) on own features. Integrates SAST/DAST.
+L3: Designs Zero-Trust perimeters. Implements complex RBAC/ABAC models.
+L4: Conducts internal penetration testing. Responds to zero-day incidents across squad.
+L5: Authors custom cryptographic protocols or core security infrastructure.
+
+## 2. Core Operational Metrics Dictionary (SPACE + DORA)
+
+### 2.1 DORA Metrics (Delivery Performance)
+- **Deployment Frequency (DF)**
+  - *Definition*: How often code is deployed to production.
+  - *Elite Target*: On demand (multiple deploys per day).
+  - *Data Source*: CI/CD pipeline logs (e.g., GitHub Actions `deployment` triggers).
+- **Lead Time for Changes (LTC)**
+  - *Definition*: Time from commit pushed to code running in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: Git commit timestamp vs Deployment completion timestamp.
+- **Time to Restore Service (TTRS)**
+  - *Definition*: Time to recover from a failure in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: PagerDuty/Incident creation timestamp vs Resolution timestamp.
+- **Change Failure Rate (CFR)**
+  - *Definition*: Percentage of deployments causing a failure in production.
+  - *Elite Target*: 0-15%.
+  - *Data Source*: Total hotfixes/rollbacks divided by total deployments.
+
+### 2.2 SPACE Framework (Developer Productivity)
+- **Satisfaction and well-being**
+  - *Metrics*: eNPS (empolyee Net Promoter Score), burnout risk surveys, retention rate.
+- **Performance**
+  - *Metrics*: Story points delivered (only useful intra-squad), customer satisfaction impact of shipped features.
+- **Activity**
+  - *Metrics*: PRs merged, commits per day, active days coding, deployments triggered.
+- **Communication and collaboration**
+  - *Metrics*: PR review turnaround time, cross-team dependencies resolved, documentation updates.
+- **Efficiency and flow**
+  - *Metrics*: Time spent waiting on builds, uninterrupted focus time, meeting load.
+
+## 3. Incident Classification Matrix
+
+| Severity | Definition | Impact | Response Time SLA | Expected Resolution Time SLA | Communications |
+|----------|------------|--------|-------------------|------------------------------|----------------|
+| **SEV-1** | Critical system failure | All users blocked | 5 minutes (24/7) | 4 hours | Execs hourly, Status page updated |
+| **SEV-2** | Degraded performance | > 20% users affected | 15 minutes (24/7) | 12 hours | Stakeholders updated |
+| **SEV-3** | Non-critical feature broken | < 20% users, workaround exists | 1 hour (Biz hours)| 3 days | Internal only |
+| **SEV-4** | Annoyance / UI bug | No functional block | Next sprint | Next release | Ticket in backlog |
+
+## 4. Engineering Cost Optimization (FinOps)
+
+### 4.1 Cloud Resource Lifecycle
+- **Development**: Resources Auto-shutdown at 19:00, auto-start at 08:00 (saves ~65% cost). Spot instances used exclusively.
+- **Staging**: Scaled-down replica (10% of production capacity). No multi-AZ requirements.
+- **Production**: Reserved instances (1yr/3yr commitment) for baseline load. Spot instances for stateless async workers. Multi-AZ enabled.
+
+### 4.2 Database Cost Control
+- **Data Tiering Strategy**:
+  - Hot (NVMe SSD): Data < 30 days old. Sub-millisecond read required.
+  - Warm (Standard SSD): Data 30-365 days old. Millisecond read acceptable.
+  - Cold (S3 / Blob Storage): Data > 365 days old. Compressed. Second/Minute retrieval acceptable.
+
+## 5. Standard Infrastructure Components (The Golden Path)
+
+### 5.1 The Stack Menu
+| Component | Preferred Option (Default) | Acceptable Alternative (With Justification) | Banned / Deprecated |
+|-----------|----------------------------|---------------------------------------------|---------------------|
+| Relational DB | PostgreSQL | MySQL 8.0 | Oracle, SQL Server |
+| NoSQL DB | MongoDB (Atlas) | DynamoDB | CouchDB |
+| Cache | Redis | Memcached | In-memory only (in distributed system) |
+| Message Broker | RabbitMQ | Apache Kafka (if throughput > 100k/sec) | ActiveMQ |
+| Frontend | React.js | Vue.js | Angular.js |
+| API Layer | Node.js (Express/Nest) | Go / Python (FastAPI) | Ruby on Rails |
+| CI/CD | GitHub Actions | GitLab CI | Jenkins (legacy only) |
+| Container | Docker + Kubernetes | ECS Fargate | Raw EC2 instances |
+
+# ---------------------------------------------------------
+# SQUAD ENGINEERING DNA MATRIX (EXPANDED EXTENSION)
+# ---------------------------------------------------------
+
+## 1. Skill Evolution Pathways
+
+### 1.1 Architecture Progression
+L1 (Entry): Can follow existing C4 models. Implements within bounded context.
+L2 (Mid): Can design new bounded contexts. Writes ADRs for local decisions.
+L3 (Senior): Can split monoliths. Designs eventual consistency flows. Writes cross-domain ADRs.
+L4 (Staff): Defines squad-level architecture vision. Designs multi-region active-active systems.
+L5 (Principal): Influences org-wide tech strategy. Author of industry-recognized patterns.
+
+### 1.2 Observability & Reliability Progression
+L1: Adds simple logs. Uses existing dashboards.
+L2: Instruments code with structured logs & custom metrics. Configures standard alerts.
+L3: Designs OpenTelemetry traces. Writes runbooks. Tunes false-positive alert ratios.
+L4: Implements auto-remediation. Defines error budgets and enforces SLOs.
+L5: Architects org-wide observability platforms capable of PB/day ingestion.
+
+### 1.3 Security Engineering Progression
+L1: Uses parameterized queries. Escapes HTML.
+L2: Performs basic threat modeling (STRIDE) on own features. Integrates SAST/DAST.
+L3: Designs Zero-Trust perimeters. Implements complex RBAC/ABAC models.
+L4: Conducts internal penetration testing. Responds to zero-day incidents across squad.
+L5: Authors custom cryptographic protocols or core security infrastructure.
+
+## 2. Core Operational Metrics Dictionary (SPACE + DORA)
+
+### 2.1 DORA Metrics (Delivery Performance)
+- **Deployment Frequency (DF)**
+  - *Definition*: How often code is deployed to production.
+  - *Elite Target*: On demand (multiple deploys per day).
+  - *Data Source*: CI/CD pipeline logs (e.g., GitHub Actions `deployment` triggers).
+- **Lead Time for Changes (LTC)**
+  - *Definition*: Time from commit pushed to code running in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: Git commit timestamp vs Deployment completion timestamp.
+- **Time to Restore Service (TTRS)**
+  - *Definition*: Time to recover from a failure in production.
+  - *Elite Target*: Less than one hour.
+  - *Data Source*: PagerDuty/Incident creation timestamp vs Resolution timestamp.
+- **Change Failure Rate (CFR)**
+  - *Definition*: Percentage of deployments causing a failure in production.
+  - *Elite Target*: 0-15%.
+  - *Data Source*: Total hotfixes/rollbacks divided by total deployments.
+
+### 2.2 SPACE Framework (Developer Productivity)
+- **Satisfaction and well-being**
+  - *Metrics*: eNPS (empolyee Net Promoter Score), burnout risk surveys, retention rate.
+- **Performance**
+  - *Metrics*: Story points delivered (only useful intra-squad), customer satisfaction impact of shipped features.
+- **Activity**
+  - *Metrics*: PRs merged, commits per day, active days coding, deployments triggered.
+- **Communication and collaboration**
+  - *Metrics*: PR review turnaround time, cross-team dependencies resolved, documentation updates.
+- **Efficiency and flow**
+  - *Metrics*: Time spent waiting on builds, uninterrupted focus time, meeting load.
+
+## 3. Incident Classification Matrix
+
+| Severity | Definition | Impact | Response Time SLA | Expected Resolution Time SLA | Communications |
+|----------|------------|--------|-------------------|------------------------------|----------------|
+| **SEV-1** | Critical system failure | All users blocked | 5 minutes (24/7) | 4 hours | Execs hourly, Status page updated |
+| **SEV-2** | Degraded performance | > 20% users affected | 15 minutes (24/7) | 12 hours | Stakeholders updated |
+| **SEV-3** | Non-critical feature broken | < 20% users, workaround exists | 1 hour (Biz hours)| 3 days | Internal only |
+| **SEV-4** | Annoyance / UI bug | No functional block | Next sprint | Next release | Ticket in backlog |
+
+## 4. Engineering Cost Optimization (FinOps)
+
+### 4.1 Cloud Resource Lifecycle
+- **Development**: Resources Auto-shutdown at 19:00, auto-start at 08:00 (saves ~65% cost). Spot instances used exclusively.
+- **Staging**: Scaled-down replica (10% of production capacity). No multi-AZ requirements.
+- **Production**: Reserved instances (1yr/3yr commitment) for baseline load. Spot instances for stateless async workers. Multi-AZ enabled.
+
+### 4.2 Database Cost Control
+- **Data Tiering Strategy**:
+  - Hot (NVMe SSD): Data < 30 days old. Sub-millisecond read required.
+  - Warm (Standard SSD): Data 30-365 days old. Millisecond read acceptable.
+  - Cold (S3 / Blob Storage): Data > 365 days old. Compressed. Second/Minute retrieval acceptable.
+
+## 5. Standard Infrastructure Components (The Golden Path)
+
+### 5.1 The Stack Menu
+| Component | Preferred Option (Default) | Acceptable Alternative (With Justification) | Banned / Deprecated |
+|-----------|----------------------------|---------------------------------------------|---------------------|
+| Relational DB | PostgreSQL | MySQL 8.0 | Oracle, SQL Server |
+| NoSQL DB | MongoDB (Atlas) | DynamoDB | CouchDB |
+| Cache | Redis | Memcached | In-memory only (in distributed system) |
+| Message Broker | RabbitMQ | Apache Kafka (if throughput > 100k/sec) | ActiveMQ |
+| Frontend | React.js | Vue.js | Angular.js |
+| API Layer | Node.js (Express/Nest) | Go / Python (FastAPI) | Ruby on Rails |
+| CI/CD | GitHub Actions | GitLab CI | Jenkins (legacy only) |
+| Container | Docker + Kubernetes | ECS Fargate | Raw EC2 instances |

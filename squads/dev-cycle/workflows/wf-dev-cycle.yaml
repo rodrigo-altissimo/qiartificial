@@ -1,0 +1,676 @@
+# WF-001: Dev Cycle Pipeline
+# Duration: Variable (depends on story count and complexity)
+# Best for: Executing development from PRD/Epic/Stories to consolidated results
+# Key Agents: cycle-chief, @pm, @sm, @po, @dev, @qa, @architect, @data-engineer
+
+workflow:
+  id: wf-dev-cycle
+  name: "Dev Cycle Pipeline"
+  version: "2.2.0"
+  type: "pipeline"
+  orchestrator: "cycle-chief"
+  duration: "variable"
+  description: |
+    6-phase pipeline that transforms entry points (PRD, Epic, Stories, or Demand)
+    into implemented, validated, and consolidated code with optional product validation.
+
+    v2.0.0: Sequential execution model. Stories execute one at a time via subagents
+    (context isolation). No worktree. No merge conflicts. YOLO by default.
+
+    v2.2.0: Added type=demand — free-text requests without pre-existing artefacts.
+    DC-0 performs inline triage (contextual analysis, complexity classification)
+    and creates appropriate artefacts (story or epic) before continuing the pipeline.
+
+    This workflow produces:
+    - Validated stories (if created from PRD/Epic/Demand)
+    - Current stack documentation (stack-context.md)
+    - Implemented stories with QA validation
+    - Consolidated report (dev-cycle-report.md)
+
+  execution_mode:
+    default: "yolo"
+    options:
+      yolo:
+        description: "Zero human interaction. Execute fully autonomously."
+        human_review: false
+        confirm_wave_plan: false
+        confirm_between_waves: false
+      interactive:
+        description: "Pause at wave gates for user confirmation."
+        human_review: true
+        confirm_wave_plan: true
+        confirm_between_waves: true
+    flag: "--mode yolo | --mode interactive"
+    po_flag: "--skip-po (skip PO validation question, default: always ask)"
+
+  story_execution:
+    strategy: "sequential"
+    isolation: "subagent"
+    rationale: |
+      Sequential + subagent = best of both worlds:
+      - Subagent per story: context isolation (orchestrator stays clean)
+      - Sequential: no merge conflicts, each story builds on previous
+      - No worktree: simpler, faster, no merge resolution needed
+
+  best_for:
+    - "Executing a batch of stories from a PRD or Epic"
+    - "Running development cycles delegated by other squads (e.g., sottani-forge)"
+    - "YOLO fire-and-forget development cycles"
+    - "Sequential story execution with dependency-aware wave grouping"
+    - "Ad-hoc brownfield demands — free-text requests triaged and routed automatically"
+
+  sequence:
+    - phase: dc-0
+      agent: cycle-chief
+      action: "Resolve entry point type and validate artefacts. When type=demand, performs inline triage (contextual analysis, complexity classification, artefact creation)."
+      inputs: ["PRD path, Epic path, Stories directory, or free-text demand"]
+      creates: "entry-point-resolution.yaml"
+      on_complete:
+        trigger: parallel_group_1
+
+    - phase: dc-1
+      agent: cycle-chief
+      action: "Orchestrate story creation (@pm/@sm) and validation (@po). Creation skipped if stories exist. @po validation always runs unless user opted out."
+      parallel_group: 1
+      inputs: ["entry-point-resolution.yaml"]
+      requires: "entry-point-resolution.yaml"
+      creates: "story-files"
+      skip_condition: null  # DC-1 NEVER fully skips. Creation steps skip when stories exist, but @po validation always runs.
+      model_routing:
+        "@pm *create-epic": "opus"
+        "@sm *draft": "sonnet"
+        "@po *validate-story-draft": "sonnet"
+      on_complete:
+        trigger: dc-3-join
+
+    - phase: dc-2
+      agent: cycle-chief
+      action: "Research stack via Context7 and generate stack-context.md"
+      parallel_group: 1
+      inputs: ["Project manifest files (package.json, requirements.txt, etc.)"]
+      creates: "stack-context.md"
+      on_complete:
+        trigger: dc-3-join
+      join: dc-3
+
+    - phase: dc-3
+      agent: cycle-chief
+      action: "Execute stories sequentially via subagents (one at a time, no worktree) in dependency-aware waves"
+      depends_on: [dc-1, dc-2]
+      inputs: ["Story files from DC-1", "stack-context.md from DC-2"]
+      creates: "wave-results.yaml"
+      veto_conditions:
+        - id: VETO-DC-G1
+          condition: "DC-1 outputs (stories) AND DC-2 outputs (stack-context.md) must both exist"
+          on_fail: "BLOCK — wait for parallel group completion"
+      on_complete:
+        trigger: dc-4
+
+    - phase: dc-4
+      agent: cycle-chief
+      action: "Consolidate all results into final report"
+      depends_on: [dc-3]
+      inputs: ["wave-results.yaml from DC-3", "entry-point-resolution.yaml from DC-0"]
+      creates: "dev-cycle-report.md"
+      veto_conditions:
+        - id: VETO-DC-G2
+          condition: "wave-results.yaml must exist and be valid YAML"
+          on_fail: "BLOCK — DC-3 incomplete"
+      on_complete:
+        trigger: dc-5
+
+    - phase: dc-5
+      agent: cycle-chief
+      action: "Validate built product via Playwright (only when epic is 100% complete)"
+      depends_on: [dc-4]
+      inputs: ["dev-cycle-report.md from DC-4", "entry-point-resolution.yaml from DC-0"]
+      creates: "product-validation.md, test-results.md, test-plan.md"
+      skippable: true
+      skip_condition: "validation.skip == true OR --skip-validation flag OR epic_status != 'Done'"
+      epic_completeness_gate:
+        rule: "DC-5 only executes when ALL stories in the epic have status Done"
+        reason: "Partial validation causes false negatives due to missing migrations, incomplete features, and cross-story dependencies"
+        on_incomplete: "skip_with_notice"
+        notice: "DC-5 skipped — epic not fully complete ({done}/{total} stories Done). Product validation will run when all stories are Done."
+
+  handoff_prompts:
+    dc-0_to_parallel: "Entry point resolved as {type}. PO validation: {po_validation}. Launching DC-1 and DC-2 in parallel."
+    dc-0_demand_triage: "Demand triaged: complexity={complexity}. {analyses_count} analyses performed. Routed to {routed_to}. Artefacts created. Continuing pipeline."
+    dc-1_complete: "{N} stories created and validated. Waiting for DC-2 join."
+    dc-2_complete: "stack-context.md ready. Waiting for DC-1 join."
+    parallel_to_dc-3: "Parallel group complete. Launching wave execution."
+    dc-3_to_dc-4: "All waves complete. {passed}/{total} stories passed. Consolidating report."
+    dc-4_to_dc-5: "Report consolidated. Checking epic completeness for Product Validation (DC-5)..."
+    dc-5_skipped_incomplete: "DC-5 skipped — epic not fully complete ({done}/{total} stories Done). Validation deferred to epic completion."
+    dc-5_launching: "Epic 100% complete. Launching Product Validation (DC-5) — mode: {mode}."
+    dc-5_complete: "Product validation complete. Verdict: {verdict}. MUST_HAVE pass rate: {rate}%."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 0: ENTRY POINT RESOLUTION (DC-0)
+# ═══════════════════════════════════════════════════════════════════════════════
+phases:
+  - id: PHASE-0
+    name: "Entry Point Resolution"
+    code: "DC-0"
+    tier: 0
+    skippable: false
+    description: |
+      Detect entry point type (PRD, Epic, Stories, or Demand) and validate
+      that all required artefacts exist. When type=demand, performs inline
+      triage: contextual analysis with specialist agents, complexity
+      classification, and auto-creation of stories or epics.
+
+    tasks:
+      - task_file: tasks/resolve-entry-point.md
+        agent: cycle-chief
+        required: true
+        description: "Detect and validate entry point"
+        output: "entry-point-resolution.yaml"
+
+    outputs:
+      - "entry-point-resolution.yaml"
+
+    on_complete:
+      trigger: [PHASE-1, PHASE-2]
+      mode: parallel
+
+    checkpoint:
+      criteria:
+        - "Entry point type detected (prd, epic, stories, or demand)"
+        - "All referenced artefacts validated"
+        - "skip_creation flag correctly set"
+        - "po_validation preference captured (required or skip)"
+        - "(demand) Triage completed: complexity classified, artefacts created"
+      human_review: false
+      message: "DC-0 complete. Entry point: {type}. PO validation: {po_validation}. Launching DC-1 and DC-2 in parallel."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 1: EPIC & STORY CREATION (DC-1)
+# ═══════════════════════════════════════════════════════════════════════════════
+  - id: PHASE-1
+    name: "Epic & Story Creation + PO Validation"
+    code: "DC-1"
+    tier: 0
+    skippable: false
+    parallel_group: 1
+    description: |
+      Create and validate stories via AIOX agents. DC-1 NEVER fully skips.
+      PRD → @pm creates epic → @sm creates stories → @po validates.
+      Epic → @sm creates stories → @po validates.
+      Stories → creation skipped, @po validates existing stories.
+      @po validation is MANDATORY unless user explicitly opted out (po_validation: skip in DC-0).
+      Runs in PARALLEL with DC-2 (no dependency between them).
+
+    inputs:
+      - "entry-point-resolution.yaml (from DC-0)"
+
+    tasks:
+      - task_file: tasks/create-stories.md
+        agent: "@pm, @sm, @po (sequential)"
+        required: true
+        description: "Orchestrate story creation and validation"
+        output: "Story files in docs/stories/"
+
+    outputs:
+      - "Story files in docs/stories/"
+
+    on_complete:
+      trigger: PHASE-3
+      join_with: PHASE-2
+
+    checkpoint:
+      criteria:
+        - "All stories created with AIOX template structure (or existing stories detected)"
+        - "Each story has Acceptance Criteria"
+        - "@po validation score >= 7 for all stories (or po_validation == skip)"
+      human_review: false
+      message: "DC-1 complete. {N} stories validated (PO: {po_validation}). Waiting for DC-2 join."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 2: STACK RESEARCH (DC-2)
+# ═══════════════════════════════════════════════════════════════════════════════
+  - id: PHASE-2
+    name: "Stack Research"
+    code: "DC-2"
+    tier: 0
+    skippable: false
+    parallel_group: 1
+    description: |
+      Detect project stack from manifest files and pull current
+      documentation via Context7 MCP. Generates stack-context.md
+      shared with all subagents.
+      Runs in PARALLEL with DC-1 (reads project manifests, not stories).
+
+    inputs:
+      - "Project manifest files (package.json, requirements.txt, pyproject.toml, etc.)"
+
+    tasks:
+      - task_file: tasks/research-stack.md
+        agent: cycle-chief
+        required: true
+        description: "Detect stack and pull current docs"
+        output: "stack-context.md"
+
+    outputs:
+      - "stack-context.md"
+
+    on_complete:
+      trigger: PHASE-3
+      join_with: PHASE-1
+
+    checkpoint:
+      criteria:
+        - "Stack detected from manifest files"
+        - "Top 5-8 primary libraries identified"
+        - "Context7 docs pulled (or graceful fallback)"
+        - "stack-context.md generated"
+      human_review: false
+      message: "DC-2 complete. Stack: {libraries}. stack-context.md ready. Waiting for DC-1 join."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 3: WAVE EXECUTION (DC-3)
+# ═══════════════════════════════════════════════════════════════════════════════
+  - id: PHASE-3
+    name: "Wave Execution"
+    code: "DC-3"
+    tier: 1
+    skippable: false
+    depends_on: [PHASE-1, PHASE-2]
+    execution_strategy: sequential
+    subagent_isolation: true
+    worktree_isolation: false
+    description: |
+      Group stories in waves by dependency. Execute stories SEQUENTIALLY
+      via subagents (one at a time, no worktree). Each story commits before
+      the next starts. Wave gate between waves validates integrity.
+      JOIN POINT: Waits for both DC-1 (stories) and DC-2 (stack-context) to complete.
+      YOLO: No human interaction during execution (default mode).
+
+    inputs:
+      - "Story files in docs/stories/ (from DC-1)"
+      - "stack-context.md (from DC-2)"
+
+    veto_conditions:
+      - id: VETO-DC-G1
+        condition: "DC-1 outputs (story files) AND DC-2 outputs (stack-context.md) must both exist before DC-3 starts"
+        on_fail: "BLOCK — parallel group incomplete. Wait for both DC-1 and DC-2."
+
+    tasks:
+      - task_file: tasks/execute-wave.md
+        agent: cycle-chief
+        required: true
+        description: "Orchestrate wave execution"
+        output: "wave-results.yaml"
+        notes: |
+          Inner task: tasks/execute-story.md runs per-story in a subagent (context isolation).
+          Execution is SEQUENTIAL — one story at a time, no worktree.
+          Each subagent: dev → QG (conditional) → QA (always) → update-story-progress (on pass) → commit.
+          Max retries per story: 3.
+          YOLO: zero questions during execution.
+          On QA pass: tasks/update-story-progress.md marks AC checkboxes, File List, status in story file.
+
+    outputs:
+      - "wave-results.yaml"
+
+    on_complete:
+      trigger: PHASE-4
+
+    checkpoint:
+      criteria:
+        - "All waves executed in dependency order"
+        - "Stories executed SEQUENTIALLY (one at a time)"
+        - "Each story committed before next started"
+        - "Wave gates validated between waves"
+        - "Each story has QA verdict"
+        - "Passed stories have updated checkboxes, File List, and status"
+        - "wave-results.yaml generated"
+        - "Zero questions asked to user (YOLO)"
+      human_review: false
+      message: "DC-3 complete. {passed}/{total} stories passed across {waves} waves. Sequential execution, 0 conflicts."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 4: CONSOLIDATION & REPORT (DC-4)
+# ═══════════════════════════════════════════════════════════════════════════════
+  - id: PHASE-4
+    name: "Consolidation & Report"
+    code: "DC-4"
+    tier: 0
+    skippable: false
+    depends_on: [PHASE-3]
+    description: |
+      Merge results from all waves into a final report.
+      Includes stories completed, failures, files modified, and metrics.
+
+    inputs:
+      - "wave-results.yaml (from DC-3)"
+      - "entry-point-resolution.yaml (from DC-0)"
+
+    veto_conditions:
+      - id: VETO-DC-G2
+        condition: "wave-results.yaml must exist and be valid YAML"
+        on_fail: "BLOCK — DC-3 incomplete or wave-results.yaml missing/invalid"
+
+    tasks:
+      - task_file: tasks/consolidate-report.md
+        agent: cycle-chief
+        required: true
+        description: "Generate final dev cycle report and update epic progress"
+        output: "dev-cycle-report.md"
+        notes: |
+          Step 4 (new): tasks/update-epic-progress.md marks story checkboxes in epic,
+          updates progress metrics, and transitions epic status.
+          Skipped gracefully if no epic file exists.
+
+    outputs:
+      - "dev-cycle-report.md"
+      - "Updated epic file (if applicable)"
+
+    checkpoint:
+      criteria:
+        - "Report includes summary with correct counts"
+        - "All wave results documented"
+        - "Failed stories have detailed reasons"
+        - "File manifest generated"
+        - "Epic updated with story progress (if epic exists)"
+      human_review: false
+      message: "DC-4 complete. Report: dev-cycle-report.md"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 5: PRODUCT VALIDATION (DC-5)
+# ═══════════════════════════════════════════════════════════════════════════════
+  - id: PHASE-5
+    name: "Product Validation"
+    code: "DC-5"
+    tier: 1
+    skippable: true
+    skip_condition: "validation.skip == true OR --skip-validation flag"
+    auto_condition: "validation.auto == true OR --auto-validation flag"
+    default_mode: "elicit"
+    depends_on: [PHASE-4]
+    description: |
+      Validate the built product using Playwright via wf-product-validation.
+      Derives tests from project docs and code, executes via parallel subagents.
+      Supports 3 pipeline modes: auto (runs automatically), skip (bypassed),
+      elicit (asks user). Also invocable standalone via *validate.
+
+    inputs:
+      - "dev-cycle-report.md (from DC-4)"
+      - "entry-point-resolution.yaml (from DC-0, for project_path)"
+
+    tasks:
+      - task_file: tasks/validate-product.md
+        agent: cycle-chief
+        required: false
+        description: "Orchestrate product validation workflow"
+        output: "product-validation.md, test-results.md, test-plan.md"
+        notes: |
+          Delegates to wf-product-validation.yaml (4 phases: Discovery → Test Plan → Execution → Consolidation).
+          When running as DC-5, enriches Discovery with dev-cycle-report context.
+          Results appended to dev-cycle-report.md.
+
+    outputs:
+      - "product-validation.md"
+      - "test-results.md"
+      - "test-plan.md"
+      - "Updated dev-cycle-report.md (with validation summary)"
+
+    on_complete:
+      trigger: null  # Final phase — pipeline complete
+
+    checkpoint:
+      criteria:
+        - "Validation workflow completed (all 4 phases)"
+        - "Verdict generated (APPROVED | APPROVED_WITH_CONDITIONS | REJECTED)"
+        - "Results appended to dev-cycle-report.md"
+      human_review: true
+      message: "DC-5 complete. Verdict: {verdict}. MUST_HAVE pass rate: {rate}%."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ERROR HANDLING
+# ═══════════════════════════════════════════════════════════════════════════════
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_stakeholders: true
+    - create_remediation_task: false
+    - halt_workflow: true
+
+  on_checkpoint_failure:
+    - log_failure_reason: true
+    - return_to_previous_phase: false
+    - max_retries: 1
+
+  on_story_failure:
+    - max_retries_per_story: 3
+    - skip_dependents: true
+    - continue_wave: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# COMPLETION SIGNALS
+# ═══════════════════════════════════════════════════════════════════════════════
+completion_signal: "<promise>COMPLETE</promise>"
+checkpoint_signal: "<promise>CHECKPOINT:DC-X</promise>"
+blocked_signal: "<promise>BLOCKED:DC-X</promise>"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OUTPUT ARTIFACTS
+# ═══════════════════════════════════════════════════════════════════════════════
+outputs:
+  dc_0:
+    - "entry-point-resolution.yaml"
+  dc_1:
+    - "Story files in docs/stories/"
+  dc_2:
+    - "stack-context.md"
+  dc_3:
+    - "wave-results.yaml"
+  dc_4:
+    - "dev-cycle-report.md"
+  dc_5:
+    - "product-validation.md"
+    - "test-results.md"
+    - "test-plan.md"
+    - "Updated dev-cycle-report.md (with validation summary)"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# AGENT ASSIGNMENTS BY PHASE
+# ═══════════════════════════════════════════════════════════════════════════════
+agents_by_phase:
+  PHASE-0:
+    primary:
+      - "cycle-chief"
+  PHASE-1:
+    primary:
+      - "@pm"
+      - "@sm"
+      - "@po"
+  PHASE-2:
+    primary:
+      - "cycle-chief"
+    secondary:
+      - "Context7 MCP"
+  PHASE-3:
+    primary:
+      - "cycle-chief (orchestration)"
+    secondary:
+      - "@dev (story execution)"
+      - "@data-engineer (DB stories)"
+      - "@ux-design-expert (UI stories)"
+      - "@qa (QA validation — always)"
+      - "@architect (Quality Gate — conditional)"
+  PHASE-4:
+    primary:
+      - "cycle-chief"
+  PHASE-5:
+    primary:
+      - "cycle-chief (orchestration)"
+    secondary:
+      - "@qa (product validation)"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# QUALITY CHECKLIST
+# ═══════════════════════════════════════════════════════════════════════════════
+quality_checklist:
+  entry_point_resolution:
+    - "[ ] Entry point type correctly detected (prd, epic, stories, or demand)"
+    - "[ ] All artefacts validated"
+    - "[ ] (demand) Triage: complexity classified correctly"
+    - "[ ] (demand) Triage: contextual analyses run only for relevant signals"
+    - "[ ] (demand) Triage: appropriate artefacts created (story or epic)"
+  story_creation:
+    - "[ ] Stories follow AIOX template (created or pre-existing)"
+    - "[ ] @po validation >= 7 for all stories (or po_validation == skip)"
+    - "[ ] po_validation preference respected (required runs @po, skip logs and proceeds)"
+  stack_research:
+    - "[ ] Stack detected from manifests"
+    - "[ ] Context7 docs pulled"
+  wave_execution:
+    - "[ ] Stories grouped by dependency"
+    - "[ ] Stories executed SEQUENTIALLY (one at a time)"
+    - "[ ] Each story in subagent (context isolation)"
+    - "[ ] Each story committed before next started"
+    - "[ ] QA ran on every story"
+    - "[ ] Passed stories have AC checkboxes marked [x]"
+    - "[ ] Passed stories have File List populated"
+    - "[ ] Passed stories have status updated to Done"
+    - "[ ] Zero questions asked to user (YOLO mode)"
+  consolidation:
+    - "[ ] Report covers all stories"
+    - "[ ] File manifest complete"
+    - "[ ] Epic checkboxes marked for passed stories"
+    - "[ ] Epic progress metrics updated"
+    - "[ ] Epic status transitioned (Done/InProgress)"
+  product_validation:
+    - "[ ] Epic completeness gate checked (all stories Done)"
+    - "[ ] DC-5 skipped with notice if epic incomplete"
+    - "[ ] Validation mode correctly resolved (auto/skip/elicit/standalone)"
+    - "[ ] All 4 workflow phases executed (Discovery → Test Plan → Execution → Consolidation)"
+    - "[ ] Verdict generated (APPROVED | APPROVED_WITH_CONDITIONS | REJECTED)"
+    - "[ ] Results appended to dev-cycle-report.md (when DC-5)"
+    - "[ ] Human review completed on verdict"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GOVERNANCE GATE
+# ═══════════════════════════════════════════════════════════════════════════════
+governance_gate:
+  protocol: "squads/squad-creator/protocols/ai-first-governance.md"
+  required_checks:
+    - "Pipeline phases executed in order (parallel group respected)"
+    - "No non-skippable phase was skipped"
+    - "Parallel group 1 (DC-1 ‖ DC-2) joined before DC-3"
+    - "All veto conditions (VETO-DC-G1, VETO-DC-G2) passed"
+    - "All stories have QA verdict"
+    - "Report generated and complete"
+
+  ci_policy:
+    blocking_deterministic_only: true
+    deterministic_checks:
+      - "YAML syntax valid"
+      - "Required files present"
+      - "Story file structure valid"
+    semantic_checks_enforced_in_workflow: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+metadata:
+  version: "2.2.0"
+  framework: "AIOX Dev Cycle"
+  created: "2026-03-10"
+  primary_use_case: "Execute development cycles from entry point to consolidated results"
+  key_difference: |
+    Unlike generic dev workflows, this pipeline:
+    - Executes stories SEQUENTIALLY via subagents (context isolation, zero conflicts)
+    - YOLO by default — fire and forget, zero questions
+    - Researches current stack docs before coding (Context7)
+    - Has conditional Quality Gates + mandatory QA
+    - Groups stories in dependency-aware waves
+    - Parallelizes DC-1 and DC-2 for faster pre-execution setup
+    - Per-step checklists enforced throughout execution
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CHANGELOG
+# ═══════════════════════════════════════════════════════════════════════════════
+changelog:
+  - version: "2.2.0"
+    date: "2026-03-27"
+    changes:
+      - "Added type=demand entry point — free-text requests without pre-existing artefacts"
+      - "DC-0 now performs inline triage for demands: contextual analysis, complexity classification, artefact creation"
+      - "Specialist agents (@architect, @data-engineer, @ux-design-expert, @qa) used conditionally during triage"
+      - "Complexity classification: SIMPLE (1 story, no PO) → MEDIUM (stories + PO) → COMPLEX (epic)"
+      - "Updated DC-0 phase description, checkpoint, quality checklist, and handoff prompts"
+      - "Added best_for: ad-hoc brownfield demands"
+
+  - version: "2.1.0"
+    date: "2026-03-14"
+    changes:
+      - "DC-1 NEVER fully skips — creation steps skip when stories exist, but @po validation always runs"
+      - "Replaced skip_dc1 with skip_creation + po_validation fields in entry-point-resolution.yaml"
+      - "Added --skip-po flag for explicit PO validation opt-out"
+      - "DC-0 now elicits PO validation preference: 'Validar stories com @po? (S/n)'"
+      - "Updated PHASE-1 to skippable: false with conditional creation skip"
+      - "Updated checkpoints and quality checklist for new PO validation flow"
+
+  - version: "2.0.0"
+    date: "2026-03-10"
+    changes:
+      - "**BREAKING:** DC-3 now executes stories SEQUENTIALLY (was parallel)"
+      - "Removed worktree isolation — stories work on current branch directly"
+      - "Added subagent-per-story for context isolation (orchestrator stays clean)"
+      - "Added YOLO mode as default (--mode yolo) — zero human interaction"
+      - "Added --mode interactive for manual wave gate approval"
+      - "Added execution_mode config with yolo/interactive options"
+      - "Added story_execution config (strategy: sequential, isolation: subagent)"
+      - "Updated DC-3 checkpoint with sequential + YOLO criteria"
+      - "Updated quality_checklist.wave_execution with new checks"
+      - "Zero merge conflicts by design"
+
+  - version: "1.4.0"
+    date: "2026-03-10"
+    changes:
+      - "DC-5 epic completeness gate — only executes when all stories are Done"
+      - "Added epic_completeness_gate config to DC-5 phase"
+      - "DC-5 skips gracefully with notice when epic incomplete"
+      - "Standalone mode (*validate) bypasses epic gate"
+      - "Updated handoff prompts for DC-5 skip/launch scenarios"
+      - "Updated quality checklist with epic completeness checks"
+
+  - version: "1.3.0"
+    date: "2026-03-10"
+    changes:
+      - "Added DC-5 Product Validation phase (auto|skip|elicit|standalone modes)"
+      - "Added validate-product.md task — orchestrates wf-product-validation.yaml"
+      - "Moved wf-product-validation.yaml from sottani-forge to dev-cycle"
+      - "Added PHASE-5 agents_by_phase, quality_checklist, handoff_prompts"
+      - "Fixed epic checklist matching — expanded regex patterns + fallback"
+      - "Pipeline is now 6 phases (DC-0 through DC-5)"
+
+  - version: "1.2.0"
+    date: "2026-03-10"
+    changes:
+      - "Added update-story-progress.md — write-back AC checkboxes, File List, status to story files (DC-3, post-QA)"
+      - "Added update-epic-progress.md — write-back story checkboxes, progress metrics, status to epic file (DC-4)"
+      - "Updated execute-story.md Step 5 to call update-story-progress on QA pass"
+      - "Updated consolidate-report.md Step 4 to call update-epic-progress"
+      - "Updated quality checklist with progress tracking checks"
+      - "Updated DC-3 and DC-4 checkpoint criteria"
+
+  - version: "1.1.0"
+    date: "2026-03-10"
+    optimized_by: "*optimize-workflow v1.0.0 + *optimize v4.1.0"
+    changes:
+      - "D2: Parallelized DC-1 (Story Creation) and DC-2 (Stack Research) — no dependency between them"
+      - "D5: Added parallel_group with join point at DC-3"
+      - "D5: Added veto conditions VETO-DC-G1 (DC-3 gate) and VETO-DC-G2 (DC-4 gate)"
+      - "D5: Added formal inputs/outputs mappings to all phases"
+      - "D5: Added on_complete auto-triggers for GAP ZERO compliance"
+      - "D5: Updated handoff_prompts for parallel flow"
+      - "D6: Model routing on DC-1 — @pm keeps Opus, @sm→Sonnet, @po→Sonnet (58% DC-1 savings)"
+      - "Updated governance gate to enforce parallel group and veto conditions"
+    projected_savings: "~36% total cost reduction, ~30% time reduction on pre-wave phases"
+
+  - version: "1.0"
+    date: "2026-03-10"
+    changes:
+      - "Initial version — 5-phase linear pipeline"

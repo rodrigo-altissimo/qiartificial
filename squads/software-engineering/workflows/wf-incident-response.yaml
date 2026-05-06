@@ -1,0 +1,114 @@
+id: wf-incident-response
+name: "Incident Response Workflow"
+description: "When production is on fire — structured incident response protocol"
+squad: software-engineering
+orchestrator: eng-chief
+agents: [eng-devops, eng-perf, eng-distributed, eng-security, eng-audit]
+---
+
+steps:
+  - step: 1
+    name: "Severity Declaration"
+    agent: eng-devops
+    action: |
+      Within 5 minutes of incident detection:
+      - Declare incident severity: P0/P1/P2
+      - Start incident management channel (#incident-YYYYMMDD-HH)
+      - Assign: Incident Commander, Technical Lead, Comms Lead
+      - Start incident timeline document
+      - Customer impact statement: "X% of users affected, experiencing Y"
+      P0: Broad customer impact — escalate immediately, wake people up
+      P1: Significant partial impact — business hours escalation
+      P2: Minor/internal impact — normal response
+    output: "incident_declaration.md"
+
+  - step: 2
+    name: "Mitigation First"
+    agent: eng-devops
+    action: |
+      Within 15 minutes for P0:
+      Try mitigation before diagnosis (to stop the bleeding):
+      - Rollback last deployment if incident started post-deploy
+      - Enable feature flags to disable affected feature
+      - Scale up if saturation-related
+      - Reroute traffic to healthy region
+      Goal: restore partial service. Root cause analysis comes AFTER.
+    output: "mitigation_log.md"
+    depends_on: [1]
+
+  - step: 3
+    name: "Performance Diagnosis"
+    agent: eng-perf
+    action: |
+      Apply RED Method to the affected service:
+      - Rate: Is traffic anomalous?
+      - Errors: Error rate and error types?
+      - Duration: Where is latency elevated?
+      Apply USE Method to resources:
+      - Is it CPU/memory/disk/network saturation?
+      Check distributed traces for cross-service latency
+    output: "diagnosis_metrics.md"
+    depends_on: [2]
+
+  - step: 4
+    name: "Root Cause Investigation"
+    agent: eng-distributed
+    action: |
+      If distributed system involved:
+      - Check distributed trace for the failing request path
+      - Identify which service in the critical path is failing
+      - Check consistency: is a database or cache inconsistent?
+      - Check for split-brain or network partition
+    output: "root_cause_analysis.md"
+    depends_on: [3]
+    conditional: "if distributed system involved"
+
+  - step: 5
+    name: "Security Investigation"
+    agent: eng-security
+    action: |
+      If incident may be security-related:
+      - Check auth logs for anomalous access patterns
+      - Check for DDoS signatures (traffic anomaly + 429/503)
+      - Check for data exfiltration (unusual outbound data volume)
+      - Escalate to security team if confirmed security incident
+    output: "security_assessment.md"
+    depends_on: [2]
+    parallel_with: [3, 4]
+    conditional: "if security anomaly suspected"
+
+  - step: 6
+    name: "Resolution and Recovery"
+    agent: eng-devops
+    action: |
+      Apply definitive fix:
+      - Deploy fix with expedited review (emergency change process)
+      - Monitor: error rate returns to baseline
+      - Monitor: latency returns to baseline
+      - Lift any traffic throttling or feature disablement
+      Confirm resolved: 15 minutes at normal SLO = resolved
+    output: "resolution_log.md"
+    depends_on: [4]
+
+  - step: 7
+    name: "Post-Mortem"
+    agent: eng-audit
+    action: |
+      Within 48 hours of resolution:
+      Write blameless post-mortem:
+      - Timeline of events
+      - What happened (technical)
+      - Root causes (5 Whys)
+      - What went well
+      - What went poorly
+      - Action items (with owner + due date)
+      Publish and share with all stakeholders
+    output: "post_mortem.md"
+    depends_on: [6]
+
+deliverables:
+  - incident_declaration.md
+  - mitigation_log.md
+  - root_cause_analysis.md
+  - resolution_log.md
+  - post_mortem.md (public within 48 hours)

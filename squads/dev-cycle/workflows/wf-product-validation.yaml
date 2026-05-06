@@ -1,0 +1,849 @@
+# wf-product-validation.yaml
+# Workflow: Project-Aware Product Validation
+# Version: 1.0.0
+# Last Updated: 2026-02-26
+# Standalone: YES — invocable via *validate without running full pipeline
+# Integrated: YES — runs as DC-5 in dev-cycle pipeline (auto|skip|elicit)
+# Moved from: sottani-forge (2026-03-10)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# WORKFLOW METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+workflow:
+  id: wf-product-validation
+  name: "Project-Aware Product Validation"
+  version: "1.1.0"
+  description: "Validate a built product by deriving tests from the project's own docs and code, not from a generic checklist"
+  type: "validation"
+  purpose: |
+    Validate a built product by deriving tests FROM the project's own docs and code,
+    NOT from a generic checklist. Reads PRD, specs, front-end-spec, and codebase to
+    generate a dynamic test plan, then executes it via parallel subagents with Playwright.
+
+  sequence:
+    - phase: discovery
+      agent: cycle-chief
+      action: "Read project docs and code to understand what was planned and built"
+      creates: "discovery-cache.yaml"
+
+    - phase: test-plan
+      agent: cycle-chief
+      action: "Generate dynamic test plan from Discovery outputs"
+      requires: "discovery-cache.yaml"
+      creates: "test-plan.md"
+
+    - phase: execution
+      agent: cycle-chief
+      action: "Execute test batches via parallel subagents with Playwright"
+      requires: "test-plan.md"
+      creates: "test-results.md"
+
+    - phase: consolidation
+      agent: cycle-chief
+      action: "Aggregate results, calculate scores, generate verdict"
+      requires: "test-results.md"
+      creates: "product-validation.md"
+
+  executor: "@qa"
+  tools: ["playwright", "browser-tools"]
+  skills: ["webapp-testing", "owasp-security"]
+  mode: "autonomous"
+  estimated_duration: "30-120 min"
+
+  philosophy: |
+    "Generic tests catch generic bugs. Project-aware tests catch YOUR bugs."
+
+    This workflow does NOT apply a fixed checklist. It reads what was PLANNED (PRD, specs)
+    and what was BUILT (code, components, routes), then generates a tailored test plan
+    that covers functional flows, micro-interactions, visual fidelity, accessibility,
+    and performance — specific to THIS project.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXECUTION STRATEGY
+# ═══════════════════════════════════════════════════════════════════════════════
+
+execution_strategy:
+  mode: "sequential_phases_parallel_execution"
+  description: |
+    Phase A: Discovery (sequential — read docs + code)
+    Phase B: Test Plan Generation (sequential — generate dynamic checklist)
+      → Checkpoint: veto if checklist insufficient
+    Phase C: Execution (PARALLEL subagents — batches of 10-15 tests)
+    Phase D: Consolidation (sequential — aggregate + score + verdict)
+
+  parallelization:
+    phase: "C"
+    max_concurrent_agents: 5
+    timeout_per_batch: "5 minutes"
+    fail_strategy: "mark_timeout_continue"  # Don't block other batches
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# INPUTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+inputs:
+  required:
+    - name: project_path
+      type: string
+      default: "."
+      description: |
+        Root path of the built project.
+        Default: current working directory (auto-detected via $PWD).
+        When invoked standalone (*validate-product without args), uses "." as project root.
+        When invoked from forge pipeline, receives "docs/" as the documentation root.
+
+  optional:
+    - name: prd_path
+      type: string
+      description: "Path to PRD. Default: {project_path}/prd.md"
+    - name: specs_path
+      type: string
+      description: "Path to specs directory. Default: {project_path}/specs/"
+    - name: fe_spec_path
+      type: string
+      description: "Path to front-end spec. Default: {project_path}/front-end-spec.md"
+    - name: code_path
+      type: string
+      description: "Path to source code. Default: auto-detect from project root"
+    - name: server_command
+      type: string
+      description: "Override server start command. Default: auto-detect from package.json"
+    - name: credentials
+      type: object
+      description: "Pre-provided credentials { email, password }. Default: auto-resolve"
+    - name: force_discovery
+      type: boolean
+      default: false
+      description: |
+        Force re-run of Phase A Discovery, ignoring cache.
+        Use when you know docs/code changed but hash hasn't been invalidated.
+    - name: test_scope
+      type: enum
+      values: ["full", "delta"]
+      default: "full"
+      description: |
+        Controls test generation scope in Phase B:
+        - "full": Generate tests for entire project (standalone default)
+        - "delta": Generate tests only for changes from current sprint (pipeline default)
+        Requires delta_context when scope is "delta".
+    - name: delta_context
+      type: object
+      default: null
+      description: |
+        Sprint change context extracted from dev-cycle-report.md (DC-4 output).
+        Format:
+        {
+          passed_stories: [{ id, title, acceptance_criteria: [...] }],
+          files_modified: [{ file, stories: [...], action: "created|modified|deleted" }],
+          routes_affected: [string],
+          components_affected: [string]
+        }
+        Only used when test_scope == "delta".
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OUTPUTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+outputs:
+  artifacts:
+    - name: "test-plan.md"
+      path: "{project_path}/validation/test-plan.md"
+      description: "Dynamic test plan generated from docs + code analysis. Traceable to PRD."
+    - name: "test-results.md"
+      path: "{project_path}/validation/test-results.md"
+      description: "Consolidated execution results with pass/fail per test, screenshots, errors."
+    - name: "product-validation.md"
+      path: "{project_path}/product-validation.md"
+      description: "Final validation report with scores per category and overall verdict."
+    - name: "discovery-cache.yaml"
+      path: "{project_path}/validation/.discovery-cache.yaml"
+      description: |
+        Cached Discovery output with source file hashes.
+        Used to skip Phase A on subsequent runs when sources haven't changed.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE A — DISCOVERY
+# Read project docs + code to understand what was planned and what was built
+# ═══════════════════════════════════════════════════════════════════════════════
+
+phases:
+
+  - phase: "A"
+    name: "Discovery"
+    duration: "5-15 min"
+    description: "Read all project artifacts to build a complete picture of what to test"
+
+    steps:
+      - step: 0
+        name: "Discovery cache check"
+        action: |
+          IF inputs.force_discovery == true:
+            LOG "Force refresh requested — skipping cache"
+            GOTO Step 1
+
+          cache_path = "{project_path}/validation/.discovery-cache.yaml"
+
+          IF NOT file_exists(cache_path):
+            LOG "No discovery cache found — running full discovery"
+            GOTO Step 1
+
+          TRY:
+            cache = parse_yaml(cache_path)
+
+            IF cache.version != "1.0.0":
+              LOG "Cache version mismatch — invalidating"
+              GOTO Step 1
+
+            # Compute current source hash
+            source_files = collect_source_files(project_path):
+              - Glob: {project_path}/prd.md, {project_path}/prd/*.md
+              - Glob: {project_path}/specs/*.md
+              - Glob: {project_path}/front-end-spec.md
+              - Glob: {project_path}/stories/*.md
+              - Glob: {project_path}/design/**
+              - Glob: {code_path}/**/*.{ts,tsx,js,jsx,py,vue,svelte} (max depth 3)
+              - File: {project_path}/package.json
+
+            current_hash = sha256(concatenate(sort(sha256(file) for file in source_files)))
+
+            IF current_hash == cache.source_hash:
+              LOG "Discovery cache HIT — reusing cached discovery (created: {cache.created_at})"
+              discovery_docs = cache.discovery_docs
+              discovery_code = cache.discovery_code
+              gap_analysis = cache.gap_analysis
+              SKIP Steps 1, 2, 3
+              GOTO checkpoint
+            ELSE:
+              LOG "Discovery cache MISS — {N} files changed since last run"
+              GOTO Step 1
+
+          CATCH (parse error, missing fields):
+            LOG "WARN: Discovery cache corrupted — running full discovery"
+            DELETE cache_path
+            GOTO Step 1
+
+        output:
+          name: "cache_status"
+          format: "hit | miss | corrupted | forced | not_found"
+
+      - step: 1
+        name: "Read project documentation"
+        action: |
+          Read the following files (skip if not found, note as gap):
+          1. PRD (prd.md) — extract: use cases, MoSCoW priorities, user personas, business rules
+          2. Specs (specs/*.md) — extract: API endpoints, data models, validation rules
+          3. Front-end spec (front-end-spec.md) — extract: pages/screens, components, interactions,
+             responsive breakpoints, design tokens, accessibility requirements
+          4. Stories (stories/*.md) — extract: acceptance criteria, completed features
+          5. Design artifacts (design/) — extract: wireframes, color tokens, typography
+        output:
+          name: "discovery_docs"
+          format: |
+            {
+              use_cases: [{ id, name, priority, flow_steps, expected_outcome }],
+              pages: [{ route, components, interactions }],
+              business_rules: [{ rule, validation, error_message }],
+              design_tokens: { colors, spacing, typography, breakpoints },
+              auth_required: bool,
+              features_completed: [{ story_id, feature, acceptance_criteria }]
+            }
+
+      - step: 2
+        name: "Analyze codebase"
+        action: |
+          Scan the project source code to map what was ACTUALLY built:
+          1. Routes/pages — Glob for page files (Next.js pages/, app/; React Router; etc.)
+          2. Components — Glob for component files, extract props and event handlers
+          3. API routes — Glob for API endpoints (api/, routes/, server/)
+          4. Forms — Grep for <form>, onSubmit, handleSubmit, validation schemas (zod, yup)
+          5. Interactive elements — Grep for onClick, onHover, onFocus, disabled, cursor-pointer
+          6. Auth — Grep for login, auth, session, middleware, protected, guard
+          7. Error handling — Grep for error boundary, fallback, 404, loading, skeleton, empty state
+          8. Package.json — extract: start/dev command, dependencies (UI framework, test libs)
+        output:
+          name: "discovery_code"
+          format: |
+            {
+              routes: [{ path, file, has_auth_guard }],
+              components: [{ name, file, props, events, has_loading_state, has_error_state }],
+              api_endpoints: [{ method, path, file }],
+              forms: [{ file, fields, validation_schema }],
+              interactive_elements: [{ file, element, event_type, has_cursor_pointer }],
+              auth_system: { type, login_route, guard_middleware },
+              error_handling: { has_404, has_error_boundary, has_loading_states, has_empty_states },
+              server: { start_command, port, framework }
+            }
+
+      - step: 3
+        name: "Gap analysis — planned vs built"
+        action: |
+          Cross-reference discovery_docs with discovery_code:
+          1. For each PRD use case → is there a matching route + components?
+          2. For each front-end-spec page → does the route exist in code?
+          3. For each acceptance criterion → can it be verified in the UI?
+          Flag:
+          - MISSING: planned but not found in code (critical gap)
+          - EXTRA: found in code but not in specs (undocumented feature)
+          - PARTIAL: route exists but missing expected components/interactions
+        output:
+          name: "gap_analysis"
+          format: |
+            {
+              coverage_score: "X% of PRD use cases have matching code",
+              missing: [{ source, item, severity }],
+              extra: [{ file, feature }],
+              partial: [{ source, item, what_is_missing }]
+            }
+
+      - step: 4
+        name: "Save discovery cache"
+        condition: "cache_status != 'hit'"
+        action: |
+          Compute source file hashes (same logic as Step 0).
+          Write {project_path}/validation/.discovery-cache.yaml:
+
+          version: "1.1.0"
+          created_at: {ISO8601 timestamp}
+          workflow_version: "1.1.0"
+          source_hash: {computed SHA-256}
+          source_files:
+            - path: "prd.md"
+              hash: "{sha256}"
+              last_modified: "{ISO8601}"
+              size_bytes: {N}
+            - ...
+          discovery_docs: {full Step 1 output}
+          discovery_code: {full Step 2 output}
+          gap_analysis: {full Step 3 output}
+
+          LOG "Discovery cache saved — {N} source files indexed"
+
+    checkpoint:
+      name: "Discovery Complete"
+      verify:
+        - "At least one of PRD or specs was found and parsed"
+        - "At least 1 route detected in codebase"
+        - "Server start command identified"
+      on_fail: "HALT — cannot generate test plan without project docs or code"
+
+    veto_conditions:
+      - id: "PV_VETO_A01"
+        condition: "No PRD AND no specs AND no stories found"
+        action: "HALT — no documentation to derive tests from. Ask user for project docs."
+        severity: blocking
+
+      - id: "PV_VETO_A02"
+        condition: "No routes or pages detected in codebase"
+        action: "HALT — cannot test an app with no detectable pages. Verify code_path."
+        severity: blocking
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE B — TEST PLAN GENERATION
+# Generate dynamic, project-specific test checklist organized by category
+# ═══════════════════════════════════════════════════════════════════════════════
+
+  - phase: "B"
+    name: "Test Plan Generation"
+    duration: "5-10 min"
+    description: "Generate a comprehensive test plan derived from Discovery outputs"
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # MANDATORY test categories — veto if any MUST_HAVE category is empty
+    # ─────────────────────────────────────────────────────────────────────────
+
+    test_categories:
+      must_have:
+        - category: "functional"
+          description: "CRUD operations, navigation flows, form submissions, data validation"
+          source: "PRD use cases + API endpoints + forms detected in code"
+          generate_from: |
+            For each use case (priority Must/Should):
+              - TEST: Navigate to entry point → execute flow → verify outcome
+              - TEST: Submit form with valid data → verify success
+              - TEST: Submit form with invalid data → verify error messages
+            For each API-backed page:
+              - TEST: Page loads data correctly (not empty when data exists)
+              - TEST: Create/Edit/Delete operations work (if applicable)
+
+        - category: "interactions"
+          description: "Hover states, click handlers, disabled buttons, pointer cursors, focus states"
+          source: "Components + interactive elements detected in code"
+          generate_from: |
+            For each interactive component found:
+              - TEST: Clickable elements have cursor:pointer
+              - TEST: Buttons with onClick actually trigger action (no dead buttons)
+              - TEST: Disabled buttons are visually distinct and non-clickable
+              - TEST: Hover states exist on interactive elements (buttons, links, cards)
+              - TEST: Focus is visible on keyboard navigation (tab order)
+              - TEST: Dropdowns/modals open and close correctly
+              - TEST: Form inputs show focus ring on click/tab
+
+        - category: "visual"
+          description: "Responsive layouts at 3 viewports, alignment, overflow, spacing"
+          source: "Front-end-spec + design tokens + routes"
+          generate_from: |
+            For each key page (max 10):
+              - TEST: Mobile (375×812) — no horizontal scroll, no overlapping elements
+              - TEST: Tablet (768×1024) — layout adapts, no broken grid
+              - TEST: Desktop (1440×900) — full layout renders correctly
+              - TEST: Text doesn't overflow containers
+              - TEST: Images/icons are not stretched or pixelated
+              - TEST: Spacing between elements is consistent (not collapsed)
+
+        - category: "auth"
+          condition: "discovery_code.auth_system exists"
+          description: "Login, logout, protected routes, permission checks"
+          source: "Auth system detected in code + PRD user roles"
+          generate_from: |
+            - TEST: Login with valid credentials → redirects to dashboard/home
+            - TEST: Login with invalid credentials → shows error message
+            - TEST: Protected routes redirect to login when not authenticated
+            - TEST: Logout clears session and redirects
+            - TEST: (If roles exist) Restricted features hidden for unauthorized roles
+
+        - category: "error_states"
+          description: "Empty states, loading indicators, error messages, 404, forbidden"
+          source: "Error handling detected in code + edge cases from PRD"
+          generate_from: |
+            - TEST: Empty state displayed when no data (lists, tables, dashboards)
+            - TEST: Loading indicator shown during async operations
+            - TEST: Error message displayed on API failure (not blank screen)
+            - TEST: 404 page renders for non-existent routes
+            - TEST: Form validation errors are visible and descriptive
+            - TEST: Network error handling (if applicable)
+
+      should_have:
+        - category: "accessibility"
+          description: "WCAG 2.1 AA compliance, keyboard navigation, screen reader basics"
+          source: "axe-core scan + front-end-spec accessibility section"
+          generate_from: |
+            For each key page:
+              - TEST: No critical axe-core violations (level A)
+              - TEST: Color contrast meets WCAG AA (4.5:1 for text)
+              - TEST: All images have alt text
+              - TEST: Form inputs have associated labels
+              - TEST: Page is navigable by keyboard alone
+              - TEST: Focus order follows visual order
+
+        - category: "performance"
+          description: "Lighthouse scores, Core Web Vitals, bundle size"
+          source: "Lighthouse CLI scan"
+          generate_from: |
+            For homepage + 2 critical pages:
+              - TEST: Lighthouse Performance score >= 70 (MVP) or >= 85 (Grand)
+              - TEST: LCP < 2.5s
+              - TEST: CLS < 0.1
+              - TEST: No render-blocking resources (warning level)
+
+        - category: "business_rules"
+          description: "Domain-specific validation, edge cases from PRD"
+          source: "PRD business rules + spec validation rules"
+          generate_from: |
+            For each business rule documented:
+              - TEST: Rule enforced in UI (e.g., "max 5 items" → try adding 6th)
+              - TEST: Edge case handled (e.g., empty input, special characters, max length)
+
+        - category: "cross_browser"
+          condition: "front-end-spec requires cross-browser support"
+          description: "Verify on additional browsers if spec requires it"
+          generate_from: |
+            - TEST: Key flows work in Chromium (default, always tested)
+            - TEST: Key flows work in Firefox (if required)
+            - TEST: Key flows work in WebKit (if required)
+
+    steps:
+      - step: 1
+        name: "Generate tests per category"
+        action: |
+          # ── Determine effective scope ──
+          effective_scope = inputs.test_scope  # "full" or "delta"
+
+          IF effective_scope == "delta" AND inputs.delta_context == null:
+            LOG "WARN: Delta scope requested but no delta_context provided. Falling back to full."
+            effective_scope = "full"
+
+          IF effective_scope == "delta":
+            LOG "DELTA scope — generating tests only for sprint changes"
+            affected_routes = delta_context.routes_affected
+            affected_files = [f.file for f in delta_context.files_modified]
+            affected_components = delta_context.components_affected
+            affected_stories = delta_context.passed_stories
+
+          # ── Generate tests ──
+          For each MUST_HAVE category:
+            1. Apply the generate_from template using Discovery outputs
+            2. Each test gets: { id, category, priority, description, route, steps_to_execute, expected_result }
+            3. Map each test back to its source (PRD use case ID, component file, etc.)
+
+            IF effective_scope == "delta":
+              FILTER: Keep test ONLY if:
+                - test.route is in affected_routes, OR
+                - test source file is in affected_files, OR
+                - test references a component in affected_components, OR
+                - test traces to an AC from affected_stories
+              Log filtered-out count per category
+
+          For each SHOULD_HAVE category:
+            Same process, but mark priority as "should"
+            Apply same delta filter if effective_scope == "delta"
+
+          Conditional categories (auth, cross_browser):
+            Only generate if condition is met
+
+          # ── Delta safety net ──
+          IF effective_scope == "delta" AND total_tests < 5:
+            LOG "WARN: Delta scope produced < 5 tests. Adding smoke tests for critical routes."
+            Add 1 smoke test per critical route (homepage, login, main dashboard)
+
+      - step: 2
+        name: "Organize into execution batches"
+        action: |
+          Group tests into batches of 10-15 tests each:
+          - Batch by ROUTE when possible (tests on same page = same batch)
+          - Keep category together within batch when feasible
+          - Each batch gets: { batch_id, tests: [...], estimated_duration }
+
+          Batch naming: "batch_{N}_{primary_category}_{route_slug}"
+          Example: "batch_01_functional_dashboard", "batch_02_interactions_settings"
+
+      - step: 3
+        name: "Write test-plan.md"
+        action: |
+          Generate {project_path}/validation/test-plan.md with:
+          - Header: project name, date, total tests count
+          - **Scope: {effective_scope} (full | delta)**
+          - **Delta context summary (if delta): stories covered, routes affected, files changed**
+          - **Discovery cache status: {cache_status} (hit | miss | forced | ...)**
+          - Section per category: tests listed with ID, description, source traceability
+          - Batch assignment table: which tests in which batch
+          - Statistics: tests per category, must_have vs should_have counts
+
+    checkpoint:
+      name: "Test Plan Quality Gate"
+      verify:
+        - "All MUST_HAVE categories have at least 1 test generated"
+        - "IF scope == 'full': Total test count >= 20 for project with PRD"
+        - "IF scope == 'delta': Total test count >= 5 (minimum viable delta)"
+        - "Interactions category is not empty — unless delta scope excludes all interactive routes"
+        - "Every test has source traceability (linked to PRD item or code file)"
+      on_fail: "HALT — test plan is insufficient. Review Discovery outputs and regenerate."
+
+    veto_conditions:
+      - id: "PV_VETO_B01"
+        condition: "scope == 'full' AND test plan has < 20 tests for project with PRD"
+        action: "HALT — plan is superficial. Re-derive from Discovery. Min 20 tests."
+        severity: blocking
+
+      - id: "PV_VETO_B01b"
+        condition: "scope == 'delta' AND test plan has < 5 tests"
+        action: "HALT — delta plan too small. Verify delta_context has sufficient data or switch to full scope."
+        severity: blocking
+
+      - id: "PV_VETO_B02"
+        condition: "Interactions category is empty AND (scope == 'full' OR delta_context.components_affected is non-empty)"
+        action: "HALT — micro-interactions MUST be tested. Re-analyze interactive elements."
+        severity: blocking
+
+      - id: "PV_VETO_B03"
+        condition: "No test references any PRD use case or spec item"
+        action: "HALT — plan is disconnected from project docs. Tests must trace to requirements."
+        severity: blocking
+
+      - id: "PV_VETO_B04"
+        condition: "Any MUST_HAVE category has 0 tests (excluding conditional categories)"
+        action: "HALT — every mandatory category must have coverage."
+        severity: blocking
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE C — EXECUTION
+# Start server, resolve credentials, execute test batches via parallel subagents
+# ═══════════════════════════════════════════════════════════════════════════════
+
+  - phase: "C"
+    name: "Execution"
+    duration: "15-60 min"
+    description: "Execute test plan via parallel subagents with Playwright"
+
+    steps:
+      - step: 1
+        name: "Start application server"
+        action: |
+          1. Detect start command from discovery_code.server.start_command
+             - Or from package.json: scripts.dev || scripts.start || scripts.preview
+          2. Start server in background (Bash with run_in_background)
+          3. Wait for server to be accessible (poll health endpoint or port)
+          4. Record server_url (e.g., http://localhost:3000)
+        on_fail: "HALT — server must be running to execute tests"
+        output: "server_url"
+
+      - step: 2
+        name: "Resolve credentials"
+        condition: "discovery_code.auth_system exists"
+        action: |
+          Priority order:
+          1. Use pre-provided credentials from inputs.credentials
+          2. Check README.md for "Demo", "Test", "Credentials" sections
+          3. Check .env.example or .env.local for demo user/password
+          4. Check seed files or fixtures for test accounts
+          5. If none found → elicit from user
+        elicit: true
+        elicit_condition: "Only if auth detected AND no credentials found automatically"
+        prompt: |
+          This app requires login. I couldn't find demo credentials automatically.
+          Please provide test credentials:
+          - Email/Username:
+          - Password:
+          (Or type "skip" to test only public pages)
+        output: "credentials (or null if no auth / skipped)"
+
+      - step: 3
+        name: "Execute test batches via subagents"
+        action: |
+          For each batch in test-plan.md:
+            Launch a subagent (Task tool, subagent_type: general-purpose) with:
+
+            SUBAGENT CONTRACT:
+            ┌──────────────────────────────────────────────────────────┐
+            │ Input:                                                    │
+            │   - batch_id: "{batch_id}"                               │
+            │   - tests: [list of test objects from this batch]        │
+            │   - server_url: "{server_url}"                           │
+            │   - credentials: {email, password} or null               │
+            │   - screenshot_dir: "{project_path}/validation/screenshots/" │
+            │                                                          │
+            │ Tools: playwright (browser_navigate, browser_click,      │
+            │        browser_snapshot, browser_take_screenshot,        │
+            │        browser_fill_form, browser_evaluate)              │
+            │                                                          │
+            │ Execution per test:                                      │
+            │   1. Navigate to test route                              │
+            │   2. If auth required, login first (reuse session)       │
+            │   3. Execute test steps (click, fill, hover, etc.)       │
+            │   4. Take screenshot (pass or fail)                      │
+            │   5. Evaluate assertions (element visible, text matches, │
+            │      style has cursor:pointer, etc.)                     │
+            │   6. Record result                                       │
+            │                                                          │
+            │ Output (MANDATORY format):                               │
+            │   {                                                      │
+            │     batch_id: string,                                    │
+            │     results: [                                           │
+            │       {                                                  │
+            │         test_id: string,                                 │
+            │         status: "pass" | "fail" | "skip" | "timeout",   │
+            │         screenshot_path: string | null,                  │
+            │         error_log: string | null,                        │
+            │         duration_ms: number                              │
+            │       }                                                  │
+            │     ],                                                   │
+            │     batch_duration_ms: number                            │
+            │   }                                                      │
+            └──────────────────────────────────────────────────────────┘
+
+          Parallelization rules:
+            - Launch up to 5 batches concurrently (max_concurrent_agents)
+            - If a batch times out (5 min) → mark all remaining tests as "timeout"
+            - Do NOT halt other batches if one fails
+            - Collect all results before proceeding to Phase D
+
+      - step: 4
+        name: "Accessibility scan (dedicated)"
+        condition: "accessibility category exists in test plan"
+        action: |
+          For each key page (max 5):
+          1. Navigate to page with Playwright
+          2. Inject axe-core via browser_evaluate:
+             await browser_evaluate("
+               const script = document.createElement('script');
+               script.src = 'https://cdn.jsdelivr.net/npm/axe-core@latest/axe.min.js';
+               document.head.appendChild(script);
+             ")
+          3. Run scan: await browser_evaluate("axe.run()")
+          4. Classify results: critical / serious / moderate / minor
+        output: "{project_path}/validation/accessibility-report.md"
+
+      - step: 5
+        name: "Performance scan (dedicated)"
+        condition: "performance category exists in test plan"
+        action: |
+          For homepage + 2 critical pages:
+          1. Run Lighthouse via CLI:
+             npx lighthouse {url} --output json --output html --chrome-flags="--headless"
+          2. Extract: Performance score, LCP, CLS, FID/INP, Best Practices
+          3. Compare against thresholds defined in test plan
+        output: "{project_path}/validation/performance-report.md"
+
+    veto_conditions:
+      - id: "PV_VETO_C01"
+        condition: "Server fails to start after 60 seconds"
+        action: "HALT — cannot execute tests without running server. Check build/start command."
+        severity: blocking
+
+      - id: "PV_VETO_C02"
+        condition: "Auth required but credentials not resolved and user skipped"
+        action: "WARN — auth-dependent tests will be skipped. Report as NOT_TESTED."
+        severity: warning
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE D — CONSOLIDATION
+# Aggregate results, calculate scores, generate verdict
+# ═══════════════════════════════════════════════════════════════════════════════
+
+  - phase: "D"
+    name: "Consolidation"
+    duration: "5-10 min"
+    description: "Aggregate all batch results, calculate scores, generate final verdict"
+
+    steps:
+      - step: 1
+        name: "Aggregate batch results"
+        action: |
+          Collect results from all subagents.
+          Build unified results table:
+          | Test ID | Category | Priority | Status | Screenshot | Error |
+          Sort by: category → priority (must first) → status (fail first)
+
+      - step: 2
+        name: "Calculate scores per category"
+        action: |
+          For each category:
+            pass_rate = (passed_tests / total_tests_in_category) * 100
+            Include timeout as fail in calculation.
+            Skip "skip" status from total (don't penalize skipped auth tests).
+
+          Score table:
+          | Category | Total | Pass | Fail | Skip | Timeout | Pass Rate |
+          |----------|-------|------|------|------|---------|-----------|
+
+      - step: 3
+        name: "Apply verdict criteria"
+        action: |
+          MUST_HAVE categories aggregate pass rate:
+            - >= 90% → VERDICT: APPROVED (ship it)
+            - 70-89% → VERDICT: APPROVED_WITH_CONDITIONS (fix listed items, then ship)
+            - < 70%  → VERDICT: REJECTED (rework needed)
+
+          SHOULD_HAVE categories:
+            - Reported in dashboard but DO NOT affect verdict
+            - Listed as "Recommendations" section
+
+          Additional blocking conditions (override to REJECTED):
+            - Any critical E2E flow (Must-have use case) fails → REJECTED
+            - WCAG A critical violations found → REJECTED
+            - Zero functional tests passed → REJECTED
+
+      - step: 4
+        name: "Generate test-results.md"
+        action: |
+          Write {project_path}/validation/test-results.md with:
+          - Execution metadata: date, duration, server_url, batches executed
+          - Full results table (all tests, all statuses)
+          - Screenshots index (path to each screenshot taken)
+          - Error log compilation (all errors from failed tests)
+
+      - step: 5
+        name: "Generate product-validation.md"
+        action: |
+          Write {project_path}/product-validation.md with:
+
+          ## Product Validation Report
+          **Project:** {project_name}
+          **Date:** {date}
+          **Verdict:** {APPROVED | APPROVED_WITH_CONDITIONS | REJECTED}
+
+          ### Score Dashboard
+          | Category | Pass Rate | Status |
+          |----------|-----------|--------|
+          (one row per category)
+
+          ### MUST_HAVE Results
+          (detail per category — what passed, what failed)
+
+          ### SHOULD_HAVE Results
+          (detail per category — recommendations)
+
+          ### Gap Analysis
+          (items from Phase A gap_analysis — MISSING / EXTRA / PARTIAL)
+
+          ### Failed Tests Detail
+          (for each failed test: description, expected vs actual, screenshot, error)
+
+          ### Recommendations
+          (ordered list of fixes needed, by severity)
+
+          ### Traceability Matrix
+          | PRD Use Case | Test IDs | Status |
+          (maps back to requirements)
+
+      - step: 6
+        name: "Stop server"
+        action: "Kill the background server process started in Phase C Step 1"
+
+    checkpoint:
+      name: "Validation Complete"
+      verify:
+        - "test-plan.md exists and has content"
+        - "test-results.md exists and has all batch results"
+        - "product-validation.md exists with verdict"
+      on_fail: "WARN — consolidation incomplete, review manually"
+
+    human_gate:
+      type: decision
+      question: |
+        Product validation complete.
+        Verdict: {verdict}
+        MUST_HAVE pass rate: {must_have_rate}%
+        Issues found: {total_failures}
+
+        What would you like to do?
+      options:
+        - "Approve — ship it"
+        - "Fix issues — address specific failures (list provided in report)"
+        - "Major rework — fundamental problems need redesign"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GLOBAL VETO CONDITIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+global_veto_conditions:
+  - id: "PV_VETO_G01"
+    condition: "Workflow execution exceeds 120 minutes"
+    action: "WARN — consolidate whatever results exist and present partial report"
+    severity: warning
+
+  - id: "PV_VETO_G02"
+    condition: "All subagent batches timeout (zero results)"
+    action: "HALT — execution infrastructure failure. Check Playwright + server."
+    severity: blocking
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# USAGE EXAMPLES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+usage:
+  standalone: |
+    # Any project — invoke @qa directly
+    @qa execute wf-product-validation
+    project_path: /path/to/my/project
+
+  within_forge: |
+    # Called automatically by sottani-forge Phase 11
+    # Phase 11 delegates to this workflow, passing project_path from pipeline state
+
+  with_credentials: |
+    @qa execute wf-product-validation
+    project_path: /path/to/project
+    credentials: { email: "demo@test.com", password: "demo123" }
+
+  with_cache_refresh: |
+    @qa execute wf-product-validation
+    project_path: /path/to/project
+    force_discovery: true
+
+  pipeline_delta: |
+    # Called by validate-product.md (DC-5) with delta context from dev-cycle-report
+    @qa execute wf-product-validation
+    project_path: /path/to/project
+    test_scope: delta
+    delta_context: { passed_stories: [...], files_modified: [...], routes_affected: [...] }
