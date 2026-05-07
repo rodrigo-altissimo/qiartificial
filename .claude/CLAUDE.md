@@ -2,6 +2,29 @@
 
 You are working with Synkra AIOX, an AI-Orchestrated System for Full Stack Development.
 
+<!-- AIOX-MANAGED-START: language -->
+## Idioma — Português Brasileiro (NON-NEGOTIABLE)
+
+**TODAS as respostas, comunicações e interações com o usuário DEVEM ser em Português Brasileiro (pt-BR) com ortografia oficial conforme o Acordo Ortográfico de 2009.**
+
+Regras obrigatórias:
+- **Acentuação correta**: Sempre usar acentos agudos (á, é, í, ó, ú), circunflexos (â, ê, ô), til (ã, õ), crases (à) e cedilhas (ç) conforme a norma culta
+- **Ortografia oficial**: Seguir rigorosamente a ortografia do português brasileiro (ex: "ideia" sem acento, "heroico" sem acento, "voo" sem circunflexo)
+- **Termos técnicos**: Termos técnicos em inglês (API, framework, deploy, commit, etc.) podem permanecer em inglês, mas toda explicação e comunicação ao redor deve ser em pt-BR correto
+- **Nomes de variáveis/código**: Identificadores de código permanecem como estão (inglês ou português conforme o projeto)
+- **Sem exceções**: Esta regra se aplica a TODOS os agentes do AIOX — @dev, @qa, @architect, @pm, @po, @sm, @analyst, @data-engineer, @ux-design-expert, @devops, @aiox-master e qualquer squad agent
+
+**Exemplos de erros comuns a EVITAR:**
+- ❌ "voce" → ✅ "você"
+- ❌ "codigo" → ✅ "código"
+- ❌ "analise" (verbo) → ✅ "análise" (substantivo)
+- ❌ "esta" (quando deveria ser "está")
+- ❌ "e" (quando deveria ser "é")
+- ❌ "nao" → ✅ "não"
+- ❌ "tambem" → ✅ "também"
+- ❌ "necessario" → ✅ "necessário"
+<!-- AIOX-MANAGED-END: language -->
+
 <!-- AIOX-MANAGED-START: core-framework -->
 ## Core Framework Understanding
 
