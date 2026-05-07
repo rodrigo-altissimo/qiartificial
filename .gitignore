@@ -17,6 +17,7 @@ build/
 .next/
 *.log
 logs/
+*.tsbuildinfo
 
 # Design-md outputs
 outputs/
