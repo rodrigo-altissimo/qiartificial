@@ -1,0 +1,353 @@
+# Attractive Character Builder Workflow
+# Based on Russell Brunson's DotCom Secrets + Expert Secrets methodology
+# Source: Attractive Character Framework + Epiphany Bridge + Identity Types
+# Version: 1.0.0
+
+id: wf-attractive-character
+name: "Attractive Character Builder"
+version: "1.0.0"
+duration: "2-3 days"
+description: |
+  Complete workflow to build an Attractive Character (AC) — the persona
+  that your audience connects with, trusts, and buys from. The AC is
+  the bridge between your brand and your customer.
+
+  PHILOSOPHY: "People don't buy from businesses. They buy from PEOPLE.
+  Your Attractive Character is the person they're buying from."
+
+  RESULT: A complete Attractive Character profile with backstory,
+  identity elements, story library, and communication framework
+  ready for all marketing channels.
+
+best_for:
+  - "Building a personal brand from scratch"
+  - "Defining brand voice for content marketing"
+  - "Creating the persona behind email marketing"
+  - "Strengthening connection with existing audience"
+  - "Training team members on brand voice consistency"
+
+decision_matrix_fit:
+  complexity: medium
+  agents_required: 3
+  estimated_duration: "2-3 days"
+  user_involvement: "very high (deeply personal process)"
+  prerequisites:
+    - "Willingness to be authentic and vulnerable"
+    - "Access to personal stories and experiences"
+    - "Clear understanding of target audience"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategy and AC positioning"
+      phases: [0]
+    - agent: brunson-stories
+      role: "Story mining, Epiphany Bridge creation, narrative development"
+      phases: [1, 2]
+    - agent: brunson-copy
+      role: "Copy voice development, communication templates"
+      phases: [2, 3]
+
+phases:
+  # ===== PHASE 0: DISCOVERY =====
+  - id: PHASE-0
+    name: "Discovery"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Discover the raw material for the Attractive Character.
+      This is a deeply personal exploration of who you are, what
+      you stand for, and what makes you unique and compelling.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Identify AC Identity Type"
+        required: true
+        description: |
+          Which of the 4 identity types fits best?
+          1. The Leader — "Follow me, I've been where you are"
+          2. The Adventurer / Crusader — "Join me on this quest"
+          3. The Reporter / Evangelist — "I found the answer and must share it"
+          4. The Reluctant Hero — "I didn't want the spotlight, but..."
+        output: "identity_type.md"
+
+      - task_id: T0.2
+        name: "Map AC Elements"
+        required: true
+        description: |
+          Define the 4 core AC elements:
+          1. Backstory — Your relatable origin
+          2. Parables — Teaching stories you tell
+          3. Character Flaws — What makes you human
+          4. Polarity — Your strong stances that attract AND repel
+        output: "ac_elements.yaml"
+
+      - task_id: T0.3
+        name: "Define Communication Style"
+        required: true
+        description: |
+          How does the AC communicate?
+          - Vocabulary and language patterns
+          - Humor style (if any)
+          - Tone (casual, authoritative, inspiring, provocative)
+          - Recurring phrases and catchphrases
+          - Storytelling style
+        output: "communication_style.md"
+
+    inline_structures:
+      four_identity_types:
+        leader:
+          description: "You lead from the front. You've been there, done that, and now guide others."
+          best_for: "Coaches, consultants, experts with track record"
+          tone: "Authoritative but empathetic"
+          example: "Russell Brunson, Tony Robbins"
+
+        adventurer:
+          description: "You're on a quest and invite people to join you."
+          best_for: "Builders, creators, people in active growth"
+          tone: "Exciting, experiential, real-time"
+          example: "Gary Vaynerchuk, Casey Neistat"
+
+        reporter:
+          description: "You curate and share knowledge from experts."
+          best_for: "Those early in their journey, interviewers, aggregators"
+          tone: "Curious, investigative, sharing discoveries"
+          example: "Tim Ferriss, Oprah"
+
+        reluctant_hero:
+          description: "You didn't want the spotlight but felt compelled to share."
+          best_for: "Introverts, technical experts, behind-the-scenes people"
+          tone: "Humble, authentic, 'aw shucks'"
+          example: "Many successful info-product creators"
+
+      four_ac_elements:
+        backstory:
+          purpose: "Creates relatability and connection"
+          questions:
+            - "What was your life like BEFORE your transformation?"
+            - "What was your lowest point?"
+            - "What did you try that didn't work?"
+            - "How did you feel before the change?"
+
+        parables:
+          purpose: "Teaching stories that illustrate principles"
+          questions:
+            - "What stories do you tell repeatedly?"
+            - "What analogies do you naturally use?"
+            - "What everyday situations illustrate your teachings?"
+
+        character_flaws:
+          purpose: "Vulnerability creates trust and connection"
+          questions:
+            - "What do you struggle with?"
+            - "What mistakes have you made publicly?"
+            - "What makes you imperfect?"
+            - "What's your 'villain origin story'?"
+
+        polarity:
+          purpose: "Strong opinions attract fans and create tribe identity"
+          questions:
+            - "What are you willing to be controversial about?"
+            - "What does your industry get WRONG?"
+            - "What would you say that might make some people unsubscribe?"
+            - "What hill are you willing to die on?"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Discovery Complete"
+      criteria:
+        - "Identity type selected with justification"
+        - "All 4 AC elements defined"
+        - "Communication style documented"
+      human_review: true
+      message: "Review AC discovery before story mining."
+
+  # ===== PHASE 1: STORY MINING =====
+  - id: PHASE-1
+    name: "Story Mining"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Mine the AC's life for stories that can be told through the
+      Epiphany Bridge framework. Every great marketer has a library
+      of stories they can pull from at any time.
+
+    agent: brunson-stories
+
+    tasks:
+      - task_id: T1.1
+        name: "Craft the Origin Story"
+        required: true
+        description: |
+          The #1 most important story: how did you get here?
+          Follow the Epiphany Bridge 8-step format.
+          This story will be told on webinars, about pages,
+          podcasts, and in email sequences.
+        output: "origin_story.md"
+
+      - task_id: T1.2
+        name: "Mine Teaching Parables (10+)"
+        required: true
+        description: |
+          Identify 10+ stories from your life that teach principles:
+          - Business lessons from personal experiences
+          - Client success stories
+          - Failure stories with lessons learned
+          - Everyday observations with deeper meaning
+        output: "parable_library.yaml"
+
+      - task_id: T1.3
+        name: "Create Vulnerability Stories"
+        required: true
+        description: |
+          Stories that show your human side:
+          - Biggest failure
+          - Most embarrassing moment
+          - Times you almost quit
+          - Mistakes you learned from
+        output: "vulnerability_stories.md"
+
+      - task_id: T1.4
+        name: "Develop Polarity Positions"
+        required: true
+        description: |
+          Strong stances with supporting stories:
+          - 3-5 controversial opinions
+          - Story/evidence for each stance
+          - How these positions create tribe identity
+        output: "polarity_positions.md"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Story Mining Complete"
+      criteria:
+        - "Origin story written (Epiphany Bridge format)"
+        - "10+ teaching parables catalogued"
+        - "Vulnerability stories identified"
+        - "3-5 polarity positions defined"
+      human_review: true
+      message: "Review story library before profile creation."
+
+  # ===== PHASE 2: PROFILE CREATION =====
+  - id: PHASE-2
+    name: "Profile"
+    days: "Day 2"
+    tier: 2
+    description: |
+      Compile everything into the definitive Attractive Character profile
+      document that can be used across all marketing channels.
+
+    agents:
+      primary: brunson-stories
+      secondary: brunson-copy
+
+    tasks:
+      - task_id: T2.1
+        name: "Write AC Profile Document"
+        required: true
+        agent: brunson-stories
+        description: |
+          Complete profile including:
+          - Identity summary (who you are)
+          - Origin story (how you got here)
+          - Core beliefs (what you stand for)
+          - Communication voice (how you sound)
+          - Story library index (quick reference)
+        output: "ac_profile.md"
+
+      - task_id: T2.2
+        name: "Create Voice Guide"
+        required: true
+        agent: brunson-copy
+        description: |
+          A practical voice guide for content creation:
+          - Do's and Don'ts of the AC voice
+          - Sample paragraphs in the AC's voice
+          - Subject line examples
+          - Social media post examples
+          - Words/phrases to use and avoid
+        output: "voice_guide.md"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Profile Complete"
+      criteria:
+        - "AC Profile document comprehensive"
+        - "Voice guide practical and usable"
+      human_review: true
+      message: "Review AC profile before integration planning."
+
+  # ===== PHASE 3: INTEGRATION =====
+  - id: PHASE-3
+    name: "Integration"
+    days: "Day 3"
+    tier: 3
+    description: |
+      Plan how to deploy the Attractive Character across all channels.
+
+    agent: brunson-copy
+
+    tasks:
+      - task_id: T3.1
+        name: "Create Channel Integration Plan"
+        required: true
+        description: |
+          How the AC shows up on each channel:
+          - Email: Soap Opera Sequence with AC backstory
+          - Social Media: Daily content with AC voice
+          - Webinars: AC as presenter with origin story
+          - About Page: AC profile and story
+          - Ads: AC as the face, hooks using AC elements
+        output: "channel_integration.yaml"
+
+      - task_id: T3.2
+        name: "Create Content Templates"
+        required: true
+        description: |
+          Templates for ongoing AC content:
+          - Email template (hook → story → lesson → CTA)
+          - Social post template
+          - Video script template
+          - Bio templates for different platforms
+        output: "content_templates.md"
+
+      - task_id: T3.3
+        name: "Compile AC Blueprint"
+        required: true
+        description: "Package everything into the final AC blueprint."
+        output: "ac_blueprint/"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Integration Complete"
+      criteria:
+        - "Channel integration planned"
+        - "Content templates created"
+        - "Blueprint compiled"
+      human_review: true
+      message: "Final review of Attractive Character blueprint."
+
+outputs:
+  final_deliverable:
+    name: "Attractive Character Blueprint"
+    location: "outputs/ac/{ac_id}/"
+    contents:
+      - "ac_profile.md - Complete AC profile"
+      - "origin_story.md - Epiphany Bridge story"
+      - "parable_library.yaml - Story index"
+      - "voice_guide.md - Communication guide"
+      - "content_templates.md - Reusable templates"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "ATTRACTIVE_CHARACTER"
+    - "EPIPHANY_BRIDGE"
+    - "FOUR_IDENTITY_TYPES"
+    - "HOOK_STORY_OFFER"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_008"

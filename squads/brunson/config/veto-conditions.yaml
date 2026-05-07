@@ -1,0 +1,443 @@
+# Brunson Squad — Veto Conditions (Centralized)
+# These gates BLOCK execution. No exceptions. No "maybe". No "depende".
+# Version: 1.0.0
+# Created: 2026-02-11
+# Auditor: brunson-chief
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHILOSOPHY: "One funnel away — but only if the foundation is solid."
+# If executor CAN skip a framework step, the process is broken.
+# Russell Brunson's systems demand sequential mastery: Secret Formula first,
+# Value Ladder second, Hook-Story-Offer third. No shortcuts.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+veto_conditions:
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # TIER 0: UNIVERSAL VETOS (Apply to ALL agents, ALL workflows)
+  # These are non-negotiable. They represent Brunson's core principles.
+  # ───────────────────────────────────────────────────────────────────────────
+  tier_0_universal:
+    - id: "VT0-001"
+      name: "NO SECRET FORMULA = NO FUNNEL"
+      trigger: "Any funnel design, architecture, or strategy request"
+      condition: "WHO + WHERE + BAIT + RESULT not defined"
+      action: "BLOCK"
+      message: |
+        ⛔ VETO: Funnel sem Secret Formula e chute.
+        Coletando primeiro:
+        - WHO: Quem e seu cliente dos sonhos?
+        - WHERE: Onde eles se congregam?
+        - BAIT: Qual a isca para atrai-los?
+        - RESULT: Qual o resultado que voce entrega?
+        "Se voce nao sabe quem e seu cliente dos sonhos, nao pode construir um funil."
+      enforcement: "runtime"
+      bypass: false
+
+    - id: "VT0-002"
+      name: "NO VALUE LADDER = NO PRICING"
+      trigger: "Any pricing, offer stacking, or monetization request"
+      condition: "Value Ladder not mapped (min 3 rungs)"
+      action: "BLOCK"
+      message: |
+        ⛔ VETO: Precificar sem Value Ladder e atirar no escuro.
+        Mapeie pelo menos 3 degraus:
+        - Bait/Free (isca para atrair)
+        - Frontend ($7-$97)
+        - Backend ($97-$2000+)
+        "Cada degrau da escada existe para ascender ao proximo."
+      enforcement: "runtime"
+      bypass: false
+
+    - id: "VT0-003"
+      name: "NO HOOK-STORY-OFFER = NO CONTENT"
+      trigger: "Any content, ad, copy, or communication creation"
+      condition: "Hook, Story, or Offer not defined"
+      action: "BLOCK"
+      message: |
+        ⛔ VETO: Conteudo sem Hook-Story-Offer e ruido.
+        Defina primeiro:
+        - HOOK: O que captura atencao em 3 segundos?
+        - STORY: Qual Epiphany Bridge voce conta?
+        - OFFER: Qual a oferta irresistivel no final?
+        "Toda peca de marketing e Hook-Story-Offer. Sem excecao."
+      enforcement: "content_check"
+      bypass: false
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # TIER 1: WORKFLOW VETOS (Apply to wf-funnel-architecture & wf-perfect-webinar)
+  # Sequential gates that enforce Brunson's methodology order.
+  # ───────────────────────────────────────────────────────────────────────────
+  tier_1_workflow:
+    - id: "VT1-001"
+      name: "SECRET FORMULA GATE"
+      checkpoint: "CP_PHASE_0"
+      workflow: "wf-funnel-architecture"
+      condition: "Secret Formula incomplete (WHO/WHERE/BAIT/RESULT any missing)"
+      action: "BLOCK_PHASE_1"
+      message: |
+        ⛔ VETO: Nao pode projetar funil sem Secret Formula.
+        Quatro perguntas que todo empreendedor deve responder:
+        1. QUEM e seu cliente dos sonhos?
+        2. ONDE ele se congrega online/offline?
+        3. Qual ISCA vai atrai-lo?
+        4. Qual RESULTADO unico voce entrega?
+      auto_check: true
+      auto_check_method: "check_secret_formula_fields"
+
+    - id: "VT1-002"
+      name: "DREAM CUSTOMER AVATAR GATE"
+      checkpoint: "CP_PHASE_0"
+      workflow: "wf-funnel-architecture"
+      condition: "Dream Customer avatar not defined (demographics + psychographics + current pain)"
+      action: "BLOCK_PHASE_1"
+      message: |
+        ⛔ VETO: Avatar generico = funil generico.
+        O Dream Customer precisa ter:
+        - Demografia basica (quem)
+        - Psicografia profunda (o que pensa, sente, teme)
+        - Dor atual (o que tira o sono)
+        - Desejo ardente (o que faria qualquer coisa para ter)
+      auto_check: true
+      auto_check_method: "check_dream_customer_avatar"
+
+    - id: "VT1-003"
+      name: "VALUE LADDER MAPPING GATE"
+      checkpoint: "CP_PHASE_1"
+      workflow: "wf-funnel-architecture"
+      condition: "Value Ladder < 3 degraus mapeados com precos"
+      action: "BLOCK_PHASE_2"
+      message: |
+        ⛔ VETO: Value Ladder incompleta.
+        Minimo 3 degraus com precos definidos:
+        - Bait (R$0 — captura lead)
+        - Frontend (R$7-97 — first purchase)
+        - Backend (R$97-2000+ — real monetization)
+        Atual: [N] degraus. Minimo: 3.
+      auto_check: true
+      auto_check_method: "count_value_ladder_rungs"
+
+    - id: "VT1-004"
+      name: "FUNNEL TYPE SELECTION GATE"
+      checkpoint: "CP_PHASE_1"
+      workflow: "wf-funnel-architecture"
+      condition: "Funnel type not selected with rationale (must match Value Ladder rung)"
+      action: "BLOCK_PHASE_2"
+      message: |
+        ⛔ VETO: Tipo de funil sem justificativa.
+        Cada degrau da Value Ladder tem funis especificos:
+        - Frontend: SLO, Free+Shipping, Trip Wire
+        - Middle: Webinar, Challenge, VSL
+        - Backend: Application, Phone, High-Ticket
+        Selecione o tipo E justifique por que ele serve este degrau.
+      auto_check: true
+      auto_check_method: "check_funnel_type_rationale"
+
+    - id: "VT1-005"
+      name: "BIG DOMINO IDENTIFIED"
+      checkpoint: "CP_PHASE_0"
+      workflow: "wf-perfect-webinar"
+      condition: "Big Domino statement not defined (the ONE belief that makes everything else irrelevant)"
+      action: "BLOCK_PHASE_1"
+      message: |
+        ⛔ VETO: Webinar sem Big Domino e palestra, nao conversao.
+        O Big Domino e a UNICA crenca que, se derrubada, faz todas as
+        outras objecoes cairem como dominos.
+        Formato: "Se eu puder fazer eles acreditarem que [X],
+        entao todas as outras objecoes se tornam irrelevantes."
+      auto_check: true
+      auto_check_method: "check_big_domino_statement"
+
+    - id: "VT1-006"
+      name: "THREE SECRETS DEFINED"
+      checkpoint: "CP_PHASE_1"
+      workflow: "wf-perfect-webinar"
+      condition: "Three Secrets not mapped (Vehicle + Internal + External false beliefs)"
+      action: "BLOCK_PHASE_2"
+      message: |
+        ⛔ VETO: Perfect Webinar sem os 3 Segredos e incompleto.
+        Cada segredo quebra uma falsa crenca:
+        - Segredo #1 (Vehicle): "O caminho que voce tentou nao funciona porque..."
+        - Segredo #2 (Internal): "Voce nao falhou, foi o que voce acreditava sobre si..."
+        - Segredo #3 (External): "Nao e culpa sua, o sistema antigo e que..."
+        Cada um precisa de uma Epiphany Bridge Story.
+      auto_check: true
+      auto_check_method: "check_three_secrets"
+
+    - id: "VT1-007"
+      name: "STACK SLIDE BUILT BEFORE CLOSE"
+      checkpoint: "CP_PHASE_2"
+      workflow: "wf-perfect-webinar"
+      condition: "Stack Slide not assembled (value items + prices + total value > 10x offer price)"
+      action: "BLOCK_PHASE_3"
+      message: |
+        ⛔ VETO: Fechar sem Stack Slide e pedir dinheiro sem mostrar valor.
+        A Stack Slide deve ter:
+        - Cada componente da oferta nomeado
+        - Valor individual atribuido a cada componente
+        - Valor total empilhado > 10x o preco da oferta
+        - Formato: "Valor total: R$X, hoje por apenas R$Y"
+      auto_check: true
+      auto_check_method: "validate_stack_slide"
+
+    - id: "VT1-008"
+      name: "ANTIPATTERN SCREENING GATE"
+      checkpoint: "CP_PHASE_FINAL"
+      workflow: "all"
+      condition: "Qualquer antipattern critico detectado no audit"
+      action: "HALT_WORKFLOW"
+      message: |
+        ⛔ VETO: Antipattern detectado.
+        [ANTIPATTERN_NAME]: [DESCRIPTION]
+        Nao pode lancar funil ate corrigir.
+        Execute: python scripts/validate-antipattern.py --interactive
+      auto_check: true
+      auto_check_method: "run_antipattern_screening"
+      mandatory_checklist: "checklists/funnel-audit-checklist.md"
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # TIER 2: AGENT-SPECIFIC VETOS
+  # Each specialist has domain-specific gates that prevent bad output.
+  # ───────────────────────────────────────────────────────────────────────────
+  tier_2_agent_specific:
+    brunson-offers:
+      - id: "VT2-OFF-001"
+        name: "NO OFFER WITHOUT VALUE STACK >= 10x PRICE"
+        trigger: "Creating or presenting any offer"
+        condition: "Value Stack total perceived value < 10x asking price"
+        action: "FORCE_STACK_REDESIGN"
+        message: |
+          ⛔ VETO: Oferta sem ancoragem de valor.
+          "Se o valor empilhado nao for pelo menos 10x o preco,
+          o cliente nao sente que esta fazendo um bom negocio."
+          Valor empilhado: R$[X]. Preco: R$[Y]. Ratio: [Z]x.
+          Minimo: 10x. Redesenhe o stack.
+        enforcement: "pre_output"
+
+      - id: "VT2-OFF-002"
+        name: "SECRET FORMULA BEFORE OFFER MODE"
+        trigger: "Entering OFFER design mode"
+        condition: "Secret Formula not complete"
+        action: "FORCE_DISCOVERY"
+        message: "Secret Formula incompleta. Coletando WHO/WHERE/BAIT/RESULT primeiro."
+        enforcement: "mode_switch"
+
+    brunson-traffic:
+      - id: "VT2-TRA-001"
+        name: "NO TRAFFIC CAMPAIGN WITHOUT DREAM 100"
+        trigger: "Any traffic strategy or campaign request"
+        condition: "Dream 100 list not created (min 10 targets)"
+        action: "FORCE_DREAM_100"
+        message: |
+          ⛔ VETO: Trafego sem Dream 100 e spam.
+          "Antes de comprar trafego, identifique ONDE seus Dream Customers
+          ja se congregam. Quem sao os influenciadores, podcasts, blogs,
+          grupos que eles ja seguem?"
+          Liste pelo menos 10 alvos antes de definir estrategia de trafego.
+        enforcement: "runtime"
+
+    brunson-copy:
+      - id: "VT2-COP-001"
+        name: "NO SALES PAGE WITHOUT EPIPHANY BRIDGE"
+        trigger: "Any sales page, VSL script, or long-form copy"
+        condition: "Epiphany Bridge story not defined"
+        action: "FORCE_STORY_FIRST"
+        message: |
+          ⛔ VETO: Copy sem Epiphany Bridge nao converte.
+          "Fatos dizem, historias vendem. Toda sales page precisa de
+          pelo menos uma Epiphany Bridge que mostre a jornada do
+          backstory ao momento 'aha' que mudou tudo."
+          Defina a historia antes de escrever a copy.
+        enforcement: "pre_output"
+
+    brunson-email:
+      - id: "VT2-EMA-001"
+        name: "NO SEQUENCE WITHOUT SOAP OPERA STRUCTURE"
+        trigger: "Creating email sequence (onboarding, launch, nurture)"
+        condition: "Soap Opera Sequence structure not mapped (5 episodes)"
+        action: "BLOCK"
+        message: |
+          ⛔ VETO: Sequencia de email sem Soap Opera e broadcast disfarado.
+          A Soap Opera Sequence tem 5 episodios:
+          1. Define o cenario (backstory + gancho)
+          2. Abre com drama alto (conflito/tensao)
+          3. Epifania (momento de descoberta)
+          4. Beneficios escondidos (prova de resultado)
+          5. Urgencia para agir (CTA + escassez real)
+          Mapeie os 5 episodios antes de escrever.
+        enforcement: "pre_output"
+
+    brunson-webinar:
+      - id: "VT2-WEB-001"
+        name: "NO WEBINAR WITHOUT BIG DOMINO + 3 SECRETS"
+        trigger: "Creating Perfect Webinar script or presentation"
+        condition: "Big Domino OR Three Secrets not defined"
+        action: "BLOCK"
+        message: |
+          ⛔ VETO: Webinar sem Big Domino + 3 Secrets nao converte.
+          O Perfect Webinar Framework exige:
+          1. Big Domino: A UNICA crenca a derrubar
+          2. Segredo #1: Quebra falsa crenca sobre o VEICULO
+          3. Segredo #2: Quebra falsa crenca INTERNA
+          4. Segredo #3: Quebra falsa crenca EXTERNA
+          Cada segredo precisa de sua propria Epiphany Bridge Story.
+        enforcement: "runtime"
+
+    brunson-hooks:
+      - id: "VT2-HOO-001"
+        name: "NO HOOKS WITHOUT TARGET AWARENESS LEVEL"
+        trigger: "Hook creation or brainstorm request"
+        condition: "Target audience awareness level not defined (Unaware/Problem-Aware/Solution-Aware/Product-Aware/Most-Aware)"
+        action: "FORCE_AWARENESS_MAPPING"
+        message: |
+          ⛔ VETO: Hooks sem nivel de consciencia do alvo sao genericos.
+          Defina primeiro em qual nivel o Dream Customer esta:
+          - Unaware: Nao sabe que tem problema
+          - Problem-Aware: Sabe do problema, nao da solucao
+          - Solution-Aware: Sabe da solucao, nao do seu produto
+          - Product-Aware: Conhece seu produto, nao comprou
+          - Most-Aware: Ja comprou, quer mais
+          Hooks diferentes para niveis diferentes.
+        enforcement: "pre_output"
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # TIER 3: HANDOFF VETOS (Between Specialists)
+  # Context MUST transfer completely between agents.
+  # ───────────────────────────────────────────────────────────────────────────
+  tier_3_handoff:
+    - id: "VT3-001"
+      name: "HANDOFF CONTEXT REQUIRED"
+      trigger: "Specialist-to-specialist handoff"
+      condition: "Handoff template not populated"
+      action: "BLOCK_HANDOFF"
+      message: |
+        ⛔ VETO: Handoff sem contexto = trabalho perdido.
+        Preencher templates/handoff-context-tmpl.yaml antes de transferir.
+        Campos obrigatorios:
+        - source_agent, target_agent
+        - funnel_data_status (completeness)
+        - current_phase
+        - key_decisions
+        - context_for_target.primary_objective
+        - veto_check.all_phase_vetos_passed
+      mandatory_fields:
+        - "source_agent"
+        - "target_agent"
+        - "funnel_data_status"
+        - "current_phase"
+        - "key_decisions"
+        - "blockers"
+      enforcement: "handoff_validation"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ENFORCEMENT MATRIX
+# ═══════════════════════════════════════════════════════════════════════════════
+
+enforcement:
+  levels:
+    runtime:
+      description: "Checked at execution time, blocks immediately"
+      blocking: true
+      notification: "inline"
+
+    content_check:
+      description: "Checked in output content before delivery"
+      blocking: true
+      notification: "inline"
+
+    output_validation:
+      description: "Validated before final output"
+      blocking: false
+      notification: "warning"
+
+    mode_switch:
+      description: "Checked when switching operational modes"
+      blocking: true
+      notification: "inline"
+
+    pre_output:
+      description: "Forced before any recommendation or deliverable"
+      blocking: true
+      notification: "inline"
+
+    workflow_gate:
+      description: "Checked at workflow phase checkpoints"
+      blocking: true
+      notification: "checkpoint"
+
+    handoff_validation:
+      description: "Validated before agent-to-agent handoff"
+      blocking: true
+      notification: "inline"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ERROR HANDLING
+# ═══════════════════════════════════════════════════════════════════════════════
+
+error_handling:
+  on_veto_triggered:
+    - log_veto: true
+    - notify_user: true
+    - provide_remediation: true
+    - block_execution: true
+
+  veto_message_format: |
+    ⛔ VETO: [VETO_NAME]
+    Condicao violada: [CONDITION]
+    Acao: [ACTION]
+    Para resolver: [REMEDIATION]
+
+  escalation:
+    max_consecutive_vetos: 3
+    escalate_to: "brunson-chief"
+    escalation_message: "Multiplos vetos consecutivos. Revisao de abordagem necessaria."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# VETO INTERACTION MAP
+# Which vetos cascade into which workflows
+# ═══════════════════════════════════════════════════════════════════════════════
+
+interaction_map:
+  secret_formula_cascade:
+    trigger: "VT0-001"
+    blocks:
+      - "wf-funnel-architecture"
+      - "wf-perfect-webinar"
+      - "wf-dream-100-campaign"
+      - "wf-launch-sequence"
+    rationale: "Secret Formula is the foundation of all Brunson methodology"
+
+  value_ladder_cascade:
+    trigger: "VT0-002"
+    blocks:
+      - "wf-funnel-architecture (PHASE-2+)"
+      - "wf-perfect-webinar (Stack Slide)"
+    rationale: "Cannot design offers or funnels without Value Ladder"
+
+  hook_story_offer_cascade:
+    trigger: "VT0-003"
+    blocks:
+      - "wf-dream-100-campaign"
+      - "wf-email-machine"
+      - "wf-attractive-character"
+    rationale: "All content must follow Hook-Story-Offer structure"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "brunson-squad"
+  purpose: "Centralizar veto conditions para impossibilitar caminhos errados no universo Brunson"
+  source_frameworks:
+    - "DotCom Secrets — Secret Formula, Value Ladder"
+    - "Expert Secrets — Big Domino, Three Secrets, Epiphany Bridge"
+    - "Traffic Secrets — Dream 100, Three Types of Traffic"
+  total_vetos: 18
+  tiers:
+    tier_0_universal: 3
+    tier_1_workflow: 8
+    tier_2_agent_specific: 6
+    tier_3_handoff: 1

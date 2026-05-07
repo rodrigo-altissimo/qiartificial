@@ -1,0 +1,128 @@
+# Brunson Copy Agent DNA
+# Specialization: Attractive Character, VSLs, Headlines, Fascinations, Sales Copy
+# Generated: 2026-02-11
+
+metadata:
+  agent_id: brunson-copy
+  specialization: "Sales Copy & Attractive Character Communication"
+  tier: 2
+  primary_sources:
+    - "outputs/extracted/dotcom-secrets-brunson-frameworks.md"
+    - "outputs/extracted/expert-secrets-brunson-frameworks.md"
+
+core_expertise:
+  - "Attractive Character development — building a magnetic persona for your brand"
+  - "VSL (Video Sales Letter) scripting — long-form video persuasion"
+  - "Headline and fascination writing — attention capture in crowded feeds"
+  - "Sales page copy — complete persuasion sequences for funnel pages"
+  - "Inception Secrets — embedding ideas through layered storytelling"
+
+primary_frameworks:
+  attractive_character:
+    description: "Build a persona people connect with, trust, and buy from"
+    four_elements:
+      backstory:
+        purpose: "Create emotional connection through shared experience"
+        guidelines: ["Be vulnerable", "Share the struggle", "Make it relatable", "Include specifics"]
+      character_flaws:
+        purpose: "Build trust through imperfection"
+        guidelines: ["Admit mistakes", "Show learning moments", "Be human, not perfect"]
+      polarity:
+        purpose: "Attract true fans by taking a clear stand"
+        guidelines: ["Have strong opinions", "Don't try to please everyone", "Prolific Zone, not mainstream"]
+      parables:
+        purpose: "Teach through memorable stories instead of lectures"
+        guidelines: ["Every lesson wrapped in a story", "Use analogies and metaphors", "Make complex simple"]
+    identity_types:
+      - "Leader (confident direction-setter)"
+      - "Adventurer (explorer sharing discoveries)"
+      - "Reporter (interviewing experts, sharing findings)"
+      - "Reluctant Hero (didn't want fame but has a message)"
+
+  vsl_structure:
+    description: "Video Sales Letter scripting framework"
+    sections:
+      hook: "Pattern interrupt + curiosity + specific promise (first 30 seconds)"
+      problem: "Agitate the pain — make them feel the cost of inaction"
+      story: "Epiphany Bridge — your journey from problem to discovery"
+      solution: "Introduce your unique mechanism / new opportunity"
+      proof: "Results, testimonials, case studies, data"
+      offer: "What they get (value stacking)"
+      close: "CTA + urgency + guarantee + scarcity"
+      ps: "Restate key benefit + final urgency"
+    timing:
+      short: "8-15 minutes (front-end products)"
+      medium: "15-30 minutes (mid-ticket)"
+      long: "30-60 minutes (high-ticket)"
+
+  headline_formulas:
+    types:
+      curiosity: "'The Weird Trick That [Result] Without [Pain]'"
+      question: "'Do You Make These [Number] Mistakes In [Activity]?'"
+      how_to: "'How To [Desired Result] In [Timeframe] Without [Objection]'"
+      story: "'How A [Relatable Person] Discovered [Secret] And [Result]'"
+      warning: "'Warning: Don't [Action] Until You Read This'"
+      number: "'[Number] [Adjective] Ways To [Desired Result]'"
+    brunson_favorites:
+      - "'I need to warn you about something that's about to happen to you' (Bryan Ward)"
+      - "'Before we complete your order...' (open buying loop)"
+      - "'Being that you're from [City]...' (geo-targeted)"
+
+  fascinations:
+    description: "Bullet points that create irresistible curiosity"
+    formulas:
+      - "The [adjective] secret to [result] (page [X])"
+      - "Why [common belief] is dead wrong — and what to do instead"
+      - "The [number]-word phrase that [unexpected result]"
+      - "How to [result] without [pain/sacrifice] (hint: it's not what you think)"
+      - "The biggest mistake [audience] makes — and the simple fix that [result]"
+
+  negative_qualifiers:
+    description: "Decline copy that makes saying 'no' painful"
+    examples:
+      - "'No thanks, I'll pay full price next time'"
+      - "'No thanks, I'd rather figure it out on my own'"
+      - "'No thanks, I don't want to increase my conversions'"
+    purpose: "Makes the prospect confront the cost of not buying"
+
+key_vocabulary:
+  - "Attractive Character"
+  - "VSL (Video Sales Letter)"
+  - "fascination"
+  - "headline"
+  - "hook"
+  - "open buying loop"
+  - "negative qualifier"
+  - "Inception Secrets"
+  - "pre-frame"
+  - "social proof"
+  - "risk reversal"
+  - "value stacking"
+  - "urgency / scarcity"
+  - "geo-targeted copy"
+
+diagnostic_questions:
+  - "Who is your Attractive Character? What type are they (Leader, Adventurer, Reporter, Reluctant Hero)?"
+  - "What is your Attractive Character's backstory and key character flaws?"
+  - "Does your headline create curiosity AND promise a specific result?"
+  - "Does your VSL follow Hook -> Problem -> Story -> Solution -> Proof -> Offer -> Close?"
+  - "Are your fascinations creating genuine curiosity or just listing features?"
+  - "Do your decline links use negative qualifiers?"
+  - "Is your copy written for the traffic temperature (cold needs more story, hot needs less)?"
+  - "Do you have both video AND text versions for different buyer types?"
+
+output_templates:
+  - "Attractive Character Profile (backstory, flaws, polarity, parables, identity type)"
+  - "VSL Script (complete video sales letter, 8-60 minutes)"
+  - "Sales Page Copy (full long-form persuasion sequence)"
+  - "Headline Swipe (10+ variations using proven formulas)"
+  - "Fascination Bullets (20+ curiosity-driven bullets)"
+  - "Negative Qualifier Copy (decline links for OTO pages)"
+
+quality_gates:
+  - "Attractive Character has all 4 elements (backstory, flaws, polarity, parables)"
+  - "VSL follows complete structure with timing appropriate to price point"
+  - "Headlines use proven formulas and create genuine curiosity"
+  - "Copy matches traffic temperature (more story for cold, more offer for hot)"
+  - "Fascinations create curiosity gaps, not just list features"
+  - "Every decline link has a negative qualifier"

@@ -1,0 +1,445 @@
+# Product Launch Sequence Workflow
+# Based on Russell Brunson's launch methodology across all books
+# Source: Product Launch Funnel + Challenge Funnel + Perfect Webinar + Email Machine
+# Version: 1.0.0
+
+id: wf-launch-sequence
+name: "Product Launch Sequence"
+version: "1.0.0"
+duration: "5-7 days"
+description: |
+  Complete workflow to plan and execute a product launch using Brunson's
+  multi-phase launch strategy. Combines pre-launch content, build-up
+  sequences, live events, email blitzes, and post-launch optimization.
+
+  PHILOSOPHY: "A launch isn't just selling a product. It's creating an
+  EVENT that people don't want to miss."
+
+  RESULT: A complete launch plan with pre-launch content, launch event,
+  email sequences, and post-launch follow-up ready for execution.
+
+best_for:
+  - "Launching a new product or course"
+  - "Relaunching an existing product"
+  - "Running a seasonal promotion"
+  - "Opening a membership or coaching program"
+  - "Building momentum for a big offer"
+
+decision_matrix_fit:
+  complexity: very_high
+  agents_required: 5
+  estimated_duration: "5-7 days (planning) + 2-4 weeks (execution)"
+  user_involvement: "very high (live events, content creation)"
+  prerequisites:
+    - "Product/offer ready (or nearly ready)"
+    - "Existing audience (email list, social following)"
+    - "Content creation capacity for pre-launch"
+    - "Availability for live event(s)"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Launch strategy, timeline, coordination"
+      phases: [0, 5]
+    - agent: brunson-launch
+      role: "Launch funnel design, challenge structure, event planning"
+      phases: [1, 3]
+    - agent: brunson-webinar
+      role: "Live event design (webinar or presentation)"
+      phases: [2, 3]
+    - agent: brunson-email
+      role: "Email sequences for every launch phase"
+      phases: [1, 2, 3, 4]
+    - agent: brunson-hooks
+      role: "Hooks for content, ads, and social posts"
+      phases: [1, 2]
+
+phases:
+  # ===== PHASE 0: PRE-LAUNCH STRATEGY =====
+  - id: PHASE-0
+    name: "Pre-Launch"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Plan the complete launch strategy: timeline, milestones, content
+      calendar, and success metrics. Every successful launch is won
+      or lost in the planning phase.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Define Launch Timeline"
+        required: true
+        description: |
+          Map the complete launch calendar:
+          - Pre-launch phase (2-4 weeks before)
+          - Build-up phase (1 week before)
+          - Launch window (3-7 days)
+          - Close phase (final 24-48 hours)
+          - Post-launch phase (1-2 weeks after)
+        output: "launch_timeline.yaml"
+
+      - task_id: T0.2
+        name: "Set Launch Goals & Metrics"
+        required: true
+        description: |
+          Define success metrics:
+          - Revenue target
+          - Units to sell
+          - List size needed
+          - Webinar registration target
+          - Conversion rate targets
+        output: "launch_goals.yaml"
+
+      - task_id: T0.3
+        name: "Inventory Assets & Resources"
+        required: true
+        description: |
+          What do we have and what do we need?
+          - Email list size and health
+          - Social media reach
+          - Existing content assets
+          - Budget for ads
+          - Team capacity
+        output: "launch_inventory.yaml"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Pre-Launch Planned"
+      criteria:
+        - "Complete timeline with dates"
+        - "Revenue and conversion goals set"
+        - "Resources inventoried and gaps identified"
+      human_review: true
+      message: "Review launch plan before content creation."
+
+  # ===== PHASE 1: CONTENT CREATION =====
+  - id: PHASE-1
+    name: "Content"
+    days: "Days 1-2"
+    tier: 1
+    description: |
+      Create all pre-launch content that builds anticipation, delivers
+      value, and positions the upcoming offer. This is the "seed" phase
+      where you plant ideas that make the offer a logical conclusion.
+
+    agents:
+      primary: brunson-launch
+      secondary: brunson-hooks
+
+    tasks:
+      - task_id: T1.1
+        name: "Create Pre-Launch Content Series"
+        required: true
+        agent: brunson-launch
+        description: |
+          3-4 pieces of pre-launch content (PLC):
+          PLC #1: "The Opportunity" — Why NOW
+          PLC #2: "The Transformation" — Case studies and proof
+          PLC #3: "The Experience" — Behind the scenes / preview
+          PLC #4: (Optional) "The Ownership" — Q&A, objection handling
+        output: "pre_launch_content.md"
+
+      - task_id: T1.2
+        name: "Create Pre-Launch Email Sequence"
+        required: true
+        agent: brunson-email
+        description: |
+          Emails for the pre-launch phase:
+          - Announcement email ("Something big is coming")
+          - PLC delivery emails (one per content piece)
+          - Engagement emails (questions, polls)
+          - Anticipation emails ("Doors open soon")
+        output: "pre_launch_emails.md"
+
+      - task_id: T1.3
+        name: "Create Social Media Hooks"
+        required: true
+        agent: brunson-hooks
+        description: |
+          Social media content for the pre-launch period:
+          - Daily hooks building curiosity
+          - Behind-the-scenes teasers
+          - Countdown posts
+          - Engagement-driving questions
+        output: "pre_launch_social.yaml"
+
+      - task_id: T1.4
+        name: "Design Registration Funnel"
+        required: true
+        agent: brunson-launch
+        description: |
+          Build the registration funnel for the launch event:
+          - Registration page (webinar, challenge, or live event)
+          - Confirmation page with next steps
+          - Reminder sequence (emails + SMS)
+        output: "registration_funnel.yaml"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Content Ready"
+      criteria:
+        - "3-4 pre-launch content pieces created"
+        - "Email sequence written"
+        - "Social media content planned"
+        - "Registration funnel designed"
+      human_review: true
+      message: "Review content before build-up phase."
+
+  # ===== PHASE 2: BUILD-UP =====
+  - id: PHASE-2
+    name: "Build-Up"
+    days: "Day 3"
+    tier: 2
+    description: |
+      Intensify the anticipation. The build-up phase creates urgency
+      and FOMO for the launch event. Content shifts from educational
+      to anticipation-building.
+
+    agents:
+      primary: brunson-email
+      secondary: brunson-hooks
+
+    tasks:
+      - task_id: T2.1
+        name: "Create Build-Up Email Blitz"
+        required: true
+        agent: brunson-email
+        description: |
+          Intensive email sequence in the final days before launch:
+          - "This is happening" — commitment email
+          - "Why you can't miss this" — urgency
+          - Testimonial showcase
+          - "Doors open tomorrow" — final anticipation
+        output: "buildup_emails.md"
+
+      - task_id: T2.2
+        name: "Prepare Launch Event Materials"
+        required: true
+        agent: brunson-webinar
+        description: |
+          Finalize the launch event (webinar, challenge start, etc.):
+          - Complete presentation/script
+          - Stack Slide (if webinar)
+          - Q&A preparation
+          - Tech setup checklist
+        output: "launch_event_materials.md"
+
+      - task_id: T2.3
+        name: "Create Launch Day Content"
+        required: true
+        agent: brunson-hooks
+        description: |
+          Content for launch day and launch window:
+          - "It's LIVE" announcements
+          - Social proof posts as sales come in
+          - FAQ posts addressing objections
+          - Urgency reminders
+        output: "launch_day_content.yaml"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Build-Up Complete"
+      criteria:
+        - "Build-up emails ready to send"
+        - "Launch event materials finalized"
+        - "Launch day content prepared"
+      human_review: true
+      message: "Final review before launch execution."
+
+  # ===== PHASE 3: LAUNCH =====
+  - id: PHASE-3
+    name: "Launch"
+    days: "Day 4"
+    tier: 2
+    description: |
+      Execute the launch. This is the live phase where the event happens,
+      the offer goes live, and the selling begins. All preparation
+      converges here.
+
+    agents:
+      primary: brunson-launch
+      secondary: brunson-webinar
+
+    tasks:
+      - task_id: T3.1
+        name: "Execute Launch Event"
+        required: true
+        agent: brunson-launch
+        description: |
+          Run the launch event:
+          - Pre-event warm-up (waiting room engagement)
+          - Present content / Perfect Webinar
+          - Stack Slide and offer presentation
+          - Live Q&A and close
+        output: "launch_event_execution.md"
+
+      - task_id: T3.2
+        name: "Open Cart Sequence"
+        required: true
+        agent: brunson-email
+        description: |
+          Email sequence for the open cart period:
+          - "Cart is OPEN" email
+          - Replay available email
+          - Social proof email (early buyers)
+          - FAQ / objection handling email
+        output: "open_cart_emails.md"
+
+      - task_id: T3.3
+        name: "Handle Objections Live"
+        required: true
+        agent: brunson-launch
+        description: |
+          Prepare for and handle common objections:
+          - Price objections
+          - "Is this right for me?" objections
+          - Timing objections
+          - Trust objections
+        output: "objection_handling.yaml"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Launch Executed"
+      criteria:
+        - "Launch event completed"
+        - "Open cart emails deployed"
+        - "Sales tracking active"
+      human_review: false
+      message: "Launch is live. Monitor and adjust."
+
+  # ===== PHASE 4: CLOSE =====
+  - id: PHASE-4
+    name: "Close"
+    days: "Day 5"
+    tier: 2
+    description: |
+      The close phase is where 50-80% of launch revenue happens.
+      Create genuine urgency as the cart closes. The final 24-48 hours
+      are the most critical period of the entire launch.
+
+    agent: brunson-email
+
+    tasks:
+      - task_id: T4.1
+        name: "Create Close Sequence"
+        required: true
+        description: |
+          The final email blitz:
+          - "48 hours left" reminder
+          - "24 hours left" + bonus removal warning
+          - "12 hours left" urgency
+          - "6 hours left" social proof
+          - "Last chance" — final email
+          - "Cart closed" — it's over email
+        output: "close_sequence.md"
+
+      - task_id: T4.2
+        name: "Create Last-Chance Incentives"
+        required: true
+        description: |
+          Genuine incentives for fence-sitters:
+          - Fast-action bonuses expiring
+          - Price increase after close
+          - Limited spots closing
+          - Payment plan option
+        output: "last_chance_incentives.yaml"
+
+    checkpoint:
+      id: CP_PHASE_4
+      name: "Cart Closed"
+      criteria:
+        - "Close sequence deployed"
+        - "Cart actually closed (no fake urgency)"
+        - "Revenue tracked"
+      human_review: true
+      message: "Cart closed. Review results."
+
+  # ===== PHASE 5: POST-LAUNCH =====
+  - id: PHASE-5
+    name: "Post-Launch"
+    days: "Days 6-7"
+    tier: 3
+    description: |
+      After the cart closes, nurture buyers, re-engage non-buyers,
+      analyze results, and plan the next launch.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T5.1
+        name: "Buyer Onboarding"
+        required: true
+        description: |
+          Welcome and onboard new customers:
+          - Welcome email series
+          - Quick win delivery
+          - Community introduction
+          - Onboarding call/video
+        output: "buyer_onboarding.md"
+
+      - task_id: T5.2
+        name: "Non-Buyer Follow-Up"
+        required: true
+        description: |
+          Re-engage people who didn't buy:
+          - "Here's what you missed" email
+          - Waitlist for next opening
+          - Alternative offer at different price point
+          - Continue providing value
+        output: "non_buyer_followup.md"
+
+      - task_id: T5.3
+        name: "Launch Analysis & Debrief"
+        required: true
+        description: |
+          Analyze complete launch performance:
+          - Revenue vs. target
+          - Conversion rates at each stage
+          - Email open/click rates
+          - What worked, what didn't
+          - Improvements for next launch
+        output: "launch_debrief.yaml"
+
+      - task_id: T5.4
+        name: "Compile Launch Playbook"
+        required: true
+        description: "Package everything into a repeatable launch playbook."
+        output: "launch_playbook/"
+
+    checkpoint:
+      id: CP_PHASE_5
+      name: "Post-Launch Complete"
+      criteria:
+        - "Buyers onboarded"
+        - "Non-buyers followed up"
+        - "Launch analysis completed"
+        - "Playbook compiled"
+      human_review: true
+      message: "Launch complete. Review final analysis."
+
+outputs:
+  final_deliverable:
+    name: "Product Launch Playbook"
+    location: "outputs/launches/{launch_id}/"
+    contents:
+      - "timeline.yaml - Complete launch calendar"
+      - "pre_launch/ - All pre-launch content"
+      - "email_sequences/ - All email series"
+      - "event_materials/ - Webinar/event assets"
+      - "close_sequence/ - Close emails"
+      - "analysis.yaml - Launch performance data"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "PRODUCT_LAUNCH_FUNNEL"
+    - "CHALLENGE_FUNNEL"
+    - "PERFECT_WEBINAR"
+    - "SOAP_OPERA_SEQUENCE"
+    - "HOOK_STORY_OFFER"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_006"

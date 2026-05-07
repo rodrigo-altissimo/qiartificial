@@ -1,0 +1,515 @@
+# Funnel Archetypes Database — 21+ Funnel Archetypes
+# Cataloged from the 74 Funnel Swipefile and Brunson's core methodology
+# Generated: 2026-02-11
+
+metadata:
+  squad: brunson
+  source: "74 Funnel Swipefile (Funnel University Issues #1-#35) + DotCom Secrets + Ignite"
+  total_archetypes: 21
+  categories:
+    front_end: "Low-ticket entry funnels ($0-$100)"
+    middle: "Mid-ticket conversion funnels ($100-$2,000)"
+    back_end: "High-ticket closing funnels ($2,000+)"
+    retention: "Retention and expansion funnels"
+    specialized: "Niche-specific funnel patterns"
+
+archetypes:
+
+  # ===== FRONT-END FUNNELS =====
+
+  - id: FA_001
+    name: "Free+Shipping Book Funnel"
+    category: front_end
+    page_sequence:
+      - "Landing Page (book offer + social proof)"
+      - "2-Step Order Form (shipping info -> billing)"
+      - "Order Bump ($17-$47 companion offer)"
+      - "OTO #1 ($47-$197 deeper training)"
+      - "OTO #2 / Downsell ($97-$297 or monthly)"
+      - "Thank You Page (consumption + next offer)"
+    key_elements:
+      - "Physical product creates commitment (mailbox moment)"
+      - "Free removes financial barrier — shipping qualifies buyers"
+      - "Order bump adds 56% more revenue on average"
+      - "Price decoy on OTO (3 options, middle is obvious best)"
+    best_for: "Authors, coaches, info-product creators, building buyer lists"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      landing_page_conversion: "20-35%"
+      bump_rate: "10-15%"
+      oto1_conversion: "5-10%"
+      average_cart_value: "$25-$45"
+    example: "DotCom Secrets book funnel — $32.74 ACV, 500K+ copies distributed"
+
+  - id: FA_002
+    name: "Self-Liquidating Offer (SLO) Funnel"
+    category: front_end
+    page_sequence:
+      - "Squeeze Page (lead magnet opt-in)"
+      - "Sales Page (SLO $27-$97)"
+      - "OTO #1 ($97-$297)"
+      - "OTO #2 / Downsell"
+      - "Thank You Page"
+    key_elements:
+      - "Lead magnet builds list, SLO covers ad costs"
+      - "Content that pays for its own traffic"
+      - "Email sequence promotes backend offers"
+    best_for: "Digital products, courses, templates, tools"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      opt_in_rate: "25-45%"
+      slo_conversion: "3-8%"
+      break_even_target: "Ad cost = SLO revenue"
+    example: "Self-Liquidating Content Funnel (Issue #1) — content upgrades pay for Facebook ads"
+
+  - id: FA_003
+    name: "Continuity/Membership Funnel"
+    category: front_end
+    page_sequence:
+      - "Landing Page (free trial or low-ticket splinter)"
+      - "Trial Signup ($1-$7 trial, then $27-$97/mo)"
+      - "Bump (annual option at discount)"
+      - "Upsell (premium tier or toolkit)"
+      - "Member's Area (immediate content access)"
+    key_elements:
+      - "Splinter Strategy: sell individual pieces, not whole library"
+      - "Launch new front-end funnel weekly, same backend"
+      - "Trojan Horse continuity ($6-$7/mo too low to cancel)"
+      - "Multiple hooks all feeding ONE continuity program"
+    best_for: "Membership sites, SaaS, subscription boxes, communities"
+    traffic_temperature: "warm to hot"
+    expected_metrics:
+      trial_conversion: "20-40%"
+      trial_to_paid: "30-60%"
+      monthly_churn: "5-10%"
+    example: "Funnel University — $67/mo, multiple bonus pages as front-ends"
+
+  - id: FA_004
+    name: "Quiz/Survey Funnel"
+    category: front_end
+    page_sequence:
+      - "Landing Page (quiz hook — 'How [Adjective] Is Your [Topic]?')"
+      - "Multi-Step Quiz (3-7 questions, images preferred)"
+      - "Opt-in Form (after quiz investment)"
+      - "Personalized Results Page (segmented)"
+      - "Customized Sales Page (per segment)"
+      - "Order Form + OTO sequence"
+    key_elements:
+      - "Micro-commitment through quiz engagement"
+      - "Segmentation enables personalized sales pages"
+      - "Images instead of text for quiz answers"
+      - "Personalized assessment with visitor name"
+      - "Each segment gets different email sequences"
+    best_for: "Health, fitness, business coaching, e-commerce, any segmentable audience"
+    traffic_temperature: "cold"
+    expected_metrics:
+      quiz_start_rate: "40-60%"
+      quiz_completion_rate: "60-80%"
+      opt_in_after_quiz: "50-70%"
+      sales_conversion: "3-8% (higher than non-segmented)"
+    example: "Strength Camp (Elliott Hulse) — 5 questions, 5-6 different sales pages, $27 + upsells"
+
+  - id: FA_005
+    name: "Squeeze Page Funnel"
+    category: front_end
+    page_sequence:
+      - "Squeeze Page (14 variations available)"
+      - "Thank You / Bridge Page"
+      - "Sales Page or Webinar Registration"
+    key_elements:
+      - "Mini-Survey squeeze (micro-commitment before opt-in)"
+      - "Line of sight (eyes/nose pointing toward form = 3X opt-ins)"
+      - "Reverse squeeze (give value first, then ask)"
+      - "Click-pop (opt-in popup instead of form)"
+      - "Brand-free (remove logos for better conversion)"
+    best_for: "List building, lead generation, webinar registration"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      opt_in_rate: "25-55% (varies by type)"
+    example: "14 Squeeze Page templates from Issue #20"
+
+  - id: FA_006
+    name: "Bridge Funnel"
+    category: front_end
+    page_sequence:
+      - "Traffic Source (cold audience)"
+      - "Bridge Page (editorial article connecting interests)"
+      - "Target Opt-in / Sales Page"
+    key_elements:
+      - "Bridges cold traffic from what they care about to your product"
+      - "Editorial-style article pre-frames the offer"
+      - "Advertorial format builds trust before selling"
+      - "Different bridge for each traffic source"
+    best_for: "Affiliate marketing, lead gen for unrelated products, cold traffic"
+    traffic_temperature: "cold"
+    expected_metrics:
+      bridge_engagement: "40-60% read-through"
+      downstream_conversion: "2-5X vs direct linking"
+    example: "Political Bridge Funnel (Fortress Gold) — political ad bridges to Gold IRA offer"
+
+  - id: FA_007
+    name: "Viral Share / Referral Funnel"
+    category: front_end
+    page_sequence:
+      - "Opt-in / Purchase Page"
+      - "Thank You Page with Share Mechanism"
+      - "Referral Tracking (points/rewards)"
+      - "Unlock Page (bonus for referrals)"
+    key_elements:
+      - "Built-in viral loop (share = points = unlock bonus)"
+      - "UpViral or similar for referral tracking"
+      - "'Steakholder' identity (Crowd Cow) or 'Brother' (Dollar Beard)"
+      - "Referral credit system"
+    best_for: "Product launches, community building, e-commerce"
+    traffic_temperature: "warm (friends of customers)"
+    expected_metrics:
+      share_rate: "15-30%"
+      viral_coefficient: "1.2-1.5"
+    example: "Butterfly Marketing — share=1pt, signup=1pt, 4pts=unlock free funnel"
+
+  # ===== MIDDLE FUNNELS =====
+
+  - id: FA_008
+    name: "Perfect Webinar Funnel"
+    category: middle
+    page_sequence:
+      - "Registration Page (headline + 3 bullet promises)"
+      - "Thank You / Indoctrination Page"
+      - "Live/Automated Webinar (60-90 min)"
+      - "Order Page (Stack Slide + CTA)"
+      - "Replay Page (24-48 hour urgency)"
+    key_elements:
+      - "1 Big Domino (one belief that makes everything else irrelevant)"
+      - "3 Secrets (each destroys a false belief: Vehicle, Internal, External)"
+      - "Epiphany Bridge story for each secret"
+      - "Stack Slide (value stacking with anchored price)"
+      - "Trial Closes throughout (If/All pattern)"
+      - "Urgency/scarcity on close"
+    best_for: "Courses ($297-$2,000), software, coaching programs"
+    traffic_temperature: "warm"
+    expected_metrics:
+      registration_rate: "20-40%"
+      show_up_rate: "25-40%"
+      close_rate: "5-15% of attendees"
+      revenue_per_registrant: "$15-$50"
+    example: "ClickFunnels webinar — 3:1 trial-to-annual ratio"
+
+  - id: FA_009
+    name: "Invisible Funnel"
+    category: middle
+    page_sequence:
+      - "Sales Page (webinar registration with credit card)"
+      - "Live Webinar/Training (deliver result FIRST)"
+      - "Charge or Refund (based on satisfaction)"
+      - "Upsell ($197+ advanced course)"
+    key_elements:
+      - "Pay only if it works — risk reversal"
+      - "70-80% choose to PREPAY (save money option)"
+      - "85-90% show-up rate (credit card invested)"
+      - "Prepay discount reverses risk AND generates upfront revenue"
+    best_for: "Training programs, workshops, result-oriented services"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      prepay_rate: "70-80%"
+      show_up_rate: "85-90%"
+      upsell_conversion: "15-20%"
+    example: "DoubleYourReading.com (Howard Berg) — $80 prepay, $197 upsell at 18%"
+
+  - id: FA_010
+    name: "Product Launch Funnel"
+    category: middle
+    page_sequence:
+      - "Micro-Quiz / Opt-in (micro-commitment)"
+      - "PLC Video #1 (Wow + How, 'Here is what I have for you')"
+      - "PLC Video #2 (Transformational Education)"
+      - "PLC Video #3 (Ownership Experience)"
+      - "PLC Video #4 (The Offer — Stack from Perfect Webinar)"
+      - "Sales Page + Cart Open/Close"
+    key_elements:
+      - "Perfect Webinar Script broken into 4 videos"
+      - "Micro-quiz creates micro-commitment before opt-in"
+      - "Each video filmed at different location (journey feel)"
+      - "Comments section for social proof (433+ comments)"
+      - "Cart open/close creates urgency"
+    best_for: "Software launches, course launches, new product introductions"
+    traffic_temperature: "warm"
+    expected_metrics:
+      opt_in_to_video1: "60-80%"
+      video1_to_video4: "30-50%"
+      close_rate: "5-15%"
+    example: "ClickFunnels launch — micro-quiz, 4 videos, Funnel Hacks offer"
+
+  - id: FA_011
+    name: "Challenge Funnel"
+    category: middle
+    page_sequence:
+      - "Challenge Registration Page ($47-$100)"
+      - "Welcome / Onboarding Email Sequence"
+      - "Daily Content (video + workbook for 5-30 days)"
+      - "Community (Facebook group or similar)"
+      - "Graduation / Offer Page (backend product/service)"
+    key_elements:
+      - "Low price removes barrier, daily content builds habit"
+      - "Physical workbook shipped creates tangible commitment"
+      - "Community creates accountability and social proof"
+      - "Challenge naturally leads to product adoption"
+    best_for: "SaaS onboarding, course pre-launch, community building"
+    traffic_temperature: "warm"
+    expected_metrics:
+      registration_conversion: "5-15%"
+      completion_rate: "30-50%"
+      backend_conversion: "15-30% of completers"
+    example: "One Funnel Away Challenge — $100, 30 days, 100K+ participants, high CF conversion"
+
+  - id: FA_012
+    name: "VSL Funnel"
+    category: middle
+    page_sequence:
+      - "Pre-Sale Article / Advertorial (for cold traffic)"
+      - "VSL Page (video sales letter, 15-60 min)"
+      - "Order Form (2-step or popup)"
+      - "OTO #1 (related product)"
+      - "OTO #2 / Downsell"
+    key_elements:
+      - "Two entry points: presale for cold, direct for warm"
+      - "Geo-targeted headlines boost conversion"
+      - "Every 'no' leads to downsell"
+      - "Delayed buy button builds curiosity"
+      - "Hook-Story-Offer structure in video"
+    best_for: "Supplements, info products, physical products"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      vsl_completion_rate: "15-30%"
+      conversion_rate: "2-5%"
+      average_cart_value: "$50-$200"
+    example: "REO Rockstar VSL — $37 front, $197 upsell, geo-targeted headlines"
+
+  - id: FA_013
+    name: "Sideways Webinar Funnel"
+    category: middle
+    page_sequence:
+      - "Entry Point (book purchase, opt-in)"
+      - "Thank You Video #1 (Wow + How)"
+      - "Thank You Video #2 (Education)"
+      - "Thank You Video #3 (Ownership)"
+      - "Thank You Video #4 (The Offer)"
+      - "Thank You Video #5 (Urgency Close)"
+    key_elements:
+      - "Webinar chopped into 5 videos deployed as thank-you page stack"
+      - "Email + video parallel sequences"
+      - "Each video unlocks next day"
+      - "Works as post-purchase sequence for book funnels"
+    best_for: "Post-purchase upsell, backend monetization"
+    traffic_temperature: "hot (just purchased)"
+    expected_metrics:
+      additional_revenue: "$500K+ added to existing funnel"
+    example: "Expert Secrets sideways webinar — added $500K+ in revenue post-book-purchase"
+
+  # ===== BACK-END FUNNELS =====
+
+  - id: FA_014
+    name: "High-Ticket Application Funnel"
+    category: back_end
+    page_sequence:
+      - "Squeeze Page (documentary or video series access)"
+      - "Documentary/Video (60-121 min, with spoiler box)"
+      - "Application Page (qualifying video + filtering questions)"
+      - "Indoctrination Page (schedule interview + private access)"
+      - "Phone Close (sales team)"
+    key_elements:
+      - "Push people AWAY — not everyone qualifies"
+      - "Documentary as lead magnet (watched avg 4X before applying)"
+      - "Provocative language and filtering increases ticket size"
+      - "Sell desire at every single step"
+      - "Multi-step indoctrination before phone call"
+    best_for: "Coaching, masterminds, consulting, high-ticket programs"
+    traffic_temperature: "warm to hot"
+    expected_metrics:
+      application_rate: "5-15% of video watchers"
+      phone_close_rate: "15-30%"
+      ticket_size: "$5,000-$50,000+"
+    example: "Warrior Week (Garrett White) — $10K event, 75% buy $50K upsell"
+
+  - id: FA_015
+    name: "Summit/Telesummit Funnel"
+    category: back_end
+    page_sequence:
+      - "Registration Page (speaker list + topics)"
+      - "Alternative Hook-Based Landing Pages (4+ variations)"
+      - "Thank You / Upsell ($197 reference library)"
+      - "Live Summit (daily speaker sessions)"
+      - "Post-Summit Sales Page (recordings + bonuses)"
+    key_elements:
+      - "THE funnel for breaking into new markets as unknown"
+      - "Act as reporter, host experts, build authority through association"
+      - "Every presenter promotes your registration page = massive list"
+      - "Each speaker gets custom 'Superhero' graphics"
+      - "Facebook Connect registration for easy signup"
+    best_for: "Market entry, list building, authority building, launching new niche"
+    traffic_temperature: "cold (through speaker audiences)"
+    expected_metrics:
+      registrations: "5,000-50,000+"
+      upsell_conversion: "3-8%"
+      list_growth: "Massive (each speaker promotes)"
+    example: "DotCom Secrets Summit — reporter model, $197 recording upsell"
+
+  - id: FA_016
+    name: "Documentary/Docu-Series Funnel"
+    category: back_end
+    page_sequence:
+      - "Trailer/Registration Page"
+      - "Episode Pages (7-9 episodes, 24-hour availability each)"
+      - "Sales Page (price decoy: digital / physical / BOTH at same price)"
+      - "Order Form + BOGO option"
+    key_elements:
+      - "Free docu-series with 24-hour episode expiration"
+      - "People get hooked, miss episodes, then buy full set"
+      - "Price decoy: physical $247, digital $147, BOTH $247"
+      - "BOGO offer for sharing"
+    best_for: "Health, education, cause-based movements, premium content"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      registration_rate: "30-50%"
+      episode_completion: "40-60%"
+      purchase_conversion: "5-12%"
+      revenue_per_launch: "$5M-$20M+"
+    example: "Truth About Cancer/Vaccines — $20M first launch, 2M+ followers"
+
+  # ===== RETENTION FUNNELS =====
+
+  - id: FA_017
+    name: "Cancellation Funnel"
+    category: retention
+    page_sequence:
+      - "Cancel Button Click"
+      - "Survey ('Why are you leaving?')"
+      - "Tailored Resolution Page (per reason)"
+      - "Three Outcomes: Keep Happy / Make Money / Exit Path"
+      - "Pause Option ($10-$20/mo reduced rate)"
+    key_elements:
+      - "Survey segments cancellation reasons"
+      - "Each reason gets specific resolution page"
+      - "Personalized video responses (Russell records them)"
+      - "Pause option generates revenue from would-be cancellers"
+      - "Emotional video appeal (Dollar Beard Club)"
+      - "Fear of loss reminder (Audible: 'You still have 1 credit!')"
+    best_for: "SaaS, membership sites, subscription services"
+    traffic_temperature: "hot (existing customers)"
+    expected_metrics:
+      save_rate: "25-30%"
+      pause_revenue: "6,000 paused at $10-$20/mo = $60K-$120K/mo"
+      revenue_impact: "Millions per year saved"
+    example: "ClickFunnels — 25-30% reduction in cancellations, 6K paused members"
+
+  - id: FA_018
+    name: "Follow-Up Funnel / Email Machine"
+    category: retention
+    page_sequence:
+      - "Opt-in / Purchase (entry point)"
+      - "Soap Opera Sequence (5 emails, days 1-5)"
+      - "Seinfeld Emails (daily, ongoing)"
+      - "Broadcast Promotions (offers + events)"
+    key_elements:
+      - "Soap Opera Sequence: 5-email onboarding story arc"
+      - "Seinfeld Emails: daily entertaining emails that sell"
+      - "Every email has Hook-Story-Offer structure"
+      - "Segmentation based on behavior and purchases"
+    best_for: "Every business — email is the owned traffic engine"
+    traffic_temperature: "warm to hot (list subscribers)"
+    expected_metrics:
+      open_rate: "20-35%"
+      click_rate: "3-8%"
+      revenue_per_email: "$0.50-$2.00 per subscriber"
+    example: "Russell's email system — drives millions in backend revenue"
+
+  # ===== SPECIALIZED FUNNELS =====
+
+  - id: FA_019
+    name: "Association Funnel"
+    category: specialized
+    page_sequence:
+      - "Free+Shipping Physical Item (t-shirt, tool, match)"
+      - "Order Form + Association Membership ($17-$20/mo with free bonus)"
+      - "Gear/Product Upsell ($50-$100)"
+      - "Premium Product Upsell ($200-$300)"
+    key_elements:
+      - "Association framing = Authority + Belonging + Following"
+      - "Physical membership cards, patches, ranks"
+      - "Gamification and identity marketing"
+      - "Same template deploys across unlimited niches"
+      - "Cross-pollination between associated brands"
+    best_for: "Niche communities, identity-based markets, multi-brand empires"
+    traffic_temperature: "cold to warm"
+    expected_metrics:
+      membership_conversion: "15-30% of front-end buyers"
+      monthly_churn: "5-10%"
+      ltv: "$200-$500"
+    example: "Survival Life/FPA, American Gun Association, American Beauty — same template, 3 niches"
+
+  - id: FA_020
+    name: "Flash Sale Funnel"
+    category: specialized
+    page_sequence:
+      - "Flash Sale Landing Page (countdown timer)"
+      - "Discounted Product Page ($7-$95 front-end)"
+      - "Membership Upsell (specific tier, $49-$295/mo)"
+      - "Additional Product Downsell"
+    key_elements:
+      - "Label it a flash sale explicitly"
+      - "Run for 1+ year (evergreen)"
+      - "Use for customer acquisition AND backend"
+      - "Sell continuity as primary upsell"
+      - "Don't discount core flagship product"
+    best_for: "Customer acquisition, list re-engagement, seasonal promotions"
+    traffic_temperature: "warm to hot"
+    expected_metrics:
+      conversion_rate: "5-15%"
+      continuity_upsell_rate: "10-20%"
+    example: "BioTrust Flash Sale — $9 protein + $35/mo subscription upsell"
+
+  - id: FA_021
+    name: "SaaS Funnel (Triple Architecture)"
+    category: specialized
+    page_sequence:
+      variant_1_traditional:
+        - "Homepage with quiz/segmentation"
+        - "3 Tailored Sales Pages"
+        - "Free Trial + Demo Call"
+      variant_2_webinar:
+        - "Webinar Registration"
+        - "Live/Auto Webinar selling vision"
+        - "Thank You Page with Free Trial CTA"
+      variant_3_plf_demo:
+        - "4-Video Demo Sequence (PLF format)"
+        - "Free Trial CTA on every page"
+    key_elements:
+      - "Start with webinar funnel (cash flow)"
+      - "Build traditional SaaS site (credibility)"
+      - "Build PLF demo funnel (education)"
+      - "All three work in tandem"
+      - "3:1 trial-to-annual ratio via webinar"
+    best_for: "SaaS companies, software products, platforms"
+    traffic_temperature: "varies by variant"
+    expected_metrics:
+      webinar_trial_conversion: "10-20%"
+      trial_to_paid: "30-50%"
+      annual_vs_monthly: "3:1 when sold via webinar"
+    example: "ClickFunnels — all 3 variants running simultaneously"
+
+# Funnel Selection Guide
+selection_guide:
+  by_price_point:
+    "$0-$50": [FA_001, FA_002, FA_005, FA_006, FA_007]
+    "$50-$500": [FA_003, FA_004, FA_008, FA_009, FA_011, FA_012]
+    "$500-$2,000": [FA_008, FA_010, FA_013]
+    "$2,000+": [FA_014, FA_015, FA_016]
+  by_traffic_temperature:
+    cold: [FA_001, FA_002, FA_004, FA_005, FA_006, FA_009]
+    warm: [FA_003, FA_008, FA_010, FA_011, FA_012]
+    hot: [FA_013, FA_014, FA_017, FA_018]
+  by_business_type:
+    info_products: [FA_001, FA_002, FA_008, FA_010]
+    saas: [FA_003, FA_011, FA_017, FA_021]
+    ecommerce: [FA_004, FA_007, FA_019, FA_020]
+    coaching: [FA_008, FA_011, FA_014]
+    services: [FA_006, FA_014, FA_015]

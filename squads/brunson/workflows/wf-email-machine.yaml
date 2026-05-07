@@ -1,0 +1,418 @@
+# Email Automation Machine Workflow
+# Based on Russell Brunson's DotCom Secrets email methodology
+# Source: Soap Opera Sequence + Seinfeld Emails + Follow-Up Funnels
+# Version: 1.0.0
+
+id: wf-email-machine
+name: "Email Automation Machine"
+version: "1.0.0"
+duration: "2-3 days"
+description: |
+  Complete workflow to build an automated email system that nurtures
+  leads and converts them into buyers. Combines Soap Opera Sequences
+  for new subscribers with daily Seinfeld Emails for ongoing engagement.
+
+  PHILOSOPHY: "The money is in the follow-up. Most people buy between
+  the 5th and 12th contact, not the first."
+
+  RESULT: A complete email automation system with welcome sequence,
+  daily emails, and ascension sequences ready to deploy.
+
+best_for:
+  - "Building email automation from scratch"
+  - "Monetizing an existing email list"
+  - "Creating follow-up sequences for funnels"
+  - "Setting up daily email engagement systems"
+  - "Building trust and authority through email"
+
+decision_matrix_fit:
+  complexity: medium
+  agents_required: 3
+  estimated_duration: "2-3 days"
+  user_involvement: "medium (personal stories needed)"
+  prerequisites:
+    - "Email service provider set up"
+    - "Lead magnet or funnel generating subscribers"
+    - "Product/service to sell"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategy, sequence architecture, list segmentation"
+      phases: [0]
+    - agent: brunson-email
+      role: "Soap Opera Sequence, Seinfeld Emails, follow-up design"
+      phases: [1, 2, 3]
+    - agent: brunson-copy
+      role: "Email copy, subject lines, CTAs"
+      phases: [1, 2, 3]
+
+phases:
+  # ===== PHASE 0: STRATEGY =====
+  - id: PHASE-0
+    name: "Strategy"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Define the email strategy: who are you emailing, what's the goal,
+      and how does email fit into the overall funnel architecture?
+      Map the subscriber journey from opt-in to purchase.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Map Email Architecture"
+        required: true
+        description: |
+          Design the complete email system:
+          - Entry points (which funnels feed the list)
+          - Segments (buyers, non-buyers, hot leads)
+          - Sequence flow (Soap Opera → Seinfeld → Ascension)
+        output: "email_architecture.yaml"
+
+      - task_id: T0.2
+        name: "Define Attractive Character"
+        required: true
+        description: |
+          Establish the Attractive Character for emails:
+          - Backstory elements to share
+          - Character flaws (relatability)
+          - Parables and teaching stories
+          - Polarity/stance on issues
+        output: "attractive_character_email.md"
+
+      - task_id: T0.3
+        name: "Identify Offer Sequence"
+        required: true
+        description: |
+          Which offers will be promoted and in what order?
+          Map each offer to the appropriate point in the
+          email sequence (after trust is built).
+        output: "offer_sequence.yaml"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Strategy Complete"
+      criteria:
+        - "Email architecture mapped"
+        - "Attractive Character defined"
+        - "Offer sequence planned"
+      human_review: true
+      message: "Review email strategy before writing sequences."
+
+  # ===== PHASE 1: SOAP OPERA SEQUENCE =====
+  - id: PHASE-1
+    name: "Soap Opera"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Write the 5-email Soap Opera Sequence that every new subscriber
+      receives. This sequence builds instant rapport, creates an emotional
+      bond with the Attractive Character, and makes the first offer.
+
+      PRINCIPLE: "Like a soap opera, each email ends with an open loop
+      that makes them NEED to open the next one."
+
+    agent: brunson-email
+
+    tasks:
+      - task_id: T1.1
+        name: "Write Email 1: Set the Stage"
+        required: true
+        description: |
+          First email sets the stage:
+          - Welcome and deliver the lead magnet
+          - Tease the backstory ("Let me tell you how I got here...")
+          - Open a dramatic loop (cliffhanger ending)
+          - Set expectation for daily emails
+        output: "soap_opera_email_1.md"
+
+      - task_id: T1.2
+        name: "Write Email 2: High Drama"
+        required: true
+        description: |
+          Second email delivers high drama:
+          - Continue the backstory with the crisis point
+          - "I hit rock bottom when..."
+          - Emotional vulnerability
+          - Open another loop pointing to the epiphany
+        output: "soap_opera_email_2.md"
+
+      - task_id: T1.3
+        name: "Write Email 3: Epiphany"
+        required: true
+        description: |
+          Third email reveals the epiphany:
+          - "Then I discovered [the vehicle/opportunity]..."
+          - The moment everything changed
+          - Share the core insight
+          - Transition from story to teaching
+        output: "soap_opera_email_3.md"
+
+      - task_id: T1.4
+        name: "Write Email 4: Hidden Benefits"
+        required: true
+        description: |
+          Fourth email reveals unexpected benefits:
+          - "But what I didn't expect was..."
+          - Side benefits of the discovery
+          - Social proof from others who experienced the same
+          - Soft transition toward the offer
+        output: "soap_opera_email_4.md"
+
+      - task_id: T1.5
+        name: "Write Email 5: Urgency & CTA"
+        required: true
+        description: |
+          Fifth email drives action:
+          - Recap the transformation
+          - Present the offer clearly
+          - Add urgency (genuine)
+          - Strong CTA with clear next step
+        output: "soap_opera_email_5.md"
+
+    inline_structures:
+      soap_opera_structure:
+        email_1:
+          name: "Set the Stage"
+          goal: "Build anticipation and deliver lead magnet"
+          open_loop: "Tease the backstory"
+          subject_line_formula: "Here's what I promised + a story you need to hear"
+
+        email_2:
+          name: "High Drama / Backstory"
+          goal: "Create emotional bond through vulnerability"
+          open_loop: "Cliffhanger at the crisis point"
+          subject_line_formula: "Something personal / emotional hook"
+
+        email_3:
+          name: "Epiphany"
+          goal: "Share the turning point / new belief"
+          open_loop: "Tease unexpected benefits"
+          subject_line_formula: "The moment everything changed"
+
+        email_4:
+          name: "Hidden Benefits"
+          goal: "Add proof and unexpected value"
+          open_loop: "Tease the offer coming tomorrow"
+          subject_line_formula: "What I didn't expect..."
+
+        email_5:
+          name: "Urgency & CTA"
+          goal: "Drive purchase/action"
+          open_loop: "None (this closes the loop)"
+          subject_line_formula: "Last chance / time-sensitive"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Soap Opera Complete"
+      criteria:
+        - "5 emails written with open loops"
+        - "Each email connects emotionally"
+        - "Final email has clear CTA"
+        - "Subject lines are compelling"
+      human_review: true
+      message: "Review Soap Opera Sequence before Seinfeld Emails."
+
+  # ===== PHASE 2: SEINFELD EMAILS =====
+  - id: PHASE-2
+    name: "Seinfeld"
+    days: "Day 2"
+    tier: 2
+    description: |
+      Create the daily Seinfeld Email system. After the Soap Opera
+      Sequence, subscribers receive daily emails that entertain,
+      teach, and sell — just like episodes of Seinfeld.
+
+      PRINCIPLE: "Seinfeld was a show about nothing. Yet it was the
+      most popular show on TV. Your daily emails should be the same —
+      entertaining stories about 'nothing' that always tie back to
+      your products."
+
+    agent: brunson-email
+
+    tasks:
+      - task_id: T2.1
+        name: "Create 30 Seinfeld Email Topics"
+        required: true
+        description: |
+          Generate 30 email topics from everyday life:
+          - Personal stories with business lessons
+          - Current events tied to your niche
+          - Customer success stories
+          - Behind-the-scenes moments
+          - Controversial opinions (polarity)
+          - Parables and analogies
+        output: "seinfeld_topics_30.yaml"
+
+      - task_id: T2.2
+        name: "Write First 7 Seinfeld Emails"
+        required: true
+        description: |
+          Write the first week of daily emails following the pattern:
+          1. Hook (subject line + opening)
+          2. Story (entertaining personal story)
+          3. Lesson (business insight)
+          4. CTA (soft sell to offer)
+        output: "seinfeld_week_1.md"
+
+      - task_id: T2.3
+        name: "Create Email Templates"
+        required: true
+        description: |
+          Create 5 reusable Seinfeld email templates:
+          - The "I was at [place] when..." template
+          - The "My friend asked me..." template
+          - The "You won't believe what happened..." template
+          - The "Everyone says X, but..." template
+          - The "I made a huge mistake..." template
+        output: "seinfeld_templates.md"
+
+      - task_id: T2.4
+        name: "Design Subject Line System"
+        required: true
+        description: |
+          Create 50+ subject line formulas:
+          - Curiosity-based
+          - Story-based
+          - Benefit-based
+          - Urgency-based
+          - Controversy-based
+        output: "subject_line_system.yaml"
+
+    inline_structures:
+      seinfeld_email_formula:
+        step_1: "Open with a hook (weird, funny, unexpected)"
+        step_2: "Tell a short story (2-3 paragraphs max)"
+        step_3: "Bridge to business lesson"
+        step_4: "Tie lesson to your offer"
+        step_5: "CTA: 'If you want help with [X], check this out: [link]'"
+
+      daily_email_topics:
+        category_1: "Personal life stories (gym, kids, travel, mistakes)"
+        category_2: "Customer wins and transformations"
+        category_3: "Industry news and your take on it"
+        category_4: "Behind-the-scenes of your business"
+        category_5: "Controversial opinions in your niche"
+        category_6: "Book/movie/show lessons applied to business"
+        category_7: "Historical stories with modern parallels"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Seinfeld System Complete"
+      criteria:
+        - "30 topics generated"
+        - "7 emails written and ready"
+        - "5 templates created"
+        - "50+ subject line formulas"
+      human_review: true
+      message: "Review Seinfeld system before follow-up design."
+
+  # ===== PHASE 3: FOLLOW-UP FUNNELS =====
+  - id: PHASE-3
+    name: "Follow-Up"
+    days: "Day 3"
+    tier: 2
+    description: |
+      Design the follow-up funnels that connect different parts of the
+      Value Ladder. These automated sequences move people from one
+      offer to the next based on their behavior.
+
+    agents:
+      primary: brunson-email
+      secondary: brunson-copy
+
+    tasks:
+      - task_id: T3.1
+        name: "Design Buyer Follow-Up"
+        required: true
+        agent: brunson-email
+        description: |
+          After someone buys, design the ascension sequence:
+          - Onboarding/welcome sequence
+          - Quick win delivery
+          - Upsell to next Value Ladder tier
+          - Testimonial request
+        output: "buyer_follow_up.yaml"
+
+      - task_id: T3.2
+        name: "Design Non-Buyer Retargeting"
+        required: true
+        agent: brunson-email
+        description: |
+          For people who didn't buy, design re-engagement:
+          - Objection-handling emails
+          - Additional proof/testimonials
+          - Limited-time offer
+          - Alternative entry point
+        output: "non_buyer_retargeting.yaml"
+
+      - task_id: T3.3
+        name: "Design Ascension Sequences"
+        required: true
+        agent: brunson-email
+        description: |
+          Sequences that move customers up the Value Ladder:
+          - Frontend → Middle tier transition
+          - Middle → Backend transition
+          - Backend → High-ticket transition
+        output: "ascension_sequences.yaml"
+
+      - task_id: T3.4
+        name: "Compile Complete Email System"
+        required: true
+        agent: brunson-copy
+        description: |
+          Package everything into a deployable email system:
+          - Sequence flow diagrams
+          - Trigger/automation rules
+          - Segmentation logic
+          - All email copy organized by sequence
+        output: "email_system_blueprint/"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Follow-Up Complete"
+      criteria:
+        - "Buyer follow-up designed"
+        - "Non-buyer retargeting planned"
+        - "Ascension sequences for each Value Ladder step"
+        - "Complete system documented"
+      human_review: true
+      message: "Final review of complete email machine."
+
+# ===============================================================================
+# OUTPUTS & METADATA
+# ===============================================================================
+
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_user: true
+    - halt_workflow: false
+  on_checkpoint_failure:
+    - return_to_previous_phase: true
+    - max_retries: 2
+
+outputs:
+  final_deliverable:
+    name: "Email Automation Machine"
+    location: "outputs/email/{project_id}/"
+    contents:
+      - "soap_opera_sequence/ - 5 welcome emails"
+      - "seinfeld_system/ - Daily email templates and topics"
+      - "follow_up_funnels/ - Buyer/non-buyer sequences"
+      - "email_architecture.yaml - Complete system map"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "SOAP_OPERA_SEQUENCE"
+    - "SEINFELD_EMAILS"
+    - "FOLLOW_UP_FUNNELS"
+    - "ATTRACTIVE_CHARACTER"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_004"

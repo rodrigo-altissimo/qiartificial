@@ -1,0 +1,410 @@
+# Brunson Squad — The Funnel Mastery System v1.0
+# One mind, multiple specialties. Funnel architecture with brutal depth.
+
+pack:
+  name: brunson
+  title: "Brunson Squad — The Funnel Mastery System"
+  version: "1.0.0"
+  author: "AIOS Team"
+  description: "15 specialized Russell Brunson agents, each mastering one aspect of his funnel methodology"
+  icon: null
+  slash_prefix: "brunson"
+  entry_agent: brunson-chief
+
+metadata:
+  created: 2026-02-11
+  source_mind: russell_brunson
+  fidelity_target: 0.90
+  total_source_files: 14
+  total_source_size_kb: 326
+  mental_models: 12
+  books:
+    - "DotCom Secrets (2015)"
+    - "Expert Secrets (2017)"
+    - "Traffic Secrets (2020)"
+    - "DotCom Secrets Ignite (2024)"
+    - "74 Funnel Swipefile"
+
+# MMOS Integration
+mmos_integration:
+  enabled: true
+  log_source: true
+  fallback_behavior: "graceful"
+  mind_mapping:
+    brunson-chief: russell_brunson
+    brunson-funnels: russell_brunson
+    brunson-expert: russell_brunson
+    brunson-traffic: russell_brunson
+    brunson-webinar: russell_brunson
+    brunson-copy: russell_brunson
+    brunson-pages: russell_brunson
+    brunson-email: russell_brunson
+    brunson-hooks: russell_brunson
+    brunson-offers: russell_brunson
+    brunson-advisor: russell_brunson
+    brunson-movement: russell_brunson
+    brunson-stories: russell_brunson
+    brunson-swipe: russell_brunson
+    brunson-launch: russell_brunson
+
+# Agents — Organized by Tier
+agents:
+  # Tier 0: Orchestrator
+  - id: brunson-chief
+    name: "Brunson Chief"
+    role: "Master orchestrator — routing, funnel diagnosis, strategic coordination"
+    tier: 0
+    primary_frameworks:
+      - "Secret Formula"
+      - "Value Ladder"
+      - "Hook-Story-Offer"
+      - "Funnel Stacking"
+
+  # Tier 1: Core Specialists (Books)
+  - id: brunson-funnels
+    name: "Brunson Funnels"
+    role: "Funnel architecture, Value Ladder, 31 Building Blocks, 9 Core Funnels"
+    tier: 1
+    primary_source: "DotCom Secrets + Ignite"
+    primary_frameworks:
+      - "Value Ladder"
+      - "Secret Formula"
+      - "7 Phases of a Funnel"
+      - "31 Building Blocks"
+
+  - id: brunson-expert
+    name: "Brunson Expert"
+    role: "Mass Movement, Epiphany Bridge, expert positioning, New Opportunity"
+    tier: 1
+    primary_source: "Expert Secrets"
+    primary_frameworks:
+      - "Mass Movement Blueprint"
+      - "Epiphany Bridge"
+      - "Opportunity Switch"
+      - "The One Thing"
+
+  - id: brunson-traffic
+    name: "Brunson Traffic"
+    role: "Dream 100, traffic types, congregation infiltration"
+    tier: 1
+    primary_source: "Traffic Secrets"
+    primary_frameworks:
+      - "Dream 100"
+      - "Three Types of Traffic"
+      - "Work In / Buy In"
+      - "Hook-Story-Offer"
+
+  # Tier 2: Execution Specialists
+  - id: brunson-webinar
+    name: "Brunson Webinar"
+    role: "Perfect Webinar design, Stack Slide, presentation scripts"
+    tier: 2
+    primary_frameworks:
+      - "Perfect Webinar"
+      - "Stack Slide"
+      - "Three Secrets Framework"
+
+  - id: brunson-copy
+    name: "Brunson Copy"
+    role: "Sales copy, VSLs, Attractive Character copy, headlines"
+    tier: 2
+    primary_frameworks:
+      - "Attractive Character"
+      - "Inception Secrets"
+      - "Sales Scripts"
+
+  - id: brunson-pages
+    name: "Brunson Pages"
+    role: "Funnel page design — squeeze, sales, OTO, application"
+    tier: 2
+    primary_frameworks:
+      - "9 Core Funnels"
+      - "Page Architecture"
+      - "SLO / Free+Shipping"
+
+  - id: brunson-email
+    name: "Brunson Email"
+    role: "Soap Opera Sequence, Seinfeld Emails, follow-up funnels"
+    tier: 2
+    primary_frameworks:
+      - "Soap Opera Sequence"
+      - "Seinfeld Emails"
+      - "Follow-Up Funnels"
+
+  - id: brunson-hooks
+    name: "Brunson Hooks"
+    role: "Hook creation, attention capture, pattern interrupts"
+    tier: 2
+    primary_frameworks:
+      - "Hook-Story-Offer"
+      - "Curiosity Hooks"
+      - "Pattern Interrupts"
+
+  - id: brunson-offers
+    name: "Brunson Offers"
+    role: "Irresistible offers, value stacking, guarantees, scarcity"
+    tier: 2
+    primary_frameworks:
+      - "Value Stacking"
+      - "Irresistible Offer Architecture"
+      - "Order Bump / OTO Strategy"
+
+  # Tier 3: Strategic Specialists
+  - id: brunson-advisor
+    name: "Brunson Advisor"
+    role: "Strategic counsel, funnel audits, business model advice"
+    tier: 3
+    primary_frameworks:
+      - "Funnel Hacking"
+      - "Funnel Stacking"
+      - "100 Clicks/Day Model"
+
+  - id: brunson-movement
+    name: "Brunson Movement"
+    role: "Tribe building, community, cause-based leadership"
+    tier: 3
+    primary_frameworks:
+      - "Mass Movement Blueprint"
+      - "Status as Primary Driver"
+      - "Future-Based Cause"
+
+  - id: brunson-stories
+    name: "Brunson Stories"
+    role: "Storytelling mastery, Epiphany Bridge, origin stories"
+    tier: 3
+    primary_frameworks:
+      - "Epiphany Bridge"
+      - "Attractive Character Backstory"
+      - "Kinda Like Bridge"
+      - "Hero's Two Journeys"
+
+  - id: brunson-swipe
+    name: "Brunson Swipe"
+    role: "74 funnel case studies, funnel hacking, reverse engineering"
+    tier: 3
+    primary_frameworks:
+      - "21+ Funnel Archetypes"
+      - "Funnel Hacking Process"
+
+  - id: brunson-launch
+    name: "Brunson Launch"
+    role: "Product launches, challenge funnels, event funnels"
+    tier: 3
+    primary_frameworks:
+      - "Product Launch Funnel"
+      - "Challenge Funnel"
+      - "Invisible Funnel"
+
+# Sources
+sources:
+  extracted_frameworks:
+    - outputs/extracted/dotcom-secrets-brunson-frameworks.md
+    - outputs/extracted/expert-secrets-brunson-frameworks.md
+    - outputs/extracted/traffic-secrets-brunson-frameworks.md
+    - outputs/extracted/dotcomsecrets-ignite-brunson-frameworks.md
+    - outputs/extracted/74-funnel-swipefile-brunson-frameworks.md
+  course_summaries:
+    path: outputs/courses/russell-brunson-*/
+
+# Mental Models (12 confirmed)
+mental_models:
+  - id: MM_001
+    name: "Secret Formula"
+    formula: "WHO + WHERE + BAIT + RESULT"
+    type: universal
+    transferability: 0.95
+
+  - id: MM_002
+    name: "Value Ladder"
+    insight: "Free → Frontend → Middle → Backend → High-Ticket"
+    type: universal
+    transferability: 0.90
+
+  - id: MM_003
+    name: "Hook-Story-Offer"
+    insight: "Every piece of marketing follows this 3-part structure"
+    type: universal
+    transferability: 0.95
+
+  - id: MM_004
+    name: "Epiphany Bridge"
+    insight: "Stories create belief change through shared epiphanies"
+    type: universal
+    transferability: 0.80
+
+  - id: MM_005
+    name: "Dream 100"
+    insight: "Infiltrate congregations where dream customers already gather"
+    type: domain
+    transferability: 0.85
+
+  - id: MM_006
+    name: "Three Types of Traffic"
+    insight: "Traffic you control, earn, and own — convert all to owned"
+    type: domain
+    transferability: 0.85
+
+  - id: MM_007
+    name: "Opportunity Switch"
+    insight: "New opportunities beat improvements — status preservation"
+    type: domain
+    transferability: 0.75
+
+  - id: MM_008
+    name: "Perfect Webinar"
+    insight: "1 Big Domino + 3 Secrets + Stack Slide = conversion machine"
+    type: domain
+    transferability: 0.70
+
+  - id: MM_009
+    name: "One Funnel Away"
+    insight: "Every business is one funnel away from massive success"
+    type: universal
+    transferability: 0.85
+
+  - id: MM_010
+    name: "Status as Primary Driver"
+    insight: "People only buy what increases their perceived status"
+    type: universal
+    transferability: 0.90
+
+  - id: MM_011
+    name: "Funnel Hacking"
+    insight: "Reverse engineer what works, adapt it, iterate fast"
+    type: universal
+    transferability: 0.85
+
+  - id: MM_012
+    name: "Attractive Character"
+    insight: "Backstory + flaws + polarity + parables = magnetic persona"
+    type: domain
+    transferability: 0.80
+
+# Workflows
+workflows:
+  - id: wf-funnel-architecture
+    name: "Funnel Architecture Design"
+    duration: "3-5 days"
+    phases: 5
+    agents_involved: [brunson-chief, brunson-funnels, brunson-pages, brunson-offers, brunson-advisor]
+
+  - id: wf-perfect-webinar
+    name: "Perfect Webinar Creation"
+    duration: "2-3 days"
+    phases: 4
+    agents_involved: [brunson-chief, brunson-webinar, brunson-stories, brunson-offers]
+
+  - id: wf-dream-100-campaign
+    name: "Dream 100 Traffic Campaign"
+    duration: "3-5 days"
+    phases: 5
+    agents_involved: [brunson-chief, brunson-traffic, brunson-hooks, brunson-copy]
+
+  - id: wf-email-machine
+    name: "Email Automation Machine"
+    duration: "2-3 days"
+    phases: 4
+    agents_involved: [brunson-chief, brunson-email, brunson-copy]
+
+  - id: wf-mass-movement
+    name: "Mass Movement Builder"
+    duration: "3-5 days"
+    phases: 5
+    agents_involved: [brunson-chief, brunson-movement, brunson-stories, brunson-expert]
+
+  - id: wf-launch-sequence
+    name: "Product Launch Sequence"
+    duration: "5-7 days"
+    phases: 6
+    agents_involved: [brunson-chief, brunson-launch, brunson-webinar, brunson-email, brunson-hooks]
+
+  - id: wf-funnel-audit
+    name: "Funnel Audit & Optimization"
+    duration: "1-2 days"
+    phases: 3
+    agents_involved: [brunson-chief, brunson-advisor, brunson-swipe]
+
+  - id: wf-attractive-character
+    name: "Attractive Character Builder"
+    duration: "2-3 days"
+    phases: 4
+    agents_involved: [brunson-chief, brunson-stories, brunson-copy]
+
+  - id: wf-funnel-hacking
+    name: "Funnel Hacking Process"
+    duration: "1-2 days"
+    phases: 3
+    agents_involved: [brunson-chief, brunson-swipe, brunson-funnels]
+
+# Shared Data Files
+shared_data:
+  voice_dna: data/minds/brunson-voice-dna.yaml
+  thinking_dna: data/minds/brunson-thinking-dna.yaml
+  case_library: data/brunson-case-library.yaml
+  funnel_archetypes: data/funnel-archetypes-database.yaml
+  source_index: data/source-index.yaml
+
+  agent_dna:
+    brunson-funnels: data/minds/brunson-funnels_dna.yaml
+    brunson-expert: data/minds/brunson-expert_dna.yaml
+    brunson-traffic: data/minds/brunson-traffic_dna.yaml
+    brunson-webinar: data/minds/brunson-webinar_dna.yaml
+    brunson-copy: data/minds/brunson-copy_dna.yaml
+    brunson-pages: data/minds/brunson-pages_dna.yaml
+    brunson-email: data/minds/brunson-email_dna.yaml
+    brunson-hooks: data/minds/brunson-hooks_dna.yaml
+    brunson-offers: data/minds/brunson-offers_dna.yaml
+    brunson-advisor: data/minds/brunson-advisor_dna.yaml
+    brunson-movement: data/minds/brunson-movement_dna.yaml
+    brunson-stories: data/minds/brunson-stories_dna.yaml
+    brunson-swipe: data/minds/brunson-swipe_dna.yaml
+    brunson-launch: data/minds/brunson-launch_dna.yaml
+
+# Dependencies
+dependencies:
+  - aios-core
+
+tags:
+  - brunson
+  - funnels
+  - traffic
+  - webinars
+  - storytelling
+  - expert-positioning
+  - direct-response
+  - clickfunnels
+
+# Veto Conditions (Centralized)
+veto_conditions:
+  config_file: config/veto-conditions.yaml
+  enforcement: strict
+  tiers:
+    tier_0_universal: 3
+    tier_1_workflow: 8
+    tier_2_agent_specific: 6
+    tier_3_handoff: 1
+  handoff_template: templates/handoff-context-tmpl.yaml
+  mandatory_checklists:
+    antipattern: checklists/funnel-audit-checklist.md
+    secret_formula: checklists/secret-formula-checklist.md
+    value_ladder: checklists/value-ladder-checklist.md
+
+# Validation Scripts (Tools for Agents)
+validation_scripts:
+  funnel_data_validator:
+    path: scripts/validate-funnel-data.py
+    usage: "python squads/brunson/scripts/validate-funnel-data.py --inline 'secret_formula:Y,value_ladder:Y,...'"
+    trigger: "Before any funnel design or architecture task"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+  handoff_validator:
+    path: scripts/validate-handoff.py
+    usage: "python squads/brunson/scripts/validate-handoff.py <file.yaml>"
+    trigger: "Before any specialist-to-specialist handoff"
+    returns: "PASS (exit 0) or FAIL (exit 1)"
+
+  antipattern_validator:
+    path: scripts/validate-antipattern.py
+    usage: "python squads/brunson/scripts/validate-antipattern.py --interactive"
+    trigger: "Before approving funnel for launch"
+    returns: "PASS (exit 0) or VETO (exit 1)"

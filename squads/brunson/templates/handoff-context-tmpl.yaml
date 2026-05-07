@@ -1,0 +1,222 @@
+# Brunson Squad — Handoff Context Template
+# MANDATORY for specialist-to-specialist transfers
+# Version: 1.0.0
+# Created: 2026-02-11
+# Pattern: SC-TMPL-HANDOFF-001
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PURPOSE: Garantir que contexto NAO se perde entre agents
+# RULE: Este template DEVE ser preenchido antes de qualquer handoff
+# VETO: VT3-001 bloqueia handoff sem este template completo
+# ═══════════════════════════════════════════════════════════════════════════════
+
+handoff:
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 1: TRANSFER INFO (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  transfer:
+    source_agent: ""          # Ex: brunson-funnels
+    target_agent: ""          # Ex: brunson-offers
+    timestamp: ""             # YYYY-MM-DD HH:MM
+    workflow_id: ""           # Ex: wf-funnel-architecture
+    current_phase: ""         # Ex: PHASE-2
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 2: FUNNEL DATA STATUS (Obrigatorio)
+  # Minimum data that must be collected before funnel design.
+  # ───────────────────────────────────────────────────────────────────────────
+  funnel_data_status:
+    completeness: ""          # X/5 (ex: 5/5)
+    items:
+      secret_formula: ""      # Y/N — WHO + WHERE + BAIT + RESULT defined
+      value_ladder: ""        # Y/N — Min 3 rungs mapped with prices
+      dream_customer: ""      # Y/N — Avatar with demographics + psychographics
+      funnel_type: ""         # Y/N — Type selected with rationale
+      traffic_strategy: ""    # Y/N — Dream 100 or traffic plan defined
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 3: FUNNEL ARCHITECTURE STATUS (Obrigatorio se apos PHASE-1)
+  # ───────────────────────────────────────────────────────────────────────────
+  funnel_architecture:
+    funnel_type: ""           # Ex: "Webinar Funnel", "SLO Funnel", "Challenge Funnel"
+    pages_count: ""           # Ex: 5 (squeeze, webinar reg, webinar, sales, OTO)
+    conversion_targets:
+      opt_in_rate: ""         # Ex: "30-40%"
+      show_up_rate: ""        # Ex: "25-35%"
+      close_rate: ""          # Ex: "5-15%"
+    value_ladder_rung: ""     # Which rung this funnel serves (frontend/middle/backend)
+    building_blocks_used: []  # Ex: ["squeeze_page", "video_sales_letter", "order_form"]
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 4: KEY DECISIONS MADE (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  key_decisions:
+    - decision: ""
+      rationale: ""
+      decided_by: ""          # agent ou user
+    # Adicionar mais conforme necessario
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 5: ARTIFACTS PRODUCED (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  artifacts:
+    - name: ""                # Ex: "secret_formula.yaml"
+      location: ""            # Path relativo
+      status: ""              # COMPLETE/PARTIAL/DRAFT
+    # Adicionar mais conforme necessario
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 6: BLOCKERS & OPEN QUESTIONS (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  blockers:
+    - blocker: ""
+      severity: ""            # HIGH/MEDIUM/LOW
+      proposed_resolution: ""
+    # Adicionar mais conforme necessario
+
+  open_questions:
+    - question: ""
+      requires_user_input: false
+    # Adicionar mais conforme necessario
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 7: CONTEXT FOR TARGET AGENT (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  context_for_target:
+    primary_objective: ""     # O que o target agent deve fazer
+    constraints: []           # Restricoes identificadas
+    user_preferences: []      # Preferencias expressas pelo user
+    priority: ""              # HIGH/MEDIUM/LOW
+    dont_repeat: []           # O que NAO precisa ser feito de novo
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SECTION 8: VETO CONDITIONS CHECK (Obrigatorio)
+  # ───────────────────────────────────────────────────────────────────────────
+  veto_check:
+    all_phase_vetos_passed: false  # true/false
+    vetos_triggered: []            # Lista de vetos que foram triggered (se algum)
+    vetos_resolved: []             # Lista de vetos que foram resolvidos
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# VALIDATION RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+validation:
+  mandatory_fields:
+    - "transfer.source_agent"
+    - "transfer.target_agent"
+    - "transfer.current_phase"
+    - "funnel_data_status.completeness"
+    - "key_decisions"                      # Pelo menos 1
+    - "context_for_target.primary_objective"
+    - "veto_check.all_phase_vetos_passed"
+
+  conditional_fields:
+    - field: "funnel_architecture.funnel_type"
+      required_if: "current_phase >= PHASE-1"
+    - field: "funnel_architecture.pages_count"
+      required_if: "current_phase >= PHASE-2"
+    - field: "funnel_architecture.conversion_targets"
+      required_if: "current_phase >= PHASE-2"
+
+  veto_on_failure:
+    id: "VT3-001"
+    message: "Handoff sem contexto. Preencher template antes de transferir."
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXAMPLE (Para referencia)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+example:
+  transfer:
+    source_agent: "brunson-funnels"
+    target_agent: "brunson-offers"
+    timestamp: "2026-02-11 14:30"
+    workflow_id: "wf-funnel-architecture"
+    current_phase: "PHASE-2"
+
+  funnel_data_status:
+    completeness: "5/5"
+    items:
+      secret_formula: "Y"
+      value_ladder: "Y"
+      dream_customer: "Y"
+      funnel_type: "Y"
+      traffic_strategy: "Y"
+
+  funnel_architecture:
+    funnel_type: "Webinar Funnel"
+    pages_count: 5
+    conversion_targets:
+      opt_in_rate: "35%"
+      show_up_rate: "30%"
+      close_rate: "10%"
+    value_ladder_rung: "middle"
+    building_blocks_used:
+      - "squeeze_page"
+      - "webinar_registration"
+      - "webinar_broadcast"
+      - "sales_page"
+      - "order_form"
+
+  key_decisions:
+    - decision: "Webinar Funnel para vender curso de R$997"
+      rationale: "Middle da Value Ladder, produto de conhecimento, webinar e o funil ideal"
+      decided_by: "brunson-funnels"
+    - decision: "Usar Perfect Webinar Framework completo"
+      rationale: "Produto precisa de educacao antes da venda"
+      decided_by: "user"
+
+  artifacts:
+    - name: "secret_formula.yaml"
+      location: "outputs/funnel-project/secret_formula.yaml"
+      status: "COMPLETE"
+    - name: "value_ladder.md"
+      location: "outputs/funnel-project/value_ladder.md"
+      status: "COMPLETE"
+    - name: "funnel_architecture.md"
+      location: "outputs/funnel-project/funnel_architecture.md"
+      status: "PARTIAL"
+
+  blockers:
+    - blocker: "Stack Slide precisa de precos finais dos bonus"
+      severity: "MEDIUM"
+      proposed_resolution: "User define precos individuais de cada bonus"
+
+  open_questions:
+    - question: "Vai ter OTO (One Time Offer) apos compra principal?"
+      requires_user_input: true
+    - question: "Qual o prazo de garantia?"
+      requires_user_input: true
+
+  context_for_target:
+    primary_objective: "Construir a oferta irresistivel com Value Stack >= 10x preco"
+    constraints:
+      - "Preco final nao pode ultrapassar R$1.497"
+      - "Garantia condicional de 30 dias"
+    user_preferences:
+      - "Prefere bonus de implementacao, nao de informacao"
+      - "Quer incluir sessao de Q&A ao vivo como bonus"
+    priority: "HIGH"
+    dont_repeat:
+      - "Secret Formula ja coletada"
+      - "Value Ladder ja mapeada"
+      - "Funnel type ja selecionado (Webinar)"
+
+  veto_check:
+    all_phase_vetos_passed: true
+    vetos_triggered: []
+    vetos_resolved:
+      - "VT1-003: Value Ladder tinha 2 degraus, adicionado terceiro (High-Ticket Mastermind)"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "brunson-squad"
+  purpose: "Garantir contexto preservado em handoffs entre specialists do Brunson Squad"
+  linked_veto: "VT3-001"
+  enforcement: "mandatory"

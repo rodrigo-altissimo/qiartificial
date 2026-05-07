@@ -1,0 +1,215 @@
+# Source Index — Brunson Squad
+# Maps all 14 source files with paths, line counts, and key frameworks extracted
+# Generated: 2026-02-11
+
+metadata:
+  squad: brunson
+  total_sources: 14
+  total_source_lines: ~32000
+  categories:
+    - extracted_frameworks (5 files)
+    - course_summaries (9 directories)
+
+extracted_frameworks:
+  - id: SRC_001
+    file: outputs/extracted/dotcom-secrets-brunson-frameworks.md
+    title: "DotCom Secrets — Framework Extraction"
+    book: "DotCom Secrets (2015)"
+    lines: 2046
+    size_kb: 78
+    key_frameworks:
+      - "Secret Formula (WHO + WHERE + BAIT + RESULT)"
+      - "Value Ladder (Free -> Frontend -> Middle -> Backend -> High-Ticket)"
+      - "Attractive Character (4 elements: Backstory, Flaws, Polarity, Parables)"
+      - "Soap Opera Sequence (5-email onboarding series)"
+      - "Seinfeld Emails (daily entertaining emails that sell)"
+      - "7 Phases of a Funnel"
+      - "23 Building Blocks (tactical funnel elements)"
+      - "Two-Step Free+Shipping Funnel"
+      - "Self-Liquidating Offer (SLO) Funnel"
+      - "Continuity Funnel"
+      - "Perfect Webinar Funnel"
+      - "Invisible Funnel Webinar"
+      - "Product Launch Funnel"
+      - "High-Ticket Three-Step Application Funnel"
+    agents_served: [brunson-funnels, brunson-copy, brunson-email, brunson-pages, brunson-offers]
+
+  - id: SRC_002
+    file: outputs/extracted/expert-secrets-brunson-frameworks.md
+    title: "Expert Secrets — Framework Extraction"
+    book: "Expert Secrets (2017)"
+    lines: 2739
+    size_kb: 90
+    key_frameworks:
+      - "Mass Movement Blueprint (Leader + Cause + New Opportunity)"
+      - "Epiphany Bridge (8-step storytelling structure)"
+      - "Opportunity Switch vs Opportunity Stack"
+      - "Status as Primary Driver"
+      - "The One Thing (Big Domino)"
+      - "Perfect Webinar (3 Secrets + Stack Slide)"
+      - "Trial Closes (If/All pattern)"
+      - "Stack Slide construction"
+      - "False Belief Patterns (Vehicle, Internal, External)"
+      - "Kinda Like Bridge (analogy framework)"
+      - "Hero's Two Journeys (External Achievement + Internal Transformation)"
+    agents_served: [brunson-expert, brunson-webinar, brunson-stories, brunson-movement]
+
+  - id: SRC_003
+    file: outputs/extracted/traffic-secrets-brunson-frameworks.md
+    title: "Traffic Secrets — Framework Extraction"
+    book: "Traffic Secrets (2020)"
+    lines: 2038
+    size_kb: 63
+    key_frameworks:
+      - "Dream 100 (infiltrate congregations)"
+      - "Three Types of Traffic (Controlled, Uncontrolled, Owned)"
+      - "Hook-Story-Offer (universal marketing structure)"
+      - "Work Your Way In vs Buy Your Way In"
+      - "Fill Your Funnel framework"
+      - "Platform-specific playbooks (FB, IG, Google, YouTube, Podcast)"
+      - "Follow-Up Funnels"
+      - "Funnel Hub (homepage as traffic sorter)"
+      - "Growth Hacking (viral loops, integration funnels)"
+    agents_served: [brunson-traffic, brunson-hooks, brunson-email]
+
+  - id: SRC_004
+    file: outputs/extracted/dotcomsecrets-ignite-brunson-frameworks.md
+    title: "DotCom Secrets Ignite — Framework Extraction"
+    book: "DotCom Secrets Ignite (2024)"
+    lines: 852
+    size_kb: 38
+    key_frameworks:
+      - "31 Building Blocks (expanded from original 23)"
+      - "9 Core Funnels (refined funnel taxonomy)"
+      - "Updated Value Ladder with AI integration"
+      - "Funnel Stacking strategies"
+      - "Modern traffic temperature mapping"
+    agents_served: [brunson-funnels, brunson-pages, brunson-advisor]
+
+  - id: SRC_005
+    file: outputs/extracted/74-funnel-swipefile-brunson-frameworks.md
+    title: "74 Funnel Swipefile — Framework Extraction"
+    book: "74 Funnel Swipe File (Funnel University Issues #1-#35)"
+    lines: 991
+    size_kb: 56
+    key_frameworks:
+      - "74 real-world funnel breakdowns"
+      - "21+ funnel archetypes cataloged"
+      - "Bridge Page concept"
+      - "Invisible Funnel model"
+      - "Splinter Strategy"
+      - "Funnel Stacking (3 funnels chained via email)"
+      - "Cancellation Funnel"
+      - "Funnel Alchemy (same product, different architectures)"
+      - "Association Funnel model"
+      - "Power of 3 pattern"
+      - "14 Squeeze Page designs"
+      - "8 Order Form templates + 8 OTO templates"
+    agents_served: [brunson-swipe, brunson-pages, brunson-offers, brunson-launch]
+
+course_summaries:
+  - id: SRC_006
+    directory: outputs/courses/russell-brunson-dotcom-secrets-live/
+    title: "DotCom Secrets Live"
+    summary_file: russell-brunson-dotcom-secrets-live-summary.md
+    key_topics:
+      - "Live funnel building demonstrations"
+      - "Value Ladder implementation"
+      - "Building Blocks in practice"
+    agents_served: [brunson-funnels, brunson-pages]
+
+  - id: SRC_007
+    directory: outputs/courses/russell-brunson-expert-secrets-live/
+    title: "Expert Secrets Live"
+    summary_file: russell-brunson-expert-secrets-live-summary.md
+    key_topics:
+      - "Perfect Webinar live delivery"
+      - "Stack Slide construction workshop"
+      - "Epiphany Bridge storytelling practice"
+    agents_served: [brunson-expert, brunson-webinar, brunson-stories]
+
+  - id: SRC_008
+    directory: outputs/courses/russell-brunson-traffic-secrets-live/
+    title: "Traffic Secrets Live"
+    summary_file: russell-brunson-traffic-secrets-live-summary.md
+    key_topics:
+      - "Dream 100 implementation"
+      - "Platform-specific traffic tactics"
+      - "Hook creation workshop"
+    agents_served: [brunson-traffic, brunson-hooks]
+
+  - id: SRC_009
+    directory: outputs/courses/russell-brunson-fhl-7/
+    title: "Funnel Hacking Live 7"
+    summary_file: russell-brunson-fhl-7-summary.md
+    key_topics:
+      - "Keynote presentations"
+      - "Funnel hacking case studies"
+      - "Two Comma Club stories"
+    agents_served: [brunson-advisor, brunson-swipe]
+
+  - id: SRC_010
+    directory: outputs/courses/russell-brunson-fhl-8/
+    title: "Funnel Hacking Live 8"
+    summary_file: russell-brunson-fhl-8-summary.md
+    key_topics:
+      - "Advanced funnel strategies"
+      - "Movement building keynotes"
+      - "Offer creation workshops"
+    agents_served: [brunson-movement, brunson-offers]
+
+  - id: SRC_011
+    directory: outputs/courses/russell-brunson-fhl-9/
+    title: "Funnel Hacking Live 9"
+    summary_file: russell-brunson-fhl-9-summary.md
+    key_topics:
+      - "Latest funnel innovations"
+      - "AI + funnels integration"
+      - "Community building strategies"
+    agents_served: [brunson-advisor, brunson-launch]
+
+  - id: SRC_012
+    directory: outputs/courses/russell-brunson-fhl-bonuses/
+    title: "FHL Bonuses Collection"
+    summary_file: russell-brunson-fhl-bonuses-summary.md
+    key_topics:
+      - "Supplementary training materials"
+      - "Bonus workshops and Q&A sessions"
+    agents_served: [brunson-advisor]
+
+  - id: SRC_013
+    directory: outputs/courses/russell-brunson-funnelology/
+    title: "Funnelology"
+    summary_file: russell-brunson-funnelology-summary.md
+    key_topics:
+      - "Deep-dive into funnel science"
+      - "Conversion optimization"
+      - "Funnel stacking methodology"
+    agents_served: [brunson-funnels, brunson-swipe, brunson-advisor]
+
+  - id: SRC_014
+    directory: outputs/courses/russell-brunson-speaker-bonuses-2024/
+    title: "Speaker Bonuses 2024"
+    summary_file: russell-brunson-speaker-bonuses-2024-summary.md
+    key_topics:
+      - "Presentation frameworks"
+      - "Stage selling techniques"
+      - "Webinar mastery updates"
+    agents_served: [brunson-webinar, brunson-stories]
+
+# Cross-reference: Which agents use which sources
+agent_source_map:
+  brunson-funnels: [SRC_001, SRC_004, SRC_006, SRC_013]
+  brunson-expert: [SRC_002, SRC_007]
+  brunson-traffic: [SRC_003, SRC_008]
+  brunson-webinar: [SRC_002, SRC_007, SRC_014]
+  brunson-copy: [SRC_001, SRC_002]
+  brunson-pages: [SRC_001, SRC_004, SRC_005, SRC_006]
+  brunson-email: [SRC_001, SRC_003]
+  brunson-hooks: [SRC_003, SRC_008]
+  brunson-offers: [SRC_001, SRC_005, SRC_010]
+  brunson-advisor: [SRC_004, SRC_009, SRC_011, SRC_012, SRC_013]
+  brunson-movement: [SRC_002, SRC_010]
+  brunson-stories: [SRC_002, SRC_007, SRC_014]
+  brunson-swipe: [SRC_005, SRC_009, SRC_013]
+  brunson-launch: [SRC_005, SRC_011]

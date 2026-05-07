@@ -1,0 +1,460 @@
+# Dream 100 Traffic Campaign Workflow
+# Based on Russell Brunson's Traffic Secrets methodology
+# Source: Dream 100 + Three Types of Traffic + Congregation Infiltration
+# Version: 1.0.0
+
+id: wf-dream-100-campaign
+name: "Dream 100 Traffic Campaign"
+version: "1.0.0"
+duration: "3-5 days"
+description: |
+  Complete workflow to build and execute a Dream 100 traffic campaign.
+  Identifies the top 100 people and platforms where your dream customers
+  already congregate, then systematically works your way in through
+  earning and buying access.
+
+  PHILOSOPHY: "Your dream customers are already congregating somewhere.
+  Your job is to find them and infiltrate those congregations."
+
+  RESULT: A complete Dream 100 list with outreach strategy, content plan,
+  and traffic conversion system ready for execution.
+
+best_for:
+  - "Starting traffic from scratch"
+  - "Diversifying traffic sources"
+  - "Building strategic partnerships"
+  - "Launching into a new market"
+  - "Scaling beyond paid ads"
+
+decision_matrix_fit:
+  complexity: high
+  agents_required: 4
+  estimated_duration: "3-5 days"
+  user_involvement: "high (outreach requires personal touch)"
+  prerequisites:
+    - "Funnel built and ready to receive traffic"
+    - "Lead magnet or bait offer ready"
+    - "Content creation capacity"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategy, market research, Dream 100 identification"
+      phases: [0]
+
+    - agent: brunson-traffic
+      role: "Dream 100 list building, traffic types, congregation mapping"
+      phases: [1, 2]
+
+    - agent: brunson-hooks
+      role: "Hook creation for content and outreach"
+      phases: [2]
+
+    - agent: brunson-copy
+      role: "Outreach copy, content scripts, ad copy"
+      phases: [2, 3]
+
+  synergies:
+    - agents: [brunson-traffic, brunson-hooks]
+      pattern: "Traffic identifies platforms, Hooks creates attention-grabbing content for each"
+    - agents: [brunson-traffic, brunson-copy]
+      pattern: "Traffic defines strategy, Copy writes the outreach and content"
+
+phases:
+  # ===== PHASE 0: RESEARCH =====
+  - id: PHASE-0
+    name: "Research"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Research the market to identify where dream customers congregate.
+      Map the three types of traffic and identify the biggest congregation
+      opportunities across all major platforms.
+
+      PRINCIPLE: "Before you create a single piece of content, you need
+      to know EXACTLY where your people are."
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Map Three Markets and Submarkets"
+        required: true
+        description: |
+          Identify where your business fits in Brunson's market hierarchy:
+          3 Markets: Health, Wealth, Relationships
+          Then drill into submarkets and niches.
+        output: "market_mapping.yaml"
+
+      - task_id: T0.2
+        name: "Identify Congregation Platforms"
+        required: true
+        description: |
+          For each major platform (Facebook, Instagram, YouTube, TikTok,
+          podcasts, blogs, email newsletters), identify which ones your
+          dream customers use most.
+        output: "congregation_platforms.yaml"
+
+      - task_id: T0.3
+        name: "Map Traffic Types for Business"
+        required: true
+        description: |
+          Categorize current and potential traffic:
+          - Traffic you CONTROL (paid ads, affiliates)
+          - Traffic you EARN (organic, SEO, PR)
+          - Traffic you OWN (email list, SMS list)
+          Goal: Convert all traffic to OWNED traffic.
+        output: "traffic_types_map.yaml"
+
+    inline_structures:
+      three_types_of_traffic:
+        controlled:
+          definition: "Traffic you pay for or direct"
+          examples: ["Facebook ads", "Google ads", "Solo ads", "Affiliate traffic"]
+          rule: "Always send controlled traffic to a page that converts it to OWNED"
+
+        earned:
+          definition: "Traffic you get through content and relationships"
+          examples: ["Organic social", "SEO", "PR mentions", "Guest podcasting", "JV partnerships"]
+          rule: "Create content that provides value AND drives to your funnel"
+
+        owned:
+          definition: "Traffic you can contact anytime for free"
+          examples: ["Email list", "SMS list", "Messenger list", "Push notifications"]
+          rule: "THIS IS THE GOAL. Build your list. Everything else is a means to this end."
+
+      goal: "Convert ALL traffic types into OWNED traffic (your list)"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Research Complete"
+      criteria:
+        - "Market/submarket clearly identified"
+        - "Top platforms mapped with audience data"
+        - "Traffic types categorized"
+      human_review: true
+      message: "Review market research before building Dream 100 list."
+
+  # ===== PHASE 1: LIST BUILDING =====
+  - id: PHASE-1
+    name: "List"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Build the Dream 100 list — the top 100 people, influencers,
+      podcasts, groups, channels, and platforms where your dream
+      customers already gather. This is the most important list
+      you'll ever create.
+
+      PRINCIPLE: "You don't need to create an audience. You need to
+      find where your audience already is and get in front of them."
+
+    agent: brunson-traffic
+
+    tasks:
+      - task_id: T1.1
+        name: "Build Dream 100 List — People"
+        required: true
+        description: |
+          Top influencers, thought leaders, podcasters, authors, and
+          content creators in your niche. These are the people whose
+          audiences overlap with your dream customers.
+        output: "dream_100_people.yaml"
+
+      - task_id: T1.2
+        name: "Build Dream 100 List — Platforms"
+        required: true
+        description: |
+          Top groups, channels, forums, communities, and platforms
+          where dream customers gather. Facebook groups, subreddits,
+          Slack communities, Discord servers, etc.
+        output: "dream_100_platforms.yaml"
+
+      - task_id: T1.3
+        name: "Prioritize and Categorize"
+        required: true
+        description: |
+          Rank the Dream 100 by:
+          - Audience size
+          - Audience alignment
+          - Accessibility (how easy to reach)
+          - Relationship status (cold, warm, hot)
+          Categorize into: Work In and Buy In targets.
+        output: "dream_100_prioritized.yaml"
+
+      - task_id: T1.4
+        name: "Research Each Target"
+        required: true
+        description: |
+          For the top 25 targets, research:
+          - Content they create
+          - Products they sell
+          - How they monetize
+          - What collaboration would benefit THEM
+          - Best way to reach them
+        output: "dream_100_research.yaml"
+
+    inline_structures:
+      dream_100_template:
+        per_entry:
+          name: "Person or platform name"
+          platform: "Where they operate"
+          audience_size: "Follower/member count"
+          audience_overlap: "How much their audience matches yours (1-10)"
+          accessibility: "How easy to reach (1-10)"
+          relationship_status: "Cold / Warm / Hot"
+          work_in_strategy: "How to earn their attention"
+          buy_in_strategy: "How to buy access to their audience"
+          collaboration_value: "What you can offer THEM"
+
+      work_in_vs_buy_in:
+        work_in:
+          description: "Earn your way into their world"
+          tactics:
+            - "Comment on their content consistently"
+            - "Share their content with genuine value-add"
+            - "Send them a gift or personalized note"
+            - "Interview them for your podcast"
+            - "Create content featuring their ideas (with credit)"
+            - "Attend their events"
+
+        buy_in:
+          description: "Pay to access their audience"
+          tactics:
+            - "Sponsor their podcast"
+            - "Buy ads targeting their audience"
+            - "Pay for a guest post or email blast"
+            - "Sponsor their event"
+            - "Affiliate/JV partnership with commission"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Dream 100 List Complete"
+      criteria:
+        - "100 targets identified across people and platforms"
+        - "Top 25 researched in depth"
+        - "Work In / Buy In strategy for each"
+        - "Prioritized by impact potential"
+      human_review: true
+      message: "Review Dream 100 list before content creation."
+
+  # ===== PHASE 2: CONTENT =====
+  - id: PHASE-2
+    name: "Content"
+    days: "Days 2-3"
+    tier: 2
+    description: |
+      Create the content strategy and assets for Dream 100 outreach.
+      Content serves two purposes: (1) provide value to earn attention,
+      (2) demonstrate expertise to build authority.
+
+      PRINCIPLE: "Hook, Story, Offer. Every piece of content follows
+      this pattern. The hook captures attention, the story builds
+      connection, the offer gives them a next step."
+
+    agents:
+      primary: brunson-hooks
+      secondary: brunson-copy
+
+    tasks:
+      - task_id: T2.1
+        name: "Create Content Calendar"
+        required: true
+        agent: brunson-hooks
+        description: |
+          Design 30-day content plan with hooks for each platform:
+          - Daily social media hooks
+          - Weekly long-form content hooks
+          - Collaboration content hooks
+          Hook types: curiosity, controversy, story, result, challenge
+        output: "content_calendar.yaml"
+
+      - task_id: T2.2
+        name: "Write Outreach Templates"
+        required: true
+        agent: brunson-copy
+        description: |
+          Create outreach templates for Dream 100 contacts:
+          - Initial cold outreach (DM, email)
+          - Follow-up sequences (3-5 touches)
+          - Collaboration proposals
+          - Podcast pitch template
+          - JV/affiliate pitch
+        output: "outreach_templates.md"
+
+      - task_id: T2.3
+        name: "Create Value-First Content"
+        required: true
+        agent: brunson-copy
+        description: |
+          Create 5-10 pieces of cornerstone content that:
+          - Reference Dream 100 targets (tagging, featuring)
+          - Demonstrate expertise
+          - Provide genuine value to the market
+          - Include CTAs to your funnel
+        output: "cornerstone_content.md"
+
+      - task_id: T2.4
+        name: "Design Hook Library"
+        required: true
+        agent: brunson-hooks
+        description: |
+          Create a library of 50+ hooks for ongoing content:
+          - Curiosity hooks ("The secret that...")
+          - Contrarian hooks ("Why everything you know about X is wrong")
+          - Result hooks ("How I got X result in Y time")
+          - Story hooks ("The day everything changed...")
+          - Pattern interrupt hooks ("STOP scrolling if you...")
+        output: "hook_library.yaml"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Content Complete"
+      criteria:
+        - "30-day content calendar created"
+        - "Outreach templates for all scenarios"
+        - "5+ cornerstone content pieces created"
+        - "50+ hooks in the library"
+      human_review: true
+      message: "Review content before launching outreach."
+
+  # ===== PHASE 3: OUTREACH =====
+  - id: PHASE-3
+    name: "Outreach"
+    days: "Day 3-4"
+    tier: 2
+    description: |
+      Launch the outreach campaign to Dream 100 targets. Start with
+      Work In tactics (earning attention) before Buy In (paying for access).
+      The goal is to build relationships that become traffic sources.
+
+    agent: brunson-traffic
+
+    tasks:
+      - task_id: T3.1
+        name: "Design Outreach Sequence"
+        required: true
+        description: |
+          Create the multi-touch outreach sequence:
+          Touch 1: Value-first contact (no ask)
+          Touch 2: Content share or compliment
+          Touch 3: Small ask (feedback, quote)
+          Touch 4: Collaboration proposal
+          Touch 5: Direct partnership pitch
+        output: "outreach_sequence.yaml"
+
+      - task_id: T3.2
+        name: "Design Paid Traffic Strategy"
+        required: true
+        description: |
+          For Buy In targets, design the paid strategy:
+          - Ad targeting (look-alike audiences from Dream 100)
+          - Sponsored content placements
+          - Retargeting sequences
+          - Budget allocation per platform
+        output: "paid_traffic_strategy.yaml"
+
+      - task_id: T3.3
+        name: "Create Tracking System"
+        required: true
+        description: |
+          Set up tracking for the Dream 100 campaign:
+          - CRM or spreadsheet for relationship status
+          - UTM tracking for traffic sources
+          - Conversion tracking per Dream 100 source
+          - ROI calculation per partnership
+        output: "tracking_system.yaml"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Outreach Ready"
+      criteria:
+        - "Multi-touch outreach sequence designed"
+        - "Paid traffic strategy with budget"
+        - "Tracking system configured"
+      human_review: true
+      message: "Final review before campaign launch."
+
+  # ===== PHASE 4: OPTIMIZATION =====
+  - id: PHASE-4
+    name: "Optimization"
+    days: "Day 5"
+    tier: 3
+    description: |
+      Review initial results and optimize the campaign. Double down
+      on what's working, cut what isn't. The Dream 100 is a living
+      document that evolves based on results.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T4.1
+        name: "Analyze Campaign Performance"
+        required: true
+        description: "Review metrics: response rates, traffic generated, conversions, cost per lead."
+        output: "campaign_analysis.yaml"
+
+      - task_id: T4.2
+        name: "Optimize and Scale"
+        required: true
+        description: "Identify top performers, increase investment. Cut underperformers."
+        output: "optimization_plan.yaml"
+
+      - task_id: T4.3
+        name: "Compile Campaign Blueprint"
+        required: true
+        description: "Package all assets into a repeatable campaign playbook."
+        output: "dream_100_blueprint/"
+
+    checkpoint:
+      id: CP_PHASE_4
+      name: "Campaign Optimized"
+      criteria:
+        - "Performance data analyzed"
+        - "Top performers identified"
+        - "Blueprint compiled for repeatability"
+      human_review: true
+      message: "Final campaign review and handoff."
+
+# ===============================================================================
+# ERROR HANDLING & OUTPUTS
+# ===============================================================================
+
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_user: true
+    - halt_workflow: false
+  on_checkpoint_failure:
+    - return_to_previous_phase: true
+    - max_retries: 2
+  common_failures:
+    - failure: "No Dream 100 targets found"
+      phase: 1
+      resolution: "Broaden to adjacent submarkets"
+    - failure: "Low outreach response rates"
+      phase: 3
+      resolution: "Increase value-first touches before asking"
+
+outputs:
+  final_deliverable:
+    name: "Dream 100 Campaign Blueprint"
+    location: "outputs/traffic/{campaign_id}/"
+    contents:
+      - "dream_100_list.yaml - Complete prioritized list"
+      - "content_calendar.yaml - 30-day plan"
+      - "hook_library.yaml - 50+ hooks"
+      - "outreach_templates.md - All templates"
+      - "paid_traffic_strategy.yaml - Paid plan"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "DREAM_100"
+    - "THREE_TYPES_OF_TRAFFIC"
+    - "HOOK_STORY_OFFER"
+    - "WORK_IN_BUY_IN"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_003"

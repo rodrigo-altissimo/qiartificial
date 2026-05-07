@@ -1,0 +1,334 @@
+# Perfect Webinar Output Template
+# Template for documenting a complete Perfect Webinar presentation
+# Usage: Fill in each section after completing the wf-perfect-webinar workflow
+# Agents involved: brunson-chief, brunson-webinar, brunson-stories, brunson-offers
+
+---
+
+perfect_webinar:
+  metadata:
+    project_name: ""
+    presenter: ""
+    created_date: "YYYY-MM-DD"
+    version: "1.0"
+    designed_by: "brunson-webinar"
+    story_consultant: "brunson-stories"
+    offer_architect: "brunson-offers"
+    status: "draft"  # draft | rehearsal | live-ready | post-mortem
+
+  # --- WEBINAR IDENTITY ---
+  identity:
+    title: ""
+    subtitle: ""
+    hook: ""  # The curiosity-driven hook that gets registrations
+    duration_minutes: 90  # Standard: 60 content + 30 close
+    format: "live"  # live | automated | hybrid
+    platform: ""  # Zoom | WebinarJam | GoToWebinar | ClickFunnels
+    registration_page_url: ""
+    replay_strategy: ""  # 24hr-replay | 48hr-replay | no-replay | evergreen
+
+  # --- THE BIG DOMINO ---
+  big_domino:
+    statement: ""
+    # The ONE belief that, if you can make them believe it, all other objections fall
+    # Format: "If I can make them believe [X], then all their other objections become irrelevant"
+    core_belief: ""
+    why_this_is_the_one: ""
+    current_false_belief: ""  # What they believe now that blocks the sale
+    new_belief_needed: ""  # What they need to believe instead
+
+  # --- INTRO / HOOK (0-5 minutes) ---
+  intro:
+    opening_hook: ""
+    # Pattern interrupt or curiosity statement that locks attention
+    big_promise: ""
+    # The massive result they will get from staying
+    credibility_statement: ""
+    # Quick proof you can deliver on the promise
+    ruler_statement: ""
+    # "I'm going to show you [3 secrets/steps] to [desired result]"
+    # This sets expectations and creates a mental framework
+    three_secrets_preview:
+      secret_1_teaser: ""
+      secret_2_teaser: ""
+      secret_3_teaser: ""
+
+  # --- SECRET 1: THE VEHICLE (15-20 minutes) ---
+  secret_1:
+    title: ""
+    # Secret 1 always addresses the VEHICLE (the opportunity/method itself)
+    false_belief: ""
+    # What they currently believe about the vehicle/opportunity
+    # e.g., "You need a big list to make money online"
+
+    epiphany_bridge_story:
+      backstory: ""
+      # Your situation before the epiphany (relatable pain/frustration)
+      journey: ""
+      # What you tried, what failed, the wall you hit
+      epiphany_moment: ""
+      # The exact moment of realization (be specific: who, where, when)
+      transformation: ""
+      # What changed after the epiphany
+      connection_to_audience: ""
+      # "And that's when I realized that YOU don't need [old belief], you need [new belief]"
+
+    new_belief: ""
+    # The replacement belief after the Epiphany Bridge
+    # e.g., "You only need 1,000 true fans, not a massive list"
+
+    supporting_evidence:
+      - type: ""  # case-study | statistic | analogy | demonstration
+        content: ""
+      - type: ""
+        content: ""
+
+    false_belief_pattern:
+      # Addressing sub-beliefs that support the main false belief
+      experience_claim: ""
+      # "You might be thinking: but I've tried X before and it didn't work..."
+      reframe: ""
+      # "The reason it didn't work is [Y], not because [their excuse]"
+
+    transition_to_secret_2: ""
+    # Bridge statement connecting Secret 1 to Secret 2
+
+  # --- SECRET 2: INTERNAL BELIEFS (15-20 minutes) ---
+  secret_2:
+    title: ""
+    # Secret 2 addresses INTERNAL false beliefs (about themselves)
+    false_belief: ""
+    # Internal doubt: "I'm not smart/experienced/young/old enough"
+
+    epiphany_bridge_story:
+      backstory: ""
+      journey: ""
+      epiphany_moment: ""
+      transformation: ""
+      connection_to_audience: ""
+
+    new_belief: ""
+    # e.g., "Anyone can do this if they follow the system"
+
+    supporting_evidence:
+      - type: ""
+        content: ""
+      - type: ""
+        content: ""
+
+    kinda_like_bridge: ""
+    # Analogy that makes the concept click
+    # "It's kinda like [familiar concept], except [key difference]"
+
+    transition_to_secret_3: ""
+
+  # --- SECRET 3: EXTERNAL BELIEFS (15-20 minutes) ---
+  secret_3:
+    title: ""
+    # Secret 3 addresses EXTERNAL false beliefs (about the world/circumstances)
+    false_belief: ""
+    # External excuse: "The market is saturated" / "The economy is bad"
+
+    epiphany_bridge_story:
+      backstory: ""
+      journey: ""
+      epiphany_moment: ""
+      transformation: ""
+      connection_to_audience: ""
+
+    new_belief: ""
+
+    supporting_evidence:
+      - type: ""
+        content: ""
+      - type: ""
+        content: ""
+
+    kinda_like_bridge: ""
+
+    transition_to_stack: ""
+    # Bridge from teaching to selling: "So now you know the 3 secrets...
+    # the question is: do you want my help implementing this?"
+
+  # --- THE STACK SLIDE ---
+  stack_slide:
+    transition_statement: ""
+    # "Let me show you everything you get when you join today..."
+
+    items:
+      - name: ""
+        description: ""
+        individual_value: ""
+        # e.g., "$997"
+      - name: ""
+        description: ""
+        individual_value: ""
+      - name: ""
+        description: ""
+        individual_value: ""
+      - name: ""
+        description: ""
+        individual_value: ""
+      - name: ""
+        description: ""
+        individual_value: ""
+      - name: ""
+        description: ""
+        individual_value: ""
+
+    total_value: ""
+    # Sum of all individual values, e.g., "$12,347"
+    # This creates a massive anchor
+
+    price_reveal_sequence:
+      anchor_statement: ""
+      # "If I charged $X,XXX, would that be fair?"
+      not_gonna_charge: ""
+      # "But I'm NOT going to charge you $X,XXX..."
+      second_anchor: ""
+      # "Not even $X,XXX..."
+      actual_price: ""
+      # "Your investment today is just $XXX"
+      price_justification: ""
+      # Why this price is a no-brainer given the value
+
+  # --- THE CLOSE (10-15 minutes) ---
+  close:
+    guarantee:
+      type: ""  # money-back | conditional | unconditional | double-money-back
+      duration: ""  # 30-day | 60-day | 90-day
+      statement: ""
+      # Exact wording of the guarantee
+      risk_reversal: ""
+      # "You literally have nothing to lose and everything to gain"
+
+    urgency:
+      mechanism: ""  # countdown | limited-spots | early-bird | bonus-expiration
+      deadline: ""
+      statement: ""
+      # "This offer is only available for the next [time/quantity]"
+
+    scarcity:
+      mechanism: ""  # limited-quantity | exclusive-group | one-time
+      statement: ""
+
+    fast_action_bonus:
+      name: ""
+      value: ""
+      description: ""
+      deadline: ""
+
+    final_cta:
+      primary_action: ""  # click-link | call-number | book-call | text-keyword
+      url_or_instructions: ""
+      button_text: ""
+      repeat_count: 3  # Show CTA at least 3 times during close
+
+    objection_handling:
+      - objection: "I can't afford it"
+        response: ""
+      - objection: "I need to think about it"
+        response: ""
+      - objection: "Will this work for me?"
+        response: ""
+      - objection: "I don't have time"
+        response: ""
+
+    closing_statement: ""
+    # Final emotional/logical appeal before signing off
+
+  # --- PRESENTATION TIMELINE ---
+  timeline:
+    - time: "0:00 - 0:05"
+      phase: "Intro / Hook"
+      key_action: "Pattern interrupt, big promise, ruler statement"
+    - time: "0:05 - 0:25"
+      phase: "Secret 1 (Vehicle)"
+      key_action: "Destroy vehicle false belief via Epiphany Bridge"
+    - time: "0:25 - 0:45"
+      phase: "Secret 2 (Internal)"
+      key_action: "Destroy internal false belief via Epiphany Bridge"
+    - time: "0:45 - 1:00"
+      phase: "Secret 3 (External)"
+      key_action: "Destroy external false belief via Epiphany Bridge"
+    - time: "1:00 - 1:05"
+      phase: "Transition to Close"
+      key_action: "Bridge from teaching to selling"
+    - time: "1:05 - 1:15"
+      phase: "Stack Slide"
+      key_action: "Build value, anchor price, reveal actual price"
+    - time: "1:15 - 1:25"
+      phase: "Close"
+      key_action: "Guarantee, urgency, scarcity, CTA"
+    - time: "1:25 - 1:30"
+      phase: "Q&A / Final Push"
+      key_action: "Handle objections live, repeat CTA"
+
+  # --- REGISTRATION PAGE ---
+  registration:
+    headline: ""
+    subheadline: ""
+    bullet_points:
+      - ""
+      - ""
+      - ""
+    urgency_element: ""
+    social_proof: ""
+    target_registration_rate: ""  # e.g., "30-40%"
+    target_show_rate: ""  # e.g., "25-35%"
+
+  # --- FOLLOW-UP SEQUENCES ---
+  follow_up:
+    pre_webinar:
+      - trigger: "Immediately after registration"
+        type: "email"
+        purpose: "Confirm registration + build excitement"
+      - trigger: "24 hours before"
+        type: "email"
+        purpose: "Reminder + curiosity hook"
+      - trigger: "1 hour before"
+        type: "email + SMS"
+        purpose: "Final reminder with direct link"
+
+    post_webinar:
+      - trigger: "Immediately after"
+        type: "email"
+        purpose: "Replay link + urgency reminder"
+      - trigger: "24 hours after"
+        type: "email"
+        purpose: "Case study + deadline reminder"
+      - trigger: "48 hours after"
+        type: "email"
+        purpose: "FAQ + final objection handling"
+      - trigger: "Deadline"
+        type: "email + SMS"
+        purpose: "Last chance / cart closing"
+
+    no_show:
+      - trigger: "1 hour after missed"
+        type: "email"
+        purpose: "You missed it + replay access"
+      - trigger: "24 hours after"
+        type: "email"
+        purpose: "Highlight biggest takeaway"
+
+  # --- METRICS TARGETS ---
+  metrics:
+    registration_rate: ""  # e.g., "30%"
+    show_up_rate: ""  # e.g., "30%"
+    stayed_to_pitch: ""  # e.g., "70%"
+    conversion_rate_live: ""  # e.g., "10-15%"
+    conversion_rate_replay: ""  # e.g., "3-5%"
+    average_order_value: ""
+    revenue_per_registrant: ""
+    cost_per_registration: ""
+
+  # --- NOTES ---
+  notes:
+    rehearsal_notes: []
+    post_webinar_improvements: []
+    split_test_ideas:
+      - element: ""
+        test: ""
+      - element: ""
+        test: ""

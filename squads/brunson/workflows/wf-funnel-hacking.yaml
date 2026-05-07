@@ -1,0 +1,305 @@
+# Funnel Hacking Process Workflow
+# Based on Russell Brunson's Funnel Hacking methodology
+# Source: DotCom Secrets + 74 Funnel Swipefile + Funnel Hacking Process
+# Version: 1.0.0
+
+id: wf-funnel-hacking
+name: "Funnel Hacking Process"
+version: "1.0.0"
+duration: "1-2 days"
+description: |
+  Complete workflow to reverse engineer competitors' successful funnels
+  and adapt proven patterns to your business. Funnel Hacking is NOT
+  copying — it's understanding the WHY behind what works and applying
+  those principles with your own unique spin.
+
+  PHILOSOPHY: "You don't need to be a genius. You just need to find
+  someone who's already figured it out and model what they're doing."
+
+  RESULT: A complete competitive funnel analysis with adapted strategies,
+  proven patterns identified, and an implementation plan for your business.
+
+best_for:
+  - "Entering a new market and need proven models"
+  - "Competitor has a funnel that's clearly working"
+  - "Need inspiration for funnel design"
+  - "Want to understand market standards before building"
+  - "Improving existing funnel based on what's working in the market"
+
+decision_matrix_fit:
+  complexity: medium
+  agents_required: 3
+  estimated_duration: "1-2 days"
+  user_involvement: "low (research-heavy process)"
+  prerequisites:
+    - "Identified competitors or successful funnels to study"
+    - "Budget to buy competitor products (optional but recommended)"
+    - "Understanding of your own business model"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategy, target selection, final recommendations"
+      phases: [2]
+    - agent: brunson-swipe
+      role: "Reverse engineering, pattern recognition, documentation"
+      phases: [0, 1]
+    - agent: brunson-funnels
+      role: "Funnel architecture analysis, adaptation planning"
+      phases: [1, 2]
+
+phases:
+  # ===== PHASE 0: IDENTIFY =====
+  - id: PHASE-0
+    name: "Identify"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Identify the top funnels to hack. Look for funnels that are
+      clearly successful (running paid ads consistently, large
+      audience, known revenue). Buy their products to go through
+      the experience as a customer.
+
+    agent: brunson-swipe
+
+    tasks:
+      - task_id: T0.1
+        name: "Identify Target Funnels"
+        required: true
+        description: |
+          Find 5-10 successful funnels in your market:
+          - Who is running ads consistently? (indicates profitability)
+          - Who has the largest audience in your niche?
+          - What funnels are recommended by other marketers?
+          - Which competitors are growing fastest?
+          Use tools: Facebook Ad Library, SimilarWeb, BuiltWith.
+        output: "target_funnels.yaml"
+
+      - task_id: T0.2
+        name: "Enter Each Funnel as Customer"
+        required: true
+        description: |
+          For each target funnel:
+          - Opt in to their lead magnet
+          - Buy their frontend offer
+          - Screenshot every page
+          - Save every email received
+          - Document every upsell/downsell
+          - Note timing of everything
+        output: "funnel_screenshots/"
+
+      - task_id: T0.3
+        name: "Collect Ad Creative"
+        required: true
+        description: |
+          Document the ads driving traffic to each funnel:
+          - Ad creative (images/videos)
+          - Ad copy
+          - Hooks used
+          - Landing page they link to
+          - Targeting clues (audience, placement)
+        output: "ad_creative_collection.yaml"
+
+    inline_structures:
+      funnel_hacking_checklist:
+        per_funnel:
+          - "Screenshot the ad that brought you in"
+          - "Screenshot every page (squeeze, sales, OTO, thank you)"
+          - "Record the offer and price at each step"
+          - "Note the order bumps and upsells"
+          - "Save every email for 30 days"
+          - "Document the guarantee"
+          - "Note the Hook-Story-Offer on each page"
+          - "Check if they use webinars or VSLs"
+          - "Identify their Attractive Character"
+          - "Map their Value Ladder (what else do they sell?)"
+
+      tools_for_hacking:
+        - "Facebook Ad Library — See all active ads"
+        - "SimilarWeb — Traffic estimates and sources"
+        - "BuiltWith — Technology stack detection"
+        - "Archive.org Wayback Machine — Historical page versions"
+        - "Screenshotting tool — Document everything"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Targets Identified"
+      criteria:
+        - "5-10 target funnels identified"
+        - "At least 3 funnels entered and documented"
+        - "Ad creative collected"
+      human_review: true
+      message: "Review target funnels before deep analysis."
+
+  # ===== PHASE 1: DOCUMENT =====
+  - id: PHASE-1
+    name: "Document"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Deep-dive analysis of each funnel. Document the architecture,
+      identify the patterns, and understand WHY each element works.
+
+    agents:
+      primary: brunson-swipe
+      secondary: brunson-funnels
+
+    tasks:
+      - task_id: T1.1
+        name: "Map Each Funnel Architecture"
+        required: true
+        agent: brunson-swipe
+        description: |
+          For each target funnel, create a complete map:
+          - Funnel type (which of the 9 core funnels)
+          - Page flow (every page in sequence)
+          - Offer structure (main offer + upsells + downsells)
+          - Price points at each step
+          - Follow-up sequence structure
+        output: "funnel_architecture_maps.yaml"
+
+      - task_id: T1.2
+        name: "Analyze Hook-Story-Offer on Each Page"
+        required: true
+        agent: brunson-swipe
+        description: |
+          For the most successful funnel, analyze each page:
+          - What HOOK are they using? (headline, video intro, visual)
+          - What STORY are they telling? (origin, testimonial, case study)
+          - What OFFER are they making? (value stack, price, guarantee)
+        output: "hso_analysis.yaml"
+
+      - task_id: T1.3
+        name: "Identify Common Patterns"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Cross-reference all analyzed funnels:
+          - What patterns appear across multiple winners?
+          - What funnel types dominate the market?
+          - What price points are common?
+          - What offers / bonuses appear repeatedly?
+          - What hooks consistently appear?
+        output: "common_patterns.yaml"
+
+      - task_id: T1.4
+        name: "Score Each Funnel"
+        required: true
+        agent: brunson-swipe
+        description: |
+          Rate each funnel on key criteria:
+          - Hook strength (1-10)
+          - Story effectiveness (1-10)
+          - Offer irresistibility (1-10)
+          - Follow-up quality (1-10)
+          - Overall funnel flow (1-10)
+          Identify the #1 funnel to model.
+        output: "funnel_scores.yaml"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Documentation Complete"
+      criteria:
+        - "All target funnels mapped"
+        - "Hook-Story-Offer analyzed per page"
+        - "Common patterns identified"
+        - "#1 model funnel identified"
+      human_review: true
+      message: "Review analysis before modeling recommendations."
+
+  # ===== PHASE 2: MODEL =====
+  - id: PHASE-2
+    name: "Model"
+    days: "Day 2"
+    tier: 2
+    description: |
+      Create your own funnel model based on the best patterns discovered.
+      This is NOT copying — it's taking the proven architecture and
+      filling it with your unique content, stories, and offers.
+
+      PRINCIPLE: "Model the framework, not the content."
+
+    agents:
+      primary: brunson-funnels
+      secondary: brunson-chief
+
+    tasks:
+      - task_id: T2.1
+        name: "Create Your Adapted Funnel Plan"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Using the best patterns, design your funnel:
+          - Funnel type (adapted from winner)
+          - Page structure (modeled from winner)
+          - Your unique Hook-Story-Offer per page
+          - Your offer structure (inspired by winner)
+          - Your price points (adjusted for your market)
+        output: "adapted_funnel_plan.yaml"
+
+      - task_id: T2.2
+        name: "Identify Your Unique Differentiators"
+        required: true
+        agent: brunson-chief
+        description: |
+          What makes YOUR version different and better?
+          - Your unique mechanism
+          - Your Attractive Character
+          - Your specific results / proof
+          - Your unique bonuses
+          - Your superior guarantee
+        output: "differentiators.md"
+
+      - task_id: T2.3
+        name: "Create Implementation Plan"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Step-by-step plan to build the adapted funnel:
+          - Pages to create (in order)
+          - Copy to write (per page)
+          - Emails to create
+          - Traffic to set up
+          - Timeline and milestones
+        output: "implementation_plan.yaml"
+
+      - task_id: T2.4
+        name: "Compile Funnel Hacking Report"
+        required: true
+        agent: brunson-chief
+        description: "Package all analysis and plans into the final report."
+        output: "funnel_hacking_report/"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Model Complete"
+      criteria:
+        - "Adapted funnel plan created"
+        - "Unique differentiators defined"
+        - "Implementation plan with timeline"
+        - "Complete report compiled"
+      human_review: true
+      message: "Final review of funnel hacking results."
+
+outputs:
+  final_deliverable:
+    name: "Funnel Hacking Report"
+    location: "outputs/hacking/{project_id}/"
+    contents:
+      - "target_analysis.yaml - All funnel analyses"
+      - "common_patterns.yaml - Market patterns"
+      - "adapted_plan.yaml - Your funnel design"
+      - "differentiators.md - What makes yours unique"
+      - "implementation_plan.yaml - Build plan"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "FUNNEL_HACKING"
+    - "HOOK_STORY_OFFER"
+    - "9_CORE_FUNNELS"
+    - "74_FUNNEL_SWIPEFILE"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_009"

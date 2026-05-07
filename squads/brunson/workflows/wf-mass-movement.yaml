@@ -1,0 +1,377 @@
+# Mass Movement Builder Workflow
+# Based on Russell Brunson's Expert Secrets methodology
+# Source: Mass Movement Blueprint + Opportunity Switch + Status Driver
+# Version: 1.0.0
+
+id: wf-mass-movement
+name: "Mass Movement Builder"
+version: "1.0.0"
+duration: "3-5 days"
+description: |
+  Complete workflow to build a mass movement — a tribe of true believers
+  who follow you not just for your products but for your mission.
+  Based on Brunson's analysis of how every movement in history was built.
+
+  PHILOSOPHY: "Every mass movement has three things: a charismatic leader,
+  a future-based cause, and a new opportunity."
+
+  RESULT: A complete mass movement blueprint with leader positioning,
+  cause definition, community architecture, and launch strategy.
+
+best_for:
+  - "Building a brand-based community"
+  - "Launching a new category or opportunity"
+  - "Creating raving fans (not just customers)"
+  - "Establishing thought leadership"
+  - "Building a movement around a cause"
+
+decision_matrix_fit:
+  complexity: high
+  agents_required: 4
+  estimated_duration: "3-5 days"
+  user_involvement: "very high (personal leadership required)"
+  prerequisites:
+    - "Clear expertise or unique perspective"
+    - "Willingness to be the leader / face"
+    - "Authentic cause or mission"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategic vision, movement architecture"
+      phases: [0]
+    - agent: brunson-movement
+      role: "Movement blueprint, tribe building, cause definition"
+      phases: [1, 2, 4]
+    - agent: brunson-stories
+      role: "Origin story, leader narrative, Epiphany Bridge"
+      phases: [1, 2]
+    - agent: brunson-expert
+      role: "Expert positioning, New Opportunity framing"
+      phases: [2, 3]
+
+phases:
+  # ===== PHASE 0: VISION =====
+  - id: PHASE-0
+    name: "Vision"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Define the movement vision: What future are you creating?
+      What does the world look like when your movement wins?
+      Every great movement starts with a vision of a better future.
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Define the Movement Vision"
+        required: true
+        description: |
+          Articulate the future-based cause:
+          - What injustice or broken system are you fighting?
+          - What does the ideal future look like?
+          - Why does this matter NOW?
+          - Who benefits when the movement wins?
+        output: "movement_vision.md"
+
+      - task_id: T0.2
+        name: "Identify the Enemy"
+        required: true
+        description: |
+          Every movement needs a common enemy (not a person, but a system, belief, or status quo):
+          - What are you fighting AGAINST?
+          - Why has the old way failed people?
+          - How does the current system keep people stuck?
+        output: "common_enemy.md"
+
+      - task_id: T0.3
+        name: "Define Movement Manifesto"
+        required: true
+        description: |
+          Write the core manifesto:
+          - 3-5 core beliefs of the movement
+          - The promise to members
+          - What members commit to
+          - The rallying cry / battle cry
+        output: "movement_manifesto.md"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Vision Complete"
+      criteria:
+        - "Future-based cause clearly articulated"
+        - "Common enemy defined (not personal, systemic)"
+        - "Manifesto written with core beliefs"
+      human_review: true
+      message: "Review the movement vision before leader positioning."
+
+  # ===== PHASE 1: LEADER =====
+  - id: PHASE-1
+    name: "Leader"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Position the charismatic leader (you or your client). Every
+      movement needs a leader who people follow not because of expertise
+      alone but because of the Attractive Character elements.
+
+      PRINCIPLE: "You don't need to be the most knowledgeable person.
+      You need to be the most relatable, the most passionate, and
+      willing to lead."
+
+    agents:
+      primary: brunson-movement
+      secondary: brunson-stories
+
+    tasks:
+      - task_id: T1.1
+        name: "Build Attractive Character Profile"
+        required: true
+        agent: brunson-stories
+        description: |
+          Define the leader's Attractive Character:
+          - Backstory (relatable origin)
+          - Character flaws (vulnerability = connection)
+          - Parables (teaching stories they tell)
+          - Polarity (strong stance that attracts AND repels)
+          - Identity type: Leader, Adventurer, Reporter, or Reluctant Hero
+        output: "leader_attractive_character.yaml"
+
+      - task_id: T1.2
+        name: "Craft Leader Origin Story"
+        required: true
+        agent: brunson-stories
+        description: |
+          Write the leader's Epiphany Bridge origin story:
+          - How they discovered the new opportunity
+          - The moment of transformation
+          - Why they feel called to lead this movement
+          - The results they've achieved
+        output: "leader_origin_story.md"
+
+      - task_id: T1.3
+        name: "Define Expert Positioning"
+        required: true
+        agent: brunson-movement
+        description: |
+          How the leader is positioned in the market:
+          - Not the guru on the mountain, but the guide on the trail
+          - Specific credentials and results
+          - Why they're uniquely qualified
+          - The "10,000 hours" story
+        output: "expert_positioning.md"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Leader Positioned"
+      criteria:
+        - "Attractive Character fully defined"
+        - "Origin story written (Epiphany Bridge)"
+        - "Expert positioning clear and authentic"
+      human_review: true
+      message: "Review leader positioning before cause development."
+
+  # ===== PHASE 2: CAUSE =====
+  - id: PHASE-2
+    name: "Cause"
+    days: "Day 2"
+    tier: 1
+    description: |
+      Define and package the cause — the future-based mission that
+      gives members identity and purpose. The cause must create an
+      "us vs. them" dynamic (us = the enlightened, them = the old way).
+
+    agents:
+      primary: brunson-expert
+      secondary: brunson-stories
+
+    tasks:
+      - task_id: T2.1
+        name: "Define the New Opportunity"
+        required: true
+        agent: brunson-expert
+        description: |
+          Frame your solution as a NEW OPPORTUNITY, not an improvement.
+          People don't want to improve their current vehicle — they want
+          a completely new vehicle that gives them hope.
+          - Opportunity Switch > Opportunity Stack
+          - Why old methods failed
+          - Why this is categorically different
+        output: "new_opportunity.md"
+
+      - task_id: T2.2
+        name: "Build the Belief System"
+        required: true
+        agent: brunson-expert
+        description: |
+          Create the belief framework for the movement:
+          - Core belief (the Big Domino)
+          - Supporting beliefs (3 secrets)
+          - "If you believe X, then Y is the only logical conclusion"
+          - Contrast beliefs: what members believe vs. what non-members believe
+        output: "belief_system.yaml"
+
+      - task_id: T2.3
+        name: "Create Status Mechanics"
+        required: true
+        agent: brunson-movement
+        description: |
+          Design how members gain status within the movement:
+          - Levels / milestones
+          - Recognition systems
+          - Language and terminology only members use
+          - Rituals and shared experiences
+          - "The tribe within the tribe"
+        output: "status_mechanics.yaml"
+
+      - task_id: T2.4
+        name: "Develop Teaching Framework"
+        required: true
+        agent: brunson-stories
+        description: |
+          Create the Epiphany Bridge stories that indoctrinate new members:
+          - Story for each core belief
+          - "Kinda like" bridges for complex concepts
+          - Success stories from existing members
+        output: "teaching_framework.md"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Cause Complete"
+      criteria:
+        - "New Opportunity framed (not improvement)"
+        - "Belief system with Big Domino"
+        - "Status mechanics designed"
+        - "Teaching framework with Epiphany Bridges"
+      human_review: true
+      message: "Review cause framework before community design."
+
+  # ===== PHASE 3: OPPORTUNITY =====
+  - id: PHASE-3
+    name: "Opportunity"
+    days: "Day 3"
+    tier: 2
+    description: |
+      Package the new opportunity into offers that serve as entry
+      points to the movement. The offer IS the vehicle for the cause.
+
+    agent: brunson-expert
+
+    tasks:
+      - task_id: T3.1
+        name: "Design Movement Entry Offers"
+        required: true
+        description: |
+          Create the offers that bring people into the movement:
+          - Free (lead magnet that introduces the cause)
+          - Frontend (book, challenge, or mini-course)
+          - Core (main program/community)
+          - Premium (inner circle / certification)
+        output: "movement_offers.yaml"
+
+      - task_id: T3.2
+        name: "Create Indoctrination Content"
+        required: true
+        description: |
+          Content that converts outsiders into believers:
+          - Welcome video / letter
+          - "The Story" page
+          - Core training that installs beliefs
+          - Member success spotlights
+        output: "indoctrination_content.md"
+
+      - task_id: T3.3
+        name: "Design Community Architecture"
+        required: true
+        description: |
+          Structure of the community:
+          - Platform(s) to use
+          - Membership tiers
+          - Content cadence
+          - Events calendar
+          - Moderation framework
+        output: "community_architecture.yaml"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Opportunity Packaged"
+      criteria:
+        - "Entry offers designed for each Value Ladder tier"
+        - "Indoctrination content created"
+        - "Community architecture defined"
+      human_review: true
+      message: "Review opportunity packaging before launch planning."
+
+  # ===== PHASE 4: COMMUNITY LAUNCH =====
+  - id: PHASE-4
+    name: "Community"
+    days: "Days 4-5"
+    tier: 3
+    description: |
+      Plan the movement launch and ongoing community engagement.
+
+    agent: brunson-movement
+
+    tasks:
+      - task_id: T4.1
+        name: "Design Launch Event"
+        required: true
+        description: |
+          Create a launch event that galvanizes the movement:
+          - Challenge, webinar, or live event
+          - Founding member recruitment
+          - Launch content sequence
+        output: "launch_event.yaml"
+
+      - task_id: T4.2
+        name: "Build Engagement Playbook"
+        required: true
+        description: |
+          Ongoing engagement to keep the movement alive:
+          - Weekly content themes
+          - Monthly events / challenges
+          - Member spotlights
+          - Annual signature event
+        output: "engagement_playbook.yaml"
+
+      - task_id: T4.3
+        name: "Compile Movement Blueprint"
+        required: true
+        description: "Package everything into the final movement blueprint."
+        output: "movement_blueprint/"
+
+    checkpoint:
+      id: CP_PHASE_4
+      name: "Movement Ready"
+      criteria:
+        - "Launch event planned"
+        - "Engagement playbook created"
+        - "Blueprint compiled"
+      human_review: true
+      message: "Final review before movement launch."
+
+outputs:
+  final_deliverable:
+    name: "Mass Movement Blueprint"
+    location: "outputs/movements/{movement_id}/"
+    contents:
+      - "vision_manifesto.md"
+      - "leader_profile.yaml"
+      - "belief_system.yaml"
+      - "community_architecture.yaml"
+      - "launch_plan.yaml"
+      - "engagement_playbook.yaml"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "MASS_MOVEMENT_BLUEPRINT"
+    - "ATTRACTIVE_CHARACTER"
+    - "OPPORTUNITY_SWITCH"
+    - "EPIPHANY_BRIDGE"
+    - "STATUS_AS_PRIMARY_DRIVER"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_005"

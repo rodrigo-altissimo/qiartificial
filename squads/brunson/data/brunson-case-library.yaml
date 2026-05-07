@@ -1,0 +1,329 @@
+# Brunson Case Library — 12 Proof Cases
+# Real-world results demonstrating Russell Brunson's methodology in action
+# Generated: 2026-02-11
+
+metadata:
+  squad: brunson
+  total_cases: 12
+  case_types: [saas, book_funnel, event, program, challenge, ecommerce, coaching, info_product]
+  date_range: "2003-2024"
+
+cases:
+  - id: CASE_001
+    name: "ClickFunnels Growth"
+    category: saas
+    funnel_type: "SaaS Webinar Funnel + Product Launch Funnel + SaaS PLF Demo"
+    timeline: "2014-2024"
+    metrics:
+      starting_revenue: "$0"
+      peak_arr: "$100M+ ARR"
+      users: "100,000+"
+      valuation: "$1B+ (reported)"
+      time_to_100m: "~3 years"
+      external_funding: "$0 (bootstrapped)"
+      two_comma_club_members: "1,000+"
+    funnel_architecture:
+      front_end: "Free 14-day trial via webinar funnel"
+      middle: "Monthly subscription $97-$297/mo"
+      back_end: "Funnel Hacks bundle, Funnel Builder Secrets"
+      high_ticket: "Inner Circle ($25K-$50K/yr)"
+    key_strategies:
+      - "Perfect Webinar selling free trial"
+      - "Dream 100 for affiliate traffic"
+      - "Funnel Hacking Live as annual movement event"
+      - "Two Comma Club as aspirational status"
+      - "Cancellation funnel saved 25-30% of churning users"
+    lessons:
+      - "Software can be sold through information marketing funnels"
+      - "Community and movement building drives retention"
+      - "Bootstrap is possible at massive scale with right funnels"
+      - "Never repeat the same offer twice — always create new angles"
+
+  - id: CASE_002
+    name: "DotCom Secrets Book Funnel"
+    category: book_funnel
+    funnel_type: "Free+Shipping Book Funnel"
+    timeline: "2015-present"
+    metrics:
+      book_price: "Free + $7.95 S&H"
+      copies_distributed: "500,000+"
+      average_cart_value: "$32-$42"
+      upsell_conversion_oto1: "7-8%"
+      bump_rate: "13.9%"
+      total_revenue: "Millions in backend"
+    funnel_architecture:
+      front_end: "Free+shipping book ($7.95)"
+      bump: "Audiobook or companion course ($37)"
+      oto_1: "MP3 Player + Perfect Webinar ($147 -> simplified to audiobook)"
+      oto_2: "Expert Evolution or Funnel Immersion ($197-$297)"
+      backend: "ClickFunnels trial, Inner Circle, FHL tickets"
+    key_strategies:
+      - "Free+Shipping creates buyer commitment at minimal risk"
+      - "Simplifying offers increased OTO conversion by 339%"
+      - "Price decoy (3 options where best value is obvious)"
+      - "Black Box physical package with Stop Sticker for texting"
+      - "Sideways Webinar: chopped webinar into 5 thank-you page videos adding $500K+"
+    lessons:
+      - "Simplification beats sophistication in offer design"
+      - "The book IS the funnel — it pre-sells everything else"
+      - "Test V1 vs V2 relentlessly; small improvements compound"
+
+  - id: CASE_003
+    name: "Expert Secrets Book Funnel"
+    category: book_funnel
+    funnel_type: "Free+Shipping Book Funnel"
+    timeline: "2017-present"
+    metrics:
+      book_price: "Free + $7.95 S&H"
+      copies_distributed: "300,000+"
+      v1_acv: "$27.43"
+      v2_acv: "$32.74"
+      v2_with_stack_acv: "$41.78"
+    funnel_architecture:
+      front_end: "Free+shipping book ($7.95)"
+      bump: "Single course (simplified from V1's 2 courses)"
+      oto_1: "Audiobook with price decoy"
+      oto_2: "Expert Evolution ($197)"
+      backend: "Perfect Webinar training, ClickFunnels"
+    key_strategies:
+      - "V2 simplified bump from 2 courses to 1 = 49% bump rate increase"
+      - "V2 simplified OTO1 removing unfamiliar terms = 339% conversion increase"
+      - "Price decoy architecture on every offer"
+    lessons:
+      - "Cold traffic doesn't know your internal product names"
+      - "Always test simplified versions of existing offers"
+      - "Funnel stack (add post-purchase sequences) can add $9+ to ACV"
+
+  - id: CASE_004
+    name: "Traffic Secrets Book Funnel"
+    category: book_funnel
+    funnel_type: "Free+Shipping Book Funnel"
+    timeline: "2020-present"
+    metrics:
+      book_price: "Free + $9.95 S&H"
+      launch_copies: "100,000+ first month"
+      backend_revenue: "Multi-million dollar backend"
+    funnel_architecture:
+      front_end: "Free+shipping book ($9.95)"
+      bump: "Audiobook ($37)"
+      oto_1: "Traffic Secrets Masterclass"
+      oto_2: "Fill Your Funnel program"
+      backend: "ClickFunnels, Dream 100 consulting"
+    key_strategies:
+      - "Launched during COVID (March 2020) — proved digital resilience"
+      - "Virtual book launch replaced in-person events"
+      - "Dream 100 affiliate promotion for launch traffic"
+    lessons:
+      - "Trilogy book strategy creates completionist buying behavior"
+      - "Each book funnel feeds the others through cross-promotion"
+      - "Crisis moments are launch opportunities for relevant offers"
+
+  - id: CASE_005
+    name: "Funnel Hacking Live Event Funnel"
+    category: event
+    funnel_type: "Event Ticket Funnel + Limited Time Offer"
+    timeline: "2015-present"
+    metrics:
+      annual_attendance: "4,000-5,000+"
+      ticket_price: "$397-$997"
+      at_event_revenue: "Multi-million per event"
+      two_comma_club_awards: "Hundreds per event"
+    funnel_architecture:
+      front_end: "Early bird ticket ($397-$597)"
+      middle: "VIP upgrade ($997+)"
+      at_event: "Inner Circle pitch, new product launches"
+      backend: "Annual recurring attendance"
+    key_strategies:
+      - "Never repeat the same deal — different offer each year"
+      - "2016: 2-for-1 + early bird"
+      - "2017: Disappearing recordings (one removed daily)"
+      - "2018: Stealth product bonus ($2,997 Funnel Immersion)"
+      - "Two Comma Club ceremony as aspirational status driver"
+      - "Sold 30 FHL tickets ($30K) in one Funnel Fridays episode"
+    lessons:
+      - "Events are movement amplifiers, not just revenue"
+      - "Scarcity and creative offers beat discount codes"
+      - "Annual events create recurring revenue through loyalty"
+
+  - id: CASE_006
+    name: "Two Comma Club Program"
+    category: program
+    funnel_type: "Certification + Community"
+    timeline: "2016-present"
+    metrics:
+      members: "1,000+ certified"
+      revenue_threshold: "$1M through a single funnel"
+      aspirational_impact: "Primary ClickFunnels retention driver"
+    funnel_architecture:
+      front_end: "ClickFunnels subscription"
+      middle: "Funnel Builder Secrets package"
+      back_end: "Two Comma Club recognition at FHL"
+      high_ticket: "Two Comma Club X ($10M+)"
+    key_strategies:
+      - "Status as primary motivator — public recognition"
+      - "Physical award (plaque) creates tangible goal"
+      - "Creates competition and community among users"
+      - "User success stories become marketing material"
+    lessons:
+      - "Gamification through status drives product adoption"
+      - "Customer success programs reduce churn"
+      - "Social proof at scale becomes self-reinforcing"
+
+  - id: CASE_007
+    name: "One Funnel Away Challenge"
+    category: challenge
+    funnel_type: "Challenge Funnel"
+    timeline: "2018-present"
+    metrics:
+      price: "$100"
+      participants_per_cohort: "Thousands"
+      total_participants: "100,000+"
+      clickfunnels_conversion: "High % become active users"
+    funnel_architecture:
+      front_end: "30-day challenge ($100)"
+      daily_content: "Video from Russell + Julie Stoian + Stephen Larsen"
+      backend: "ClickFunnels subscription (natural next step)"
+      community: "Private Facebook group per cohort"
+    key_strategies:
+      - "Challenge format creates urgency and accountability"
+      - "Low price point removes financial barrier"
+      - "Daily content builds habit and product dependency"
+      - "Physical workbook shipped — tangible commitment device"
+    lessons:
+      - "Challenges are the most effective onboarding funnel"
+      - "Daily touchpoints build stronger relationship than weekly"
+      - "The challenge naturally leads to software adoption"
+
+  - id: CASE_008
+    name: "Potato Gun Story (First Online Product)"
+    category: info_product
+    funnel_type: "DVD Sales Funnel"
+    timeline: "2003-2004"
+    metrics:
+      product: "How to Make a Potato Gun DVD"
+      initial_revenue: "First $1,000 online"
+      significance: "Origin story — first funnel ever built"
+    funnel_architecture:
+      front_end: "Google Ads -> Sales page -> DVD purchase"
+      simple: "Single product, no upsells (early days)"
+    key_strategies:
+      - "Identified passionate niche (potato gun enthusiasts)"
+      - "Created info product from personal hobby"
+      - "Learned direct response from Gary Halbert's newsletters"
+    lessons:
+      - "Start with what you know and love"
+      - "Every business starts with one funnel"
+      - "The product doesn't need to be sophisticated"
+      - "Origin stories make the best Epiphany Bridge narratives"
+
+  - id: CASE_009
+    name: "Supplement Company Funnels"
+    category: ecommerce
+    funnel_type: "VSL Funnel + Continuity"
+    timeline: "2008-2012"
+    metrics:
+      peak_revenue: "$10M+ annually"
+      funnel_type: "VSL -> Free Trial -> Continuity"
+      lesson_type: "Pre-ClickFunnels era experience"
+    funnel_architecture:
+      front_end: "VSL with free trial offer"
+      continuity: "Monthly subscription shipping"
+      upsells: "Additional supplement products"
+    key_strategies:
+      - "Long-form VSL with direct response copy"
+      - "Free trial with credit card capture"
+      - "Backend continuity for recurring revenue"
+      - "Aggressive upsell/downsell sequences"
+    lessons:
+      - "Supplements taught Russell about continuity and LTV"
+      - "VSLs can replace traditional sales pages"
+      - "Aggressive funnels work but need great fulfillment"
+
+  - id: CASE_010
+    name: "Coaching/Consulting Funnel"
+    category: coaching
+    funnel_type: "High-Ticket Three-Step Application Funnel"
+    timeline: "2005-2014"
+    metrics:
+      price_range: "$5,000-$50,000"
+      conversion_rate: "15-25% of qualified applicants"
+    funnel_architecture:
+      front_end: "Free training (webinar or video series)"
+      middle: "Application page with qualifying questions"
+      back_end: "Phone call with sales team"
+      fulfillment: "Group or 1-on-1 coaching"
+    key_strategies:
+      - "Application process filters for qualified buyers"
+      - "Push people AWAY — not everyone qualifies"
+      - "Phone call closes (not online checkout for high-ticket)"
+      - "Documentary/video series builds desire before application"
+    lessons:
+      - "High-ticket requires human touch — phone closes"
+      - "Qualification increases conversion rate and client quality"
+      - "Scarcity through limited spots is real, not manufactured"
+
+  - id: CASE_011
+    name: "Software Trial Funnel (ClickFunnels)"
+    category: saas
+    funnel_type: "Webinar -> Free Trial -> Subscription"
+    timeline: "2014-present"
+    metrics:
+      trial_conversion: "~30% trial to paid"
+      monthly_price: "$97-$297"
+      annual_option: "$997-$2,997"
+      webinar_conversion: "3:1 trial-to-annual ratio when sold via webinar"
+    funnel_architecture:
+      front_end: "Perfect Webinar selling free trial"
+      trial: "14-day free trial with onboarding sequence"
+      conversion: "Email + in-app prompts to upgrade"
+      retention: "Cancellation funnel + pause option"
+    key_strategies:
+      - "Webinar sells the vision, trial proves the tool"
+      - "Funnel Builder Secrets bundle: prepay annual + bonuses"
+      - "Cancellation funnel cut churn by 25-30%"
+      - "6,000 paused members paying $10-$20/mo"
+    lessons:
+      - "SaaS + information marketing = unstoppable combination"
+      - "Webinar funnel for cash flow, traditional site for credibility"
+      - "Pause option generates revenue from would-be cancellers"
+
+  - id: CASE_012
+    name: "Inner Circle High-Ticket Funnel"
+    category: coaching
+    funnel_type: "High-Ticket Application + Event"
+    timeline: "2012-present"
+    metrics:
+      price: "$25,000-$50,000/year"
+      members: "~100 at any time"
+      annual_revenue: "$2.5M-$5M from Inner Circle alone"
+      retention: "Multi-year members common"
+    funnel_architecture:
+      front_end: "Application from book funnels, webinars, FHL"
+      qualification: "Phone interview + financial qualification"
+      fulfillment: "Quarterly in-person mastermind + hot seat coaching"
+      upsell: "Category King ($100K+)"
+    key_strategies:
+      - "Limit membership to create genuine scarcity"
+      - "Members become case studies and affiliates"
+      - "In-person events build deep loyalty"
+      - "Top of Value Ladder — everything else feeds into this"
+    lessons:
+      - "High-ticket programs are the profit center"
+      - "Limited spots create real urgency — not manufactured"
+      - "Mastermind members become lifelong advocates"
+      - "The Value Ladder always points upward to this level"
+
+# Summary Statistics
+summary:
+  total_documented_revenue: "$200M+ combined"
+  funnel_types_represented:
+    - "Free+Shipping Book Funnel"
+    - "SaaS Webinar Funnel"
+    - "Challenge Funnel"
+    - "Event Ticket Funnel"
+    - "High-Ticket Application Funnel"
+    - "VSL Funnel"
+    - "Product Launch Funnel"
+    - "Certification/Gamification Funnel"
+  key_pattern: "Every case connects to the Value Ladder — bait -> frontend -> middle -> backend -> high-ticket"
+  brunson_quote: "You're just one funnel away."

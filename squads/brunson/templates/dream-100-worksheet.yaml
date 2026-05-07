@@ -1,0 +1,254 @@
+# Dream 100 Worksheet Template
+# Template for planning and tracking Dream 100 traffic campaigns
+# Usage: Fill in after completing the build-dream-100-list task
+# Agents involved: brunson-chief, brunson-traffic, brunson-hooks, brunson-copy
+
+---
+
+dream_100_worksheet:
+  metadata:
+    project_name: ""
+    business: ""
+    created_date: "YYYY-MM-DD"
+    version: "1.0"
+    designed_by: "brunson-traffic"
+    status: "planning"  # planning | outreach | active | optimizing
+
+  # --- DREAM CUSTOMER PROFILE ---
+  dream_customer:
+    who: ""  # Exact avatar description
+    where_they_congregate: ""  # Platforms, communities, events
+    what_they_follow: ""  # Influencers, brands, publications
+    language_they_use: ""  # Key phrases, jargon, pain statements
+    current_solutions: ""  # What they use now (competitors)
+
+  # --- CATEGORY 1: PODCASTS ---
+  podcasts:
+    total_targets: 0
+    targets:
+      - name: ""
+        host: ""
+        audience_size: ""  # Downloads per episode
+        overlap_score: 0  # 1-10 (how closely aligned to your avatar)
+        relationship_status: "cold"  # cold | warm | hot | booked | appeared
+        contact_info: ""
+        work_in_plan: ""
+        # Work-in: free value strategy (comment, share, engage, DM)
+        buy_in_plan: ""
+        # Buy-in: paid strategy (sponsor, affiliate, ad)
+        pitch_angle: ""
+        # What value/story would you bring to their audience?
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+      - name: ""
+        host: ""
+        audience_size: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        pitch_angle: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+  # --- CATEGORY 2: INFLUENCERS / THOUGHT LEADERS ---
+  influencers:
+    total_targets: 0
+    targets:
+      - name: ""
+        platform: ""  # Instagram | YouTube | TikTok | Twitter/X | LinkedIn
+        audience_size: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        collaboration_idea: ""
+        # What joint venture, collab, or feature could you propose?
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+      - name: ""
+        platform: ""
+        audience_size: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        collaboration_idea: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+  # --- CATEGORY 3: ONLINE COMMUNITIES ---
+  communities:
+    total_targets: 0
+    targets:
+      - name: ""
+        platform: ""  # Facebook Group | Reddit | Discord | Slack | Forum
+        member_count: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        admin_contact: ""
+        work_in_plan: ""
+        # Contribute value, answer questions, share insights
+        buy_in_plan: ""
+        # Sponsor, featured post, AMA, workshop
+        content_strategy: ""
+        # What content would resonate in this community?
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+      - name: ""
+        platform: ""
+        member_count: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        admin_contact: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        content_strategy: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+  # --- CATEGORY 4: BLOGS / NEWSLETTERS ---
+  blogs_newsletters:
+    total_targets: 0
+    targets:
+      - name: ""
+        author: ""
+        subscriber_count: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        guest_post_topic: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+      - name: ""
+        author: ""
+        subscriber_count: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        guest_post_topic: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+  # --- CATEGORY 5: YOUTUBE CHANNELS ---
+  youtube_channels:
+    total_targets: 0
+    targets:
+      - name: ""
+        subscriber_count: ""
+        avg_views_per_video: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        collab_format: ""  # interview | reaction | joint-video | sponsor
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+      - name: ""
+        subscriber_count: ""
+        avg_views_per_video: ""
+        overlap_score: 0
+        relationship_status: "cold"
+        contact_info: ""
+        work_in_plan: ""
+        buy_in_plan: ""
+        collab_format: ""
+        last_contact_date: ""
+        next_action: ""
+        notes: ""
+
+  # --- OUTREACH TEMPLATES ---
+  outreach_templates:
+    initial_dm:
+      subject: ""
+      body: |
+        # Template: Initial DM / cold outreach
+        # Keep it SHORT. Compliment + specific observation + soft ask
+        #
+        # Example:
+        # "Hey [Name], loved your episode on [topic]. The part about [specific detail]
+        # really resonated — I actually used that approach and [result].
+        # Would love to connect sometime."
+
+    follow_up_1:
+      timing: "3-5 days after initial"
+      body: |
+        # Template: First follow-up
+        # Add MORE value. Share something useful. No ask yet.
+
+    follow_up_2:
+      timing: "7-10 days after follow-up 1"
+      body: |
+        # Template: Second follow-up
+        # Soft pitch for collaboration / value exchange
+
+    podcast_pitch:
+      subject: ""
+      body: |
+        # Template: Podcast guest pitch
+        # Focus on what VALUE you bring to THEIR audience
+        # Include 3 potential episode topics
+
+    collaboration_proposal:
+      subject: ""
+      body: |
+        # Template: Joint venture / collaboration proposal
+        # Clear value for both sides. Specific. Easy to say yes to.
+
+  # --- TRACKING METRICS ---
+  tracking:
+    outreach_metrics:
+      total_contacts_made: 0
+      responses_received: 0
+      response_rate: ""  # e.g., "15%"
+      positive_responses: 0
+      collaborations_scheduled: 0
+      collaborations_completed: 0
+
+    traffic_metrics:
+      total_visitors_from_dream_100: 0
+      total_leads_from_dream_100: 0
+      cost_per_lead_work_in: ""  # Time-based cost
+      cost_per_lead_buy_in: ""  # Dollar-based cost
+      best_performing_source: ""
+      worst_performing_source: ""
+
+    relationship_progression:
+      cold_to_warm: 0
+      warm_to_hot: 0
+      hot_to_active: 0
+      avg_days_cold_to_active: 0
+
+  # --- WEEKLY REVIEW ---
+  weekly_review:
+    week_of: ""
+    outreach_actions_taken: 0
+    new_relationships_started: 0
+    content_published_on_platforms: 0
+    traffic_generated: 0
+    leads_generated: 0
+    wins: []
+    lessons_learned: []
+    next_week_priorities: []

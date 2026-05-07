@@ -1,0 +1,299 @@
+# Funnel Architecture Output Template
+# Template for documenting a complete funnel architecture design
+# Usage: Fill in each section after completing the wf-funnel-architecture workflow
+# Agents involved: brunson-chief, brunson-funnels, brunson-pages, brunson-offers, brunson-advisor
+
+---
+
+funnel_architecture:
+  metadata:
+    project_name: ""
+    client: ""
+    created_date: "YYYY-MM-DD"
+    version: "1.0"
+    designed_by: "brunson-funnels"
+    reviewed_by: "brunson-advisor"
+    status: "draft"  # draft | review | approved | live
+
+  # --- CORE IDENTITY ---
+  funnel_identity:
+    name: ""
+    type: ""  # lead-squeeze | tripwire | SLO | webinar | application | challenge | invisible | summit | product-launch
+    tier: ""  # frontend | middle | backend | high-ticket
+    value_ladder_position: ""  # Where this funnel sits on the Value Ladder
+    primary_goal: ""  # leads | sales | qualification | ascension
+    target_avatar: ""
+    dream_outcome: ""
+
+  # --- SECRET FORMULA ---
+  secret_formula:
+    who: ""  # Exact description of dream customer
+    where: ""  # Where they congregate online/offline
+    bait: ""  # What will attract them into the funnel
+    result: ""  # Transformation/outcome promised
+
+  # --- VALUE LADDER POSITION ---
+  value_ladder:
+    position_in_ladder: ""  # 1=free, 2=frontend, 3=middle, 4=backend, 5=high-ticket
+    preceding_funnel: ""  # What funnel feeds INTO this one
+    succeeding_funnel: ""  # What funnel this feeds INTO
+    ascension_trigger: ""  # What event/action triggers move to next tier
+    descension_option: ""  # Downsell path for non-buyers
+
+  # --- FUNNEL PAGES ---
+  pages:
+    squeeze_page:
+      headline: ""
+      subheadline: ""
+      lead_magnet: ""
+      form_fields: []  # [email, name, phone, etc.]
+      curiosity_hooks: []
+      social_proof_elements: []
+      target_optin_rate: ""  # e.g., "35-45%"
+
+    bridge_page:
+      enabled: false
+      type: ""  # video | article | quiz | survey
+      pre_frame_message: ""
+      content_summary: ""
+      cta_to_next: ""
+
+    sales_page:
+      format: ""  # long-form | VSL | hybrid | mini-letter
+      headline: ""
+      subheadline: ""
+      hook_type: ""  # curiosity | pain | desire | social-proof
+      story_type: ""  # epiphany-bridge | origin | case-study
+      sections:
+        - section: "Hook / Opening"
+          content_notes: ""
+        - section: "Story / Epiphany Bridge"
+          content_notes: ""
+        - section: "Offer Reveal"
+          content_notes: ""
+        - section: "Value Stack"
+          content_notes: ""
+        - section: "Price Anchor + Reveal"
+          content_notes: ""
+        - section: "Guarantee"
+          content_notes: ""
+        - section: "Urgency / Scarcity"
+          content_notes: ""
+        - section: "Final CTA"
+          content_notes: ""
+      target_conversion_rate: ""  # e.g., "2-5%"
+
+    order_form:
+      fields: []
+      bump_offer:
+        name: ""
+        price: ""
+        description: ""
+        target_take_rate: ""  # e.g., "30-40%"
+
+    oto_page_1:
+      offer_name: ""
+      price: ""
+      relationship_to_main: ""  # complement | accelerator | done-for-you | advanced
+      headline: ""
+      time_limit: ""  # e.g., "15 minutes" or "one-time"
+      target_take_rate: ""  # e.g., "15-25%"
+
+    oto_page_2:
+      offer_name: ""
+      price: ""
+      relationship_to_oto1: ""
+      headline: ""
+      target_take_rate: ""
+
+    downsell_page:
+      offer_name: ""
+      price: ""  # Should be lower than OTO it replaces
+      trigger: ""  # Shown when customer declines OTO
+      headline: ""
+      target_take_rate: ""
+
+    thank_you_page:
+      delivery_method: ""  # immediate-download | email | member-area | call-booking
+      next_steps: []
+      surprise_bonus: ""
+      share_incentive: ""
+      ascension_seed: ""  # Teaser for next tier
+
+  # --- TRAFFIC SOURCES ---
+  traffic:
+    dream_100:
+      category_1:
+        type: "podcasts"
+        targets:
+          - name: ""
+            audience_size: ""
+            overlap_score: ""  # 1-10
+            relationship_status: ""  # cold | warm | hot
+      category_2:
+        type: "influencers"
+        targets:
+          - name: ""
+            audience_size: ""
+            overlap_score: ""
+            relationship_status: ""
+      category_3:
+        type: "communities"
+        targets:
+          - name: ""
+            audience_size: ""
+            overlap_score: ""
+            relationship_status: ""
+
+    paid_traffic:
+      platform_1:
+        name: ""  # Facebook | Google | YouTube | TikTok
+        daily_budget: ""
+        target_cpc: ""
+        target_cpa: ""
+        ad_types: []  # image | video | carousel | story
+      platform_2:
+        name: ""
+        daily_budget: ""
+        target_cpc: ""
+        target_cpa: ""
+        ad_types: []
+
+    organic_traffic:
+      primary_platform: ""
+      content_frequency: ""
+      hook_strategy: ""
+      call_to_action: ""
+
+  # --- EMAIL SEQUENCES ---
+  email_sequences:
+    soap_opera_sequence:
+      total_emails: 5
+      emails:
+        - day: 1
+          subject: ""
+          purpose: "Set the stage / backstory"
+        - day: 2
+          subject: ""
+          purpose: "High drama / wall moment"
+        - day: 3
+          subject: ""
+          purpose: "Epiphany / breakthrough"
+        - day: 4
+          subject: ""
+          purpose: "Hidden benefits / results"
+        - day: 5
+          subject: ""
+          purpose: "Urgency / final push"
+
+    seinfeld_emails:
+      frequency: ""  # daily | 3x-week | weekly
+      topic_rotation:
+        - "Behind the scenes"
+        - "Case studies"
+        - "Lessons learned"
+        - "Controversial takes"
+        - "Quick tips"
+      soft_cta_strategy: ""
+
+    follow_up_funnels:
+      non_buyer_sequence_length: ""
+      buyer_ascension_sequence_length: ""
+      re_engagement_trigger_days: ""
+
+  # --- OFFER STACK ---
+  offer_stack:
+    main_offer:
+      name: ""
+      price: ""
+      value_description: ""
+      delivery: ""  # digital | physical | hybrid | service
+      perceived_value: ""
+
+    bonuses:
+      - name: ""
+        value: ""
+        description: ""
+        purpose: ""  # overcome-objection | accelerate-result | increase-perceived-value
+      - name: ""
+        value: ""
+        description: ""
+        purpose: ""
+
+    bump_offer:
+      name: ""
+      price: ""
+      description: ""
+
+    upsell_1:
+      name: ""
+      price: ""
+      description: ""
+      relationship: ""  # speed | depth | done-for-you
+
+    upsell_2:
+      name: ""
+      price: ""
+      description: ""
+      relationship: ""
+
+    downsell:
+      name: ""
+      price: ""
+      description: ""
+      trigger: ""  # declined-upsell-1 | declined-upsell-2
+
+    guarantee:
+      type: ""  # money-back | conditional | unconditional | double-your-money
+      duration: ""  # 30-day | 60-day | 90-day | lifetime
+      conditions: ""
+      risk_reversal_statement: ""
+
+  # --- METRICS TARGETS ---
+  metrics:
+    traffic:
+      daily_visitors_target: ""
+      cost_per_click: ""
+      cost_per_lead: ""
+
+    conversion:
+      optin_rate: ""  # e.g., "35%"
+      sales_page_conversion: ""  # e.g., "3%"
+      bump_take_rate: ""  # e.g., "35%"
+      oto1_take_rate: ""  # e.g., "20%"
+      oto2_take_rate: ""  # e.g., "10%"
+
+    revenue:
+      average_order_value: ""
+      average_cart_value: ""
+      customer_ltv_30_day: ""
+      customer_ltv_90_day: ""
+      break_even_cpa: ""
+      target_roas: ""  # e.g., "3:1"
+
+    email:
+      open_rate_target: ""  # e.g., "25%"
+      click_rate_target: ""  # e.g., "5%"
+      unsubscribe_rate_max: ""  # e.g., "0.5%"
+
+  # --- BUILDING BLOCKS USED ---
+  building_blocks:
+    pre_frame_bridge: ""  # How traffic is pre-framed before entering
+    qualification_method: ""  # How leads are qualified
+    follow_up_strategy: ""  # Automated sequence description
+    phone_tag: false  # Whether phone/call follow-up is used
+    urgency_mechanism: ""  # countdown | limited-spots | price-increase | bonus-expiration
+    scarcity_mechanism: ""  # limited-quantity | limited-time | exclusive-access
+
+  # --- NOTES & RECOMMENDATIONS ---
+  notes:
+    advisor_recommendations: []
+    known_risks: []
+    testing_priorities:
+      - priority: 1
+        element: ""
+        test_type: ""  # A/B | multivariate | sequential
+      - priority: 2
+        element: ""
+        test_type: ""
+    launch_checklist_reference: ""

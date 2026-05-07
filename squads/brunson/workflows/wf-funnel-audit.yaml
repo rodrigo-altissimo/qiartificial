@@ -1,0 +1,304 @@
+# Funnel Audit & Optimization Workflow
+# Based on Russell Brunson's funnel hacking and optimization methodology
+# Source: Funnel Hacking + 100 Clicks/Day + 7 Phases Audit
+# Version: 1.0.0
+
+id: wf-funnel-audit
+name: "Funnel Audit & Optimization"
+version: "1.0.0"
+duration: "1-2 days"
+description: |
+  Complete workflow to diagnose, audit, and optimize an existing funnel.
+  Identifies the weakest link in the funnel chain and provides specific,
+  actionable recommendations to fix it.
+
+  PHILOSOPHY: "You're always just one funnel tweak away from a
+  breakthrough. The question is: which tweak?"
+
+  RESULT: A complete audit report with specific diagnoses, prioritized
+  fixes, and an optimization action plan.
+
+best_for:
+  - "Funnel not converting as expected"
+  - "Traffic coming in but no sales"
+  - "High opt-in rate but low buyer rate"
+  - "Periodic health check on an existing funnel"
+  - "Preparing to scale (need to fix leaks first)"
+
+decision_matrix_fit:
+  complexity: medium
+  agents_required: 3
+  estimated_duration: "1-2 days"
+  user_involvement: "medium (need access to analytics)"
+  prerequisites:
+    - "Existing funnel with some traffic"
+    - "Access to analytics data"
+    - "Current conversion data at each step"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategic oversight, final recommendations"
+      phases: [2]
+    - agent: brunson-advisor
+      role: "Funnel audit, diagnosis, optimization strategy"
+      phases: [0, 1, 2]
+    - agent: brunson-swipe
+      role: "Competitive comparison, pattern matching against 74 swipefile"
+      phases: [1]
+
+phases:
+  # ===== PHASE 0: AUDIT =====
+  - id: PHASE-0
+    name: "Audit"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Collect data and audit every step of the funnel. Apply the
+      100 Visitors Per Day diagnostic: if 100 people hit each page,
+      how many convert? Where are the biggest drop-offs?
+
+    agent: brunson-advisor
+
+    tasks:
+      - task_id: T0.1
+        name: "Collect Funnel Metrics"
+        required: true
+        description: |
+          Gather data at every funnel step:
+          - Traffic volume and sources
+          - Opt-in page conversion rate
+          - Sales page conversion rate
+          - OTO/upsell take rates
+          - Email open and click rates
+          - Overall funnel EPC (earnings per click)
+        output: "funnel_metrics.yaml"
+
+      - task_id: T0.2
+        name: "Map Current Funnel Flow"
+        required: true
+        description: |
+          Document the complete funnel as it exists:
+          - Every page in order
+          - Every email sequence
+          - Traffic sources
+          - Offer at each step
+          - Price points
+        output: "current_funnel_map.yaml"
+
+      - task_id: T0.3
+        name: "Audit Each Page (Hook-Story-Offer)"
+        required: true
+        description: |
+          Evaluate each page against Hook-Story-Offer:
+          - HOOK: Does the headline stop the scroll?
+          - STORY: Does it build belief and connection?
+          - OFFER: Is it irresistible at this price point?
+          Score each element 1-10.
+        output: "page_audit.yaml"
+
+      - task_id: T0.4
+        name: "Audit Follow-Up Sequences"
+        required: true
+        description: |
+          Evaluate email follow-up:
+          - Is there a Soap Opera Sequence?
+          - Are Seinfeld Emails running daily?
+          - What's the email frequency?
+          - Are sequences segmented (buyers vs non-buyers)?
+        output: "follow_up_audit.yaml"
+
+    inline_structures:
+      hundred_visitors_diagnostic:
+        principle: "Send 100 visitors to each page. What happens?"
+        benchmarks:
+          squeeze_page:
+            good: ">30% opt-in rate"
+            average: "20-30% opt-in rate"
+            bad: "<20% opt-in rate"
+            fix_if_bad: "Improve headline, simplify form, add social proof"
+
+          sales_page:
+            good: ">3% purchase rate"
+            average: "1-3% purchase rate"
+            bad: "<1% purchase rate"
+            fix_if_bad: "Improve offer, add guarantee, strengthen story"
+
+          oto_page:
+            good: ">15% take rate"
+            average: "8-15% take rate"
+            bad: "<8% take rate"
+            fix_if_bad: "Improve congruence with main offer, simplify"
+
+          webinar_registration:
+            good: ">30% registration rate"
+            average: "20-30% registration rate"
+            bad: "<20% registration rate"
+            fix_if_bad: "Improve hook, add urgency, social proof"
+
+          webinar_show_up:
+            good: ">30% show up rate"
+            average: "20-30% show up rate"
+            bad: "<20% show up rate"
+            fix_if_bad: "Improve reminder sequence, add incentive"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Audit Complete"
+      criteria:
+        - "All metrics collected"
+        - "Funnel flow mapped"
+        - "Every page audited with scores"
+        - "Follow-up sequences evaluated"
+      human_review: true
+      message: "Review audit data before analysis."
+
+  # ===== PHASE 1: ANALYSIS =====
+  - id: PHASE-1
+    name: "Analysis"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Analyze the audit data to identify the #1 bottleneck. In any
+      funnel, there's always ONE weakest link. Finding and fixing
+      that link produces the biggest ROI.
+
+    agents:
+      primary: brunson-advisor
+      secondary: brunson-swipe
+
+    tasks:
+      - task_id: T1.1
+        name: "Identify the #1 Bottleneck"
+        required: true
+        agent: brunson-advisor
+        description: |
+          Find the single biggest leak in the funnel:
+          - Where is the biggest drop-off?
+          - What's the weakest conversion point?
+          - If we could fix ONE thing, what would have the biggest impact?
+        output: "bottleneck_analysis.md"
+
+      - task_id: T1.2
+        name: "Compare Against Swipefile Patterns"
+        required: true
+        agent: brunson-swipe
+        description: |
+          Compare the funnel against proven patterns from the
+          74 Funnel Swipefile and known high-converting funnels.
+          What are top performers doing differently?
+        output: "swipefile_comparison.yaml"
+
+      - task_id: T1.3
+        name: "Root Cause Analysis"
+        required: true
+        agent: brunson-advisor
+        description: |
+          For the top 3 issues identified, perform root cause analysis:
+          - Is it a TRAFFIC problem? (wrong people)
+          - Is it a HOOK problem? (not capturing attention)
+          - Is it a STORY problem? (not building belief)
+          - Is it an OFFER problem? (not irresistible enough)
+          - Is it a FOLLOW-UP problem? (not nurturing enough)
+        output: "root_cause_analysis.yaml"
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Analysis Complete"
+      criteria:
+        - "#1 bottleneck identified with evidence"
+        - "Compared against proven patterns"
+        - "Root causes identified for top 3 issues"
+      human_review: true
+      message: "Review analysis before recommendations."
+
+  # ===== PHASE 2: RECOMMENDATIONS =====
+  - id: PHASE-2
+    name: "Recommendations"
+    days: "Day 2"
+    tier: 2
+    description: |
+      Provide specific, prioritized recommendations to fix the
+      identified issues. Focus on the highest-leverage fixes first.
+
+    agents:
+      primary: brunson-advisor
+      secondary: brunson-chief
+
+    tasks:
+      - task_id: T2.1
+        name: "Create Fix Priority List"
+        required: true
+        agent: brunson-advisor
+        description: |
+          Prioritized list of fixes:
+          - Priority 1: Critical (blocking conversions)
+          - Priority 2: Important (reducing performance)
+          - Priority 3: Optimization (incremental gains)
+          Each with specific action steps.
+        output: "fix_priority_list.yaml"
+
+      - task_id: T2.2
+        name: "Write Specific Fix Recommendations"
+        required: true
+        agent: brunson-advisor
+        description: |
+          For each fix, provide:
+          - What to change (specific element)
+          - Why it matters (data-backed)
+          - How to implement (step by step)
+          - Expected impact (estimated lift)
+          - Timeline (how long to implement)
+        output: "fix_recommendations.md"
+
+      - task_id: T2.3
+        name: "Design A/B Test Plan"
+        required: true
+        agent: brunson-chief
+        description: |
+          For the top 3 fixes, design A/B tests:
+          - Control vs. variation
+          - Sample size needed
+          - Duration of test
+          - Success criteria
+        output: "ab_test_plan.yaml"
+
+      - task_id: T2.4
+        name: "Compile Audit Report"
+        required: true
+        agent: brunson-advisor
+        description: "Final audit report with all findings, analysis, and recommendations."
+        output: "funnel_audit_report/"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Recommendations Complete"
+      criteria:
+        - "Prioritized fix list with specifics"
+        - "A/B test plan for top 3 fixes"
+        - "Complete audit report compiled"
+      human_review: true
+      message: "Final review of audit and recommendations."
+
+outputs:
+  final_deliverable:
+    name: "Funnel Audit Report"
+    location: "outputs/audits/{audit_id}/"
+    contents:
+      - "executive_summary.md"
+      - "funnel_metrics.yaml - All data"
+      - "bottleneck_analysis.md"
+      - "fix_recommendations.md - Prioritized fixes"
+      - "ab_test_plan.yaml"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "FUNNEL_HACKING"
+    - "HOOK_STORY_OFFER"
+    - "100_CLICKS_A_DAY"
+    - "7_PHASES_AUDIT"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_007"

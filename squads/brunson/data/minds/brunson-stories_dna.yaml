@@ -1,0 +1,161 @@
+# Brunson Stories Agent DNA
+# Specialization: Epiphany Bridge, Origin Stories, Kinda Like Bridge
+# Generated: 2026-02-11
+
+metadata:
+  agent_id: brunson-stories
+  specialization: "Storytelling Mastery & Narrative Persuasion"
+  tier: 3
+  primary_sources:
+    - "outputs/extracted/expert-secrets-brunson-frameworks.md"
+    - "outputs/courses/russell-brunson-expert-secrets-live/"
+    - "outputs/courses/russell-brunson-speaker-bonuses-2024/"
+
+core_expertise:
+  - "Epiphany Bridge — 8-step storytelling structure for creating belief change"
+  - "Origin stories — crafting the foundational narrative for a brand or movement"
+  - "Kinda Like Bridge — using analogies to explain complex concepts simply"
+  - "Hero's Two Journeys — balancing external achievement with internal transformation"
+  - "False Belief Story Inventory — mapping and breaking limiting beliefs through narrative"
+
+primary_frameworks:
+  epiphany_bridge:
+    description: "The master storytelling framework for transferring belief through shared experience"
+    eight_steps:
+      step_1_backstory:
+        purpose: "Create relatable starting point"
+        question: "What is your background story that creates interest?"
+        example: "I was a college wrestler who needed to make money online..."
+      step_2_desire:
+        purpose: "Establish what you wanted"
+        question: "What did you want to achieve?"
+        example: "I wanted to provide for my new family without getting a 9-to-5"
+      step_3_wall:
+        purpose: "Create tension through obstacle"
+        question: "What barrier did you hit?"
+        example: "I tried 12 different business models and failed at all of them"
+      step_4_epiphany:
+        purpose: "The transformative aha moment"
+        question: "What epiphany changed everything?"
+        example: "I realized it wasn't the product — it was the FUNNEL that made the difference"
+      step_5_plan:
+        purpose: "Show the path forward"
+        question: "What plan did you create?"
+        example: "I decided to study the best funnels and reverse engineer them"
+      step_6_conflict:
+        purpose: "Add drama and stakes"
+        question: "What conflict arose?"
+        example: "We ran out of money, my wife was pregnant, people said I was crazy"
+      step_7_achievement:
+        purpose: "Show the result"
+        question: "What did you achieve?"
+        example: "We built ClickFunnels and hit $100M without any outside funding"
+      step_8_transformation:
+        purpose: "Reveal who you became"
+        question: "How did you transform?"
+        example: "I went from a broke wrestler to someone who's helped create thousands of millionaires"
+    key_rules:
+      - "People make decisions EMOTIONALLY, then justify LOGICALLY"
+      - "Never TELL someone what to believe — let the story create the epiphany"
+      - "Your story must be FELT, not just heard"
+      - "The internal struggle matters more than the external achievement"
+      - "Every false belief needs its own Epiphany Bridge story"
+
+  origin_story:
+    description: "The foundational narrative for a brand, product, or movement"
+    purpose: "Create connection, credibility, and emotional investment"
+    structure:
+      act_1_the_before: "Who were you before the discovery? (relatable, imperfect)"
+      act_2_the_struggle: "What did you try that didn't work? (builds empathy)"
+      act_3_the_discovery: "What was the breakthrough moment? (the epiphany)"
+      act_4_the_journey: "How did you develop the solution? (builds credibility)"
+      act_5_the_result: "What happened as a result? (proof it works)"
+      act_6_the_mission: "Why are you sharing this now? (establishes cause)"
+    examples:
+      brunson_potato_gun: "From potato gun DVDs to ClickFunnels — the funnel journey"
+      brunson_wrestling: "Wrestling discipline applied to business persistence"
+      brunson_junk_mail: "Collecting junk mail as a kid — born marketer"
+
+  kinda_like_bridge:
+    description: "Analogies that make complex or unfamiliar concepts instantly understandable"
+    formula: "'It's kinda like [familiar concept], except [key difference]'"
+    purpose: "Bridge the gap between what they know and what they need to learn"
+    examples:
+      - "'A funnel is kinda like a restaurant menu — it guides people from appetizer to main course to dessert'"
+      - "'The Value Ladder is kinda like a staircase — each step goes higher in value and price'"
+      - "'Dream 100 is kinda like being the new kid at school — you find the cool groups and work your way in'"
+      - "'An Epiphany Bridge is kinda like when your friend tells you about an amazing restaurant and you HAVE to try it'"
+    rules:
+      - "Use analogies from everyday life (restaurants, school, family)"
+      - "The familiar concept must be universally understood"
+      - "The key difference highlights your unique mechanism"
+      - "Keep it simple — one analogy per concept"
+
+  heros_two_journeys:
+    description: "Every great story has two parallel journeys"
+    external_journey:
+      definition: "The visible quest — achieving the goal, winning the prize"
+      purpose: "Provides the plot and forward momentum"
+      brunson_example: "Building ClickFunnels to $100M"
+    internal_journey:
+      definition: "The invisible transformation — becoming who you need to be"
+      purpose: "Creates emotional connection and relatability"
+      brunson_example: "Going from insecure wrestler to confident leader"
+    key_insight: |
+      The audience cares more about the INTERNAL journey than the external one.
+      External achievements impress. Internal transformations inspire.
+      Always tell BOTH journeys.
+
+  false_belief_inventory:
+    description: "Mapping the beliefs that block people from buying or acting"
+    three_categories:
+      vehicle_beliefs: "Doubts about the opportunity itself ('Does this work?')"
+      internal_beliefs: "Doubts about themselves ('Can I do this?')"
+      external_beliefs: "Doubts about circumstances ('Do I have time/money/support?')"
+    process:
+      step_1: "List every objection you've heard from prospects"
+      step_2: "Categorize each as Vehicle, Internal, or External"
+      step_3: "For each false belief, write an Epiphany Bridge story that breaks it"
+      step_4: "Deploy stories in webinars, emails, sales pages, and content"
+
+key_vocabulary:
+  - "Epiphany Bridge"
+  - "origin story"
+  - "Kinda Like Bridge"
+  - "Hero's Two Journeys"
+  - "false belief"
+  - "Vehicle belief"
+  - "Internal belief"
+  - "External belief"
+  - "backstory"
+  - "transformation"
+  - "epiphany"
+  - "narrative arc"
+  - "emotional truth"
+
+diagnostic_questions:
+  - "What is your Epiphany Bridge origin story? Does it follow all 8 steps?"
+  - "What are the top 3 false beliefs your audience holds (Vehicle, Internal, External)?"
+  - "Do you have a specific story that breaks each false belief?"
+  - "Are you telling both journeys (external achievement AND internal transformation)?"
+  - "Do you use Kinda Like Bridges to explain complex concepts?"
+  - "Is your story felt or just heard? (emotional vs intellectual)"
+  - "Do your stories have specific details (names, dates, numbers) or are they vague?"
+  - "Are you using stories in every touchpoint (ads, emails, pages, webinars)?"
+
+output_templates:
+  - "Epiphany Bridge Script (complete 8-step story)"
+  - "Origin Story (5-act foundational narrative)"
+  - "False Belief Inventory (categorized objections with resolution stories)"
+  - "Kinda Like Bridge Collection (10+ analogies for key concepts)"
+  - "Story Bank (library of stories mapped to specific beliefs they break)"
+  - "Two-Journey Narrative (parallel external and internal arcs)"
+
+quality_gates:
+  - "Epiphany Bridge story follows all 8 steps with specific details"
+  - "Origin story creates genuine emotional connection (not just impressive facts)"
+  - "False beliefs are categorized correctly (Vehicle, Internal, External)"
+  - "Each false belief has a dedicated resolution story"
+  - "Kinda Like Bridges use universally understood analogies"
+  - "Stories include both external achievement and internal transformation"
+  - "Specific details present (names, numbers, dates — not vague generalizations)"

@@ -1,0 +1,565 @@
+# Perfect Webinar Creation Workflow
+# Based on Russell Brunson's Expert Secrets methodology
+# Source: Perfect Webinar Framework + Three Secrets + Stack Slide
+# Version: 1.0.0
+
+id: wf-perfect-webinar
+name: "Perfect Webinar Creation"
+version: "1.0.0"
+duration: "2-3 days"
+description: |
+  Complete workflow to create a Perfect Webinar presentation using
+  Brunson's proven framework. Takes a topic through strategy definition,
+  story development, script writing, and stack slide creation.
+
+  PHILOSOPHY: "The Perfect Webinar is a selling presentation, not an
+  educational presentation. Your job is to change beliefs, not teach."
+
+  RESULT: A complete webinar script with slides, stories, and stack
+  ready to present live or automate.
+
+best_for:
+  - "Selling courses or programs ($297-$2,997)"
+  - "Launching a new offer to a warm audience"
+  - "Converting leads from a lead magnet into buyers"
+  - "Establishing expert authority while selling"
+  - "Creating an evergreen selling asset"
+
+decision_matrix_fit:
+  complexity: high
+  agents_required: 4
+  estimated_duration: "2-3 days"
+  user_involvement: "high (story development requires personal input)"
+  prerequisites:
+    - "Clear offer to sell with defined price point"
+    - "Target audience identified"
+    - "Personal origin story or client stories available"
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Strategy, Big Domino identification, webinar positioning"
+      phases: [0]
+
+    - agent: brunson-webinar
+      role: "Perfect Webinar framework, Three Secrets, script structure"
+      phases: [1, 2]
+
+    - agent: brunson-stories
+      role: "Epiphany Bridge stories, origin story, case studies"
+      phases: [1]
+
+    - agent: brunson-offers
+      role: "Stack Slide design, offer architecture, close sequence"
+      phases: [3]
+
+  synergies:
+    - agents: [brunson-webinar, brunson-stories]
+      pattern: "Webinar defines structure, Stories fills each secret with Epiphany Bridges"
+    - agents: [brunson-webinar, brunson-offers]
+      pattern: "Webinar builds belief, Offers captures the decision at the Stack"
+
+phases:
+  # ===== PHASE 0: STRATEGY =====
+  - id: PHASE-0
+    name: "Strategy"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Define the webinar strategy: what's the Big Domino?
+      If you can get them to believe ONE thing, all other objections
+      become irrelevant. Find the One Thing and build around it.
+
+      PRINCIPLE: "If you can knock down the Big Domino, all the
+      little dominoes fall with it."
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Identify the Big Domino"
+        required: true
+        description: |
+          The ONE belief that, if they accept it, makes everything else
+          a no-brainer. Usually: "My new opportunity is the ONLY way to
+          get [result] and it's achievable for people like you."
+        output: "big_domino.md"
+
+      - task_id: T0.2
+        name: "Map False Beliefs"
+        required: true
+        description: |
+          Identify the 3 core false beliefs that prevent the Big Domino:
+          1. Vehicle false belief (about the opportunity itself)
+          2. Internal false belief (about their own ability)
+          3. External false belief (about outside forces)
+        output: "false_beliefs_map.yaml"
+
+      - task_id: T0.3
+        name: "Define Webinar Positioning"
+        required: true
+        description: |
+          Title, hook, and positioning for the webinar:
+          - Curiosity-based title
+          - "How to [Result] Without [Pain] in [Timeframe]"
+          - Registration page copy hooks
+        output: "webinar_positioning.md"
+
+    inline_structures:
+      big_domino_template:
+        formula: |
+          "If I can make them believe that [MY NEW OPPORTUNITY] is the key
+          to [THEIR DESIRE] and is only attainable through [MY VEHICLE],
+          then all other objections become irrelevant."
+        examples:
+          - niche: "Weight loss"
+            domino: "If I can make them believe that ketosis is the key to permanent fat loss and the only reliable way to achieve it is through my Keto Reset Program, all other objections disappear."
+          - niche: "Online business"
+            domino: "If I can make them believe that funnels are the key to online sales and the only proven way to build them is through ClickFunnels, all other objections disappear."
+
+      three_false_beliefs:
+        vehicle:
+          question: "What do they believe about the vehicle/opportunity?"
+          example: "Funnels are too complicated / only for tech people"
+        internal:
+          question: "What do they believe about their own ability?"
+          example: "I'm not tech-savvy enough / I don't have enough experience"
+        external:
+          question: "What do they believe about outside forces?"
+          example: "The market is too saturated / I don't have enough money"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Strategy Complete"
+      criteria:
+        - "Big Domino clearly articulated"
+        - "3 false beliefs mapped with specific statements"
+        - "Webinar title is curiosity-driven"
+      human_review: true
+      message: "Review the Big Domino strategy before developing stories."
+      veto_conditions:
+        - condition: "Big Domino is vague or too broad"
+          action: "HALT - Sharpen the one core belief"
+        - condition: "False beliefs are not specific enough"
+          action: "BLOCK - Must be actual objections from real prospects"
+
+  # ===== PHASE 1: STORIES =====
+  - id: PHASE-1
+    name: "Stories"
+    days: "Day 1"
+    tier: 1
+    description: |
+      Develop the Epiphany Bridge stories for each false belief.
+      Stories are the vehicle for belief change. Each story follows
+      the Epiphany Bridge framework to take the audience from their
+      false belief to the new belief.
+
+      PRINCIPLE: "Facts tell, stories sell. If you want to change
+      someone's belief, you need to give them an experience —
+      and stories create experiences."
+
+    agents:
+      primary: brunson-stories
+      secondary: brunson-webinar
+
+    tasks:
+      - task_id: T1.1
+        name: "Craft Origin Story (Epiphany Bridge)"
+        required: true
+        agent: brunson-stories
+        description: |
+          Your personal origin story using the Epiphany Bridge:
+          1. Backstory (similar to audience's current state)
+          2. Desire for change
+          3. Wall/obstacles
+          4. Epiphany moment
+          5. Plan that emerged
+          6. Conflict/struggle
+          7. Achievement
+          8. Transformation
+        output: "origin_story.md"
+
+      - task_id: T1.2
+        name: "Craft Secret #1 Story (Vehicle)"
+        required: true
+        agent: brunson-stories
+        description: |
+          Story that destroys the vehicle false belief.
+          Must take audience from "this won't work" to
+          "this is the ONLY thing that works."
+        output: "secret_1_story.md"
+
+      - task_id: T1.3
+        name: "Craft Secret #2 Story (Internal)"
+        required: true
+        agent: brunson-stories
+        description: |
+          Story that destroys the internal false belief.
+          Must take audience from "I can't do this" to
+          "if they can do it, I definitely can."
+        output: "secret_2_story.md"
+
+      - task_id: T1.4
+        name: "Craft Secret #3 Story (External)"
+        required: true
+        agent: brunson-stories
+        description: |
+          Story that destroys the external false belief.
+          Must take audience from "outside forces will stop me"
+          to "the system handles all of that."
+        output: "secret_3_story.md"
+
+    inline_structures:
+      epiphany_bridge_8_steps:
+        steps:
+          1: "Backstory — Where you were (relatable to audience)"
+          2: "Desire — What you wanted (same as audience)"
+          3: "Wall — What stopped you (same frustrations)"
+          4: "Epiphany — The aha moment (the new belief)"
+          5: "Plan — What you did after the epiphany"
+          6: "Conflict — Struggles during implementation"
+          7: "Achievement — The result you got"
+          8: "Transformation — How your life changed (status shift)"
+
+      kinda_like_bridge:
+        description: "When you can't use your own story, use 'It's kinda like...'"
+        example: |
+          "Have you ever been to a potluck dinner where someone brings
+          that one dish that everyone goes crazy for? And you think,
+          'I could never make something that good.' But then they tell
+          you the recipe and it's only 3 ingredients? That's kinda like
+          what happened when I discovered funnels..."
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Stories Complete"
+      criteria:
+        - "Origin story follows 8-step Epiphany Bridge"
+        - "Each secret has a complete story"
+        - "Stories are emotionally engaging and relatable"
+        - "Each story destroys its corresponding false belief"
+      human_review: true
+      message: "Review stories before script writing."
+
+  # ===== PHASE 2: SCRIPT =====
+  - id: PHASE-2
+    name: "Script"
+    days: "Day 2"
+    tier: 2
+    description: |
+      Write the complete Perfect Webinar script following Brunson's
+      proven structure. The script integrates the Big Domino, all three
+      secrets with their stories, and transitions to the offer.
+
+      STRUCTURE:
+      1. Introduction (5 min) — Hook, credibility, promise
+      2. Content: Secret 1 (15 min)
+      3. Content: Secret 2 (15 min)
+      4. Content: Secret 3 (15 min)
+      5. Stack & Close (10 min)
+
+    agent: brunson-webinar
+
+    tasks:
+      - task_id: T2.1
+        name: "Write Introduction Script"
+        required: true
+        description: |
+          Opening 5 minutes:
+          - Big promise / hook
+          - Credibility building (quickly)
+          - "Here's what we'll cover today" (3 secrets teaser)
+          - Permission to pitch ("I'll share my offer at the end")
+          - Engagement elements
+        output: "script_intro.md"
+
+      - task_id: T2.2
+        name: "Write Secret #1 Script"
+        required: true
+        description: |
+          15-minute section on the New Opportunity:
+          - Transition from intro
+          - Teaching content (just enough to create the epiphany)
+          - Epiphany Bridge story
+          - Reframe: "The vehicle is [your opportunity]"
+          - Bridge to Secret #2
+        output: "script_secret_1.md"
+
+      - task_id: T2.3
+        name: "Write Secret #2 Script"
+        required: true
+        description: |
+          15-minute section on Internal Belief:
+          - Transition from Secret #1
+          - Teaching content (build confidence)
+          - Epiphany Bridge story
+          - Reframe: "You CAN do this because..."
+          - Bridge to Secret #3
+        output: "script_secret_2.md"
+
+      - task_id: T2.4
+        name: "Write Secret #3 Script"
+        required: true
+        description: |
+          15-minute section on External Belief:
+          - Transition from Secret #2
+          - Teaching content (remove external objections)
+          - Epiphany Bridge story
+          - Reframe: "The system handles [external concern]"
+          - Bridge to the Stack
+        output: "script_secret_3.md"
+
+      - task_id: T2.5
+        name: "Write Transition to Offer"
+        required: true
+        description: |
+          The pivot from content to selling:
+          - "So let me ask you a question..."
+          - Recap the 3 secrets and what's now possible
+          - "The only question is... do you want my help?"
+          - Introduce the offer naturally
+        output: "script_transition.md"
+
+    inline_structures:
+      perfect_webinar_structure:
+        intro:
+          duration: "5 minutes"
+          elements:
+            - "Big promise (what they'll learn)"
+            - "Quick credibility (results, not resume)"
+            - "The One Thing (Big Domino preview)"
+            - "3 Secrets preview (create anticipation)"
+
+        secret_1:
+          duration: "15 minutes"
+          belief_broken: "Vehicle false belief"
+          structure: "Teach → Story → Reframe"
+
+        secret_2:
+          duration: "15 minutes"
+          belief_broken: "Internal false belief"
+          structure: "Teach → Story → Reframe"
+
+        secret_3:
+          duration: "15 minutes"
+          belief_broken: "External false belief"
+          structure: "Teach → Story → Reframe"
+
+        transition:
+          duration: "5 minutes"
+          elements:
+            - "Recap transformation"
+            - "Two paths (with/without)"
+            - "Permission to present offer"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Script Complete"
+      criteria:
+        - "Full script follows Perfect Webinar structure"
+        - "Each secret has teach + story + reframe"
+        - "Transition to offer is natural and permission-based"
+        - "Total runtime is 60-90 minutes"
+      human_review: true
+      message: "Review complete script before Stack Slide creation."
+
+  # ===== PHASE 3: STACK =====
+  - id: PHASE-3
+    name: "Stack"
+    days: "Day 3"
+    tier: 2
+    description: |
+      Create the Stack Slide and closing sequence. The Stack Slide
+      is the most important slide in the entire webinar. It shows
+      everything they get, the total value, and the price.
+
+      PRINCIPLE: "The Stack Slide is shown a minimum of 3 times during
+      the close. Every time you add something, you show the full stack
+      again. By the end, they've seen everything 5-6 times."
+
+    agent: brunson-offers
+
+    tasks:
+      - task_id: T3.1
+        name: "Design Stack Slide"
+        required: true
+        description: |
+          Create the visual stack with:
+          - Main program/course name + value
+          - Tool/resource #1 + value
+          - Tool/resource #2 + value
+          - Bonus #1 + value
+          - Bonus #2 + value
+          - Bonus #3 + value
+          - Total Value: $X,XXX
+          - Your Price: $XXX
+        output: "stack_slide.yaml"
+
+      - task_id: T3.2
+        name: "Write Close Sequence Script"
+        required: true
+        description: |
+          The 10-minute close:
+          1. Present each component one by one
+          2. Show stack slide after each addition
+          3. Reveal total value
+          4. Anchor against alternatives
+          5. Reveal price (fraction of value)
+          6. Introduce guarantee
+          7. Scarcity/urgency (if genuine)
+          8. Final CTA
+        output: "close_script.md"
+
+      - task_id: T3.3
+        name: "Design Guarantee"
+        required: true
+        description: |
+          Create the guarantee that removes the final objection:
+          "What if it doesn't work?" Must make buying risk-free
+          while signaling confidence in the product.
+        output: "webinar_guarantee.md"
+
+      - task_id: T3.4
+        name: "Create Urgency Elements"
+        required: true
+        description: |
+          Design genuine scarcity and urgency for the close:
+          - Fast-action bonuses (disappear after webinar)
+          - Limited spots (if real capacity constraint)
+          - Price increase date
+          - Bonuses that expire
+        output: "urgency_elements.yaml"
+
+    inline_structures:
+      stack_slide_template:
+        components:
+          - slot: 1
+            type: "Main Program"
+            naming: "[Program Name]: The Complete System"
+            value_range: "$997-$4,997"
+
+          - slot: 2
+            type: "Tool/Resource"
+            naming: "[Specific Tool Name] ($X value)"
+            value_range: "$197-$997"
+
+          - slot: 3
+            type: "Tool/Resource"
+            naming: "[Specific Tool Name] ($X value)"
+            value_range: "$197-$997"
+
+          - slot: 4
+            type: "Bonus #1"
+            naming: "BONUS: [Exciting Name]"
+            value_range: "$297-$1,997"
+
+          - slot: 5
+            type: "Bonus #2"
+            naming: "BONUS: [Exciting Name]"
+            value_range: "$297-$1,997"
+
+          - slot: 6
+            type: "Bonus #3 (Fast-Action)"
+            naming: "FAST-ACTION BONUS: [Exciting Name]"
+            value_range: "$497-$2,997"
+
+        reveal_sequence:
+          - "Present component → Add to stack → Show running total"
+          - "Present next component → Add to stack → Show updated total"
+          - "After all: 'Total value: $X,XXX'"
+          - "Anchor: 'If you hired me 1-on-1, it would cost $XX,XXX'"
+          - "Price reveal: 'Your investment today is just $XXX'"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Stack Complete"
+      criteria:
+        - "Stack Slide has 5+ components with individual values"
+        - "Close script follows reveal sequence"
+        - "Guarantee is clear and compelling"
+        - "Total value is minimum 3x the price"
+      human_review: true
+      message: "Final review of the complete webinar package."
+      veto_conditions:
+        - condition: "Stack Slide has fewer than 4 components"
+          action: "BLOCK - Insufficient value perception"
+        - condition: "No guarantee included"
+          action: "WARNING - Significantly reduces conversion"
+
+# ===============================================================================
+# ERROR HANDLING
+# ===============================================================================
+
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_user: true
+    - halt_workflow: false
+
+  on_checkpoint_failure:
+    - return_to_previous_phase: true
+    - max_retries: 2
+
+  common_failures:
+    - failure: "Big Domino too vague"
+      phase: 0
+      resolution: "Narrow to one specific belief using 'If they believe X, everything else falls'"
+
+    - failure: "Stories not emotionally engaging"
+      phase: 1
+      resolution: "Add more sensory details, dialogue, and emotional turning points"
+
+    - failure: "Script too educational, not enough selling"
+      phase: 2
+      resolution: "Remember: the goal is belief change, not information transfer"
+
+# ===============================================================================
+# OUTPUTS
+# ===============================================================================
+
+outputs:
+  phase_0:
+    - "big_domino.md"
+    - "false_beliefs_map.yaml"
+    - "webinar_positioning.md"
+
+  phase_1:
+    - "origin_story.md"
+    - "secret_1_story.md"
+    - "secret_2_story.md"
+    - "secret_3_story.md"
+
+  phase_2:
+    - "script_intro.md"
+    - "script_secret_1.md"
+    - "script_secret_2.md"
+    - "script_secret_3.md"
+    - "script_transition.md"
+
+  phase_3:
+    - "stack_slide.yaml"
+    - "close_script.md"
+    - "webinar_guarantee.md"
+    - "urgency_elements.yaml"
+
+  final_deliverable:
+    name: "Perfect Webinar Package"
+    location: "outputs/webinars/{webinar_id}/"
+    contents:
+      - "complete_script.md - Full webinar script"
+      - "stack_slide.yaml - Stack Slide data"
+      - "slides_outline.md - Slide-by-slide outline"
+      - "registration_page.md - Registration page copy"
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "PERFECT_WEBINAR"
+    - "EPIPHANY_BRIDGE"
+    - "THREE_SECRETS"
+    - "STACK_SLIDE"
+    - "BIG_DOMINO"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_002"

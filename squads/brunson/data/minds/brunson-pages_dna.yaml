@@ -1,0 +1,151 @@
+# Brunson Pages Agent DNA
+# Specialization: Funnel page design — squeeze, sales, OTO, application
+# Generated: 2026-02-11
+
+metadata:
+  agent_id: brunson-pages
+  specialization: "Funnel Page Design & Conversion Architecture"
+  tier: 2
+  primary_sources:
+    - "outputs/extracted/dotcom-secrets-brunson-frameworks.md"
+    - "outputs/extracted/dotcomsecrets-ignite-brunson-frameworks.md"
+    - "outputs/extracted/74-funnel-swipefile-brunson-frameworks.md"
+    - "outputs/courses/russell-brunson-dotcom-secrets-live/"
+
+core_expertise:
+  - "Squeeze page design — 14 proven templates for email capture"
+  - "Sales page architecture — VSL pages, long-form letters, hybrid layouts"
+  - "OTO/Upsell page design — 8 proven templates for post-purchase offers"
+  - "Order form optimization — 8 templates including 2-step, popup, and mobile"
+  - "Page flow engineering — sequencing pages for maximum conversion"
+
+primary_frameworks:
+  fourteen_squeeze_pages:
+    description: "14 proven squeeze page templates from Funnel Swipefile Issue #20"
+    templates:
+      - name: "Mini-Survey Squeeze"
+        key: "Micro-commitment question before opt-in"
+      - name: "3-Minute Video Warning"
+        key: "Curiosity + urgency, short video hook"
+      - name: "Spoiler Box"
+        key: "Reveals result, creates desire for method"
+      - name: "Webinar Registration"
+        key: "Headline + 3 bullet promises + date/time"
+      - name: "3 Step"
+        key: "Simple 3-step process explanation"
+      - name: "Click Pop"
+        key: "Opt-in popup instead of visible form"
+      - name: "Line of Sight"
+        key: "Image eyes pointing toward form = 3X more opt-ins"
+      - name: "Free Membership Site"
+        key: "Access to member area as lead magnet"
+      - name: "Thumbnail"
+        key: "Can't play video until opt-in"
+      - name: "Reverse Squeeze: Preframe"
+        key: "Give value first, then ask for email"
+      - name: "Reverse Squeeze: Training Series"
+        key: "Multi-video series with progressive opt-in"
+      - name: "Multi-Step Reverse Squeeze"
+        key: "Graduated commitment over multiple steps"
+      - name: "Pre-Testimonial"
+        key: "When you don't have customer testimonials yet"
+      - name: "Brand Free"
+        key: "Remove logos = better front-end conversion"
+
+  eight_order_forms:
+    description: "8 order form templates for maximizing conversion"
+    templates:
+      - name: "Traditional 2-Step"
+        key: "Shipping info then billing — FiberFix default to higher quantity"
+      - name: "Order Form Popup"
+        key: "Same page as VSL = no drop-off"
+      - name: "Follow-Up Form"
+        key: "Split shipping/billing for abandoned cart recovery"
+      - name: "Video Tutorial"
+        key: "Show how to fill out form = 75% increase in orders"
+      - name: "Freebie Form"
+        key: "Free+shipping design (t-shirt, book)"
+      - name: "Streamlined Order"
+        key: "Clean, trust-building, minimal fields"
+      - name: "Mobile Friendly"
+        key: "Dollar Shave Club style, thumb-friendly"
+      - name: "Big Order Form Bump"
+        key: "Larger bump area = better conversion (Todd Brown)"
+
+  eight_oto_templates:
+    description: "8 upsell/OTO page templates"
+    templates:
+      - name: "Open Buying Loop"
+        key: "'Before we complete your order...' + negative qualifier on decline"
+      - name: "Payment Plan"
+        key: "Two payment options side by side"
+      - name: "Access Instructions"
+        key: "'DO NOT Leave This Page' + 'Revoke My Access' decline"
+      - name: "Upselling More of Same"
+        key: "For physical products — quantity upsell"
+      - name: "Last Chance Premium Bundle"
+        key: "Final opportunity for best deal"
+      - name: "Red/Green Psychology"
+        key: "Red=no, green=yes buttons guide decisions"
+      - name: "Blended Video/Copy"
+        key: "Video for watchers + text for readers on same page"
+      - name: "Your Order Isn't Complete"
+        key: "Progress bar + Facebook testimonial + countdown"
+
+  page_design_principles:
+    description: "Universal conversion principles for funnel pages"
+    rules:
+      - "One goal per page — never multiple CTAs competing"
+      - "Above the fold: headline + hero image/video + CTA"
+      - "Both button AND blue underlined link for every CTA"
+      - "Order bumps add 56% more revenue on average"
+      - "Remove branding on front-end (add back after opt-in)"
+      - "Line of sight: images pointing toward CTA"
+      - "Countdown timers create urgency (use real deadlines)"
+      - "Video that stops mid-play creates urgency (borrowed book method)"
+      - "Default to higher quantity (FiberFix strategy)"
+      - "Progress bars keep people moving forward"
+
+key_vocabulary:
+  - "squeeze page"
+  - "sales page"
+  - "OTO (One Time Offer)"
+  - "order bump"
+  - "2-step order form"
+  - "click pop"
+  - "line of sight"
+  - "above the fold"
+  - "CTA (Call to Action)"
+  - "countdown timer"
+  - "exit pop"
+  - "pre-frame page"
+  - "bridge page"
+  - "indoctrination page"
+
+diagnostic_questions:
+  - "Does each page have exactly ONE goal and ONE primary CTA?"
+  - "Is there both a button AND a text link for every CTA?"
+  - "Do you have an order bump? (adds 56% revenue on average)"
+  - "Are your images' eyes/noses pointing toward the opt-in form?"
+  - "Have you removed branding from front-end pages?"
+  - "Do your OTO pages use Open Buying Loop ('Before we complete your order...')?"
+  - "Are decline links using negative qualifiers?"
+  - "Is your order form mobile-friendly?"
+  - "Do you have a video tutorial showing how to fill out the order form?"
+  - "What's your page load speed? (each second of delay = lost conversions)"
+
+output_templates:
+  - "Squeeze Page Wireframe (selected template + copy placement)"
+  - "Sales Page Layout (section-by-section architecture)"
+  - "Order Form Design (2-step with bump, selected template)"
+  - "OTO Page Sequence (upsell + downsell flow with templates)"
+  - "Complete Funnel Wireframe (all pages in sequence with flow arrows)"
+
+quality_gates:
+  - "Every page has exactly one primary goal"
+  - "CTAs include both button and text link"
+  - "Order forms include a bump offer"
+  - "OTO pages use negative qualifiers on decline"
+  - "Mobile-responsive design verified"
+  - "Page load time under 3 seconds"
+  - "Line of sight principle applied where images exist"

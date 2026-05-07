@@ -1,0 +1,930 @@
+# Funnel Architecture Design Workflow
+# Based on Russell Brunson's DotCom Secrets + DotCom Secrets Ignite methodology
+# Source: Secret Formula + Value Ladder + 7 Phases of a Funnel + 31 Building Blocks
+# Version: 1.0.0
+
+id: wf-funnel-architecture
+name: "Funnel Architecture Design"
+version: "1.0.0"
+duration: "3-5 days"
+description: |
+  Complete workflow to design a full funnel architecture from scratch using
+  Russell Brunson's proven frameworks. Takes a business concept through
+  Secret Formula validation, Value Ladder mapping, funnel type selection,
+  page architecture, and final validation.
+
+  PHILOSOPHY: "You're One Funnel Away"
+
+  RESULT: A complete funnel blueprint with page specs, traffic plan, and
+  conversion strategy ready for implementation.
+
+# ===============================================================================
+# WHEN TO USE THIS WORKFLOW
+# ===============================================================================
+
+best_for:
+  - "Building a new funnel from scratch"
+  - "Redesigning an underperforming funnel"
+  - "Expanding an existing business with a new funnel"
+  - "Migrating from a website-based model to a funnel-based model"
+  - "Stacking a new funnel onto an existing Value Ladder"
+
+decision_matrix_fit:
+  complexity: high
+  agents_required: 5
+  estimated_duration: "3-5 days"
+  user_involvement: "medium (checkpoints require approval)"
+  prerequisites:
+    - "Clear understanding of your market/niche"
+    - "Product or service to sell (or concept)"
+    - "Basic traffic source identified"
+
+# ===============================================================================
+# AGENTS INVOLVED
+# ===============================================================================
+
+clone_combinations:
+  primary:
+    - agent: brunson-chief
+      role: "Orchestration, Secret Formula application, strategic oversight"
+      phases: [0]
+
+    - agent: brunson-funnels
+      role: "Value Ladder design, funnel type selection, building blocks"
+      phases: [1, 2]
+
+    - agent: brunson-pages
+      role: "Page architecture, squeeze/sales/OTO page design"
+      phases: [3]
+
+    - agent: brunson-offers
+      role: "Offer construction, value stacking, guarantee design"
+      phases: [2, 3]
+
+    - agent: brunson-advisor
+      role: "Strategic review, funnel audit, optimization recommendations"
+      phases: [4]
+
+  synergies:
+    - agents: [brunson-funnels, brunson-offers]
+      pattern: "Funnels defines architecture, Offers fills each step with irresistible value"
+
+    - agents: [brunson-pages, brunson-offers]
+      pattern: "Pages defines layout, Offers defines the stack shown on each page"
+
+    - agents: [brunson-advisor, brunson-funnels]
+      pattern: "Advisor validates architecture against proven patterns from 74 Swipefile"
+
+# ===============================================================================
+# PHASE 0: DISCOVERY — Secret Formula
+# ===============================================================================
+
+phases:
+  - id: PHASE-0
+    name: "Discovery"
+    days: "Day 0"
+    tier: 0
+    description: |
+      Apply the Secret Formula to establish the foundation of the funnel.
+      WHO are your dream customers? WHERE do they congregate? What BAIT
+      will attract them? What RESULT do you want to give them?
+
+      PRINCIPLE: "If you understand WHO your dream customer is, WHERE they
+      are, what BAIT will attract them, and what RESULT you want for them,
+      you can build any funnel."
+
+    agent: brunson-chief
+
+    tasks:
+      - task_id: T0.1
+        name: "Define Dream Customer Avatar"
+        required: true
+        description: |
+          WHO — Identify the dream customer with radical specificity.
+          Not just demographics but psychographics: what do they believe?
+          What have they tried before? What's their current state of awareness?
+        output: "dream_customer_avatar.yaml"
+
+      - task_id: T0.2
+        name: "Map Customer Congregations"
+        required: true
+        description: |
+          WHERE — Identify where dream customers already gather.
+          Online communities, influencers they follow, podcasts they listen to,
+          events they attend, newsletters they read. This feeds Dream 100 later.
+        output: "customer_congregations.yaml"
+
+      - task_id: T0.3
+        name: "Design the Bait"
+        required: true
+        description: |
+          BAIT — What lead magnet, free offer, or hook will attract the
+          dream customer into your world? Must solve a specific, immediate
+          problem while creating curiosity about the bigger solution.
+        output: "bait_design.md"
+
+      - task_id: T0.4
+        name: "Clarify the Result"
+        required: true
+        description: |
+          RESULT — What transformation do you deliver? Define the before/after
+          state. The result must be specific, measurable, and connected to
+          the dream customer's deepest desire (status-driven).
+        output: "result_definition.md"
+
+    inline_structures:
+      secret_formula:
+        description: "Brunson's 4-part Secret Formula for any business"
+        components:
+          who:
+            question: "Who is your dream customer?"
+            depth:
+              - "Demographics: age, income, location, job"
+              - "Psychographics: beliefs, fears, desires, frustrations"
+              - "Awareness level: unaware, problem-aware, solution-aware, product-aware"
+              - "Identity: how they see themselves, how they want to be seen"
+            example: "Stay-at-home moms aged 28-40 who want to start an online business but feel overwhelmed by tech and don't know where to start"
+
+          where:
+            question: "Where do they congregate online and offline?"
+            categories:
+              - "Social media groups / pages / accounts they follow"
+              - "Podcasts they listen to"
+              - "Blogs / newsletters they read"
+              - "Events / conferences they attend"
+              - "YouTube channels they watch"
+              - "Books they've bought"
+            principle: "Your dream customers are already gathered somewhere. Find them, don't create them."
+
+          bait:
+            question: "What will attract them into your world?"
+            types:
+              - "Free report / guide / checklist"
+              - "Free video training"
+              - "Free + shipping offer"
+              - "Quiz / assessment"
+              - "Webinar / workshop"
+              - "Challenge"
+            rule: "The bait must solve a real problem while opening a loop for your paid offer"
+
+          result:
+            question: "What result do you want to give them?"
+            framework: |
+              BEFORE STATE → [Your Funnel] → AFTER STATE
+              "Describe the transformation in terms of status:
+              how will OTHER PEOPLE perceive them after they achieve the result?"
+
+    checkpoint:
+      id: CP_PHASE_0
+      name: "Secret Formula Complete"
+      criteria:
+        - "Dream Customer Avatar defined with psychographics"
+        - "Minimum 10 congregation sources identified"
+        - "Bait concept designed with clear hook"
+        - "Result defined with before/after transformation"
+      human_review: true
+      message: "Review the Secret Formula foundation before proceeding to Value Ladder design."
+      veto_conditions:
+        - condition: "Dream customer too broad (e.g., 'everyone')"
+          action: "HALT - Narrow down to a specific submarket"
+        - condition: "No clear congregation identified"
+          action: "BLOCK - Cannot build traffic strategy without congregation data"
+
+  # ===============================================================================
+  # PHASE 1: DIAGNOSIS — Value Ladder Mapping
+  # ===============================================================================
+
+  - id: PHASE-1
+    name: "Diagnosis"
+    days: "Day 1"
+    tier: 0
+    description: |
+      Map the complete Value Ladder from free bait to high-ticket backend.
+      Every business needs a ladder — you can't just have one offer.
+      The ladder ascends in value AND price, moving customers from
+      free → frontend → middle → backend → high-ticket.
+
+      PRINCIPLE: "The goal is to provide more and more value at each step,
+      making the next purchase a no-brainer."
+
+    agent: brunson-funnels
+
+    tasks:
+      - task_id: T1.1
+        name: "Audit Current Offers"
+        required: true
+        description: |
+          Map existing products/services. Identify gaps in the Value Ladder.
+          Where are customers falling off? What's missing between steps?
+        output: "current_offers_audit.yaml"
+
+      - task_id: T1.2
+        name: "Design Complete Value Ladder"
+        required: true
+        description: |
+          Build the full 4-5 tier Value Ladder:
+          1. FREE: Lead magnet / bait
+          2. FRONTEND ($7-$97): Low-barrier entry offer
+          3. MIDDLE ($97-$997): Core offer
+          4. BACKEND ($997-$9,997): Premium offer
+          5. HIGH-TICKET ($10K+): Elite/continuity
+        output: "value_ladder.yaml"
+
+      - task_id: T1.3
+        name: "Identify Funnel Entry Point"
+        required: true
+        description: |
+          Where does the customer enter the Value Ladder? Which rung?
+          Most funnels start at free or frontend. The entry point
+          determines the funnel type.
+        output: "funnel_entry_point.md"
+
+      - task_id: T1.4
+        name: "Map Ascension Path"
+        required: true
+        description: |
+          How does a customer move UP the ladder? What triggers each
+          upgrade? What follow-up sequences move them to the next level?
+        output: "ascension_path.yaml"
+
+    inline_structures:
+      value_ladder_template:
+        description: "Standard Value Ladder with 5 tiers"
+        tiers:
+          - level: 0
+            name: "Bait / Lead Magnet"
+            price_range: "Free"
+            purpose: "Attract and capture leads"
+            value: "Solve one specific problem"
+            examples: ["Free report", "Checklist", "Video training", "Quiz"]
+
+          - level: 1
+            name: "Frontend Offer"
+            price_range: "$7-$97"
+            purpose: "Convert leads to buyers, cover ad spend"
+            value: "Solve the next logical problem"
+            examples: ["Book funnel", "Free+shipping", "Tripwire", "SLO"]
+
+          - level: 2
+            name: "Middle Offer"
+            price_range: "$97-$997"
+            purpose: "Deliver core transformation"
+            value: "Comprehensive solution"
+            examples: ["Online course", "Group coaching", "Membership", "Software"]
+
+          - level: 3
+            name: "Backend Offer"
+            price_range: "$997-$9,997"
+            purpose: "Premium transformation"
+            value: "Done-with-you or intensive programs"
+            examples: ["Mastermind", "Intensive workshop", "Certification", "Consulting"]
+
+          - level: 4
+            name: "High-Ticket / Continuity"
+            price_range: "$10,000+"
+            purpose: "Maximum value and long-term relationship"
+            value: "Done-for-you or ongoing partnership"
+            examples: ["1-on-1 coaching", "Agency services", "Inner circle", "Licensing"]
+
+    checkpoint:
+      id: CP_PHASE_1
+      name: "Value Ladder Complete"
+      criteria:
+        - "Minimum 3 tiers defined with clear offers"
+        - "Ascension path mapped between each tier"
+        - "Funnel entry point identified"
+        - "Price points set with value justification"
+      human_review: true
+      message: "Review the Value Ladder before selecting funnel type."
+      veto_conditions:
+        - condition: "Only one offer (no ladder)"
+          action: "HALT - Must have at least 3 tiers for a functional ladder"
+        - condition: "No logical ascension between tiers"
+          action: "BLOCK - Redesign offers to create natural progression"
+
+  # ===============================================================================
+  # PHASE 2: ARCHITECTURE — Funnel Type Selection & Design
+  # ===============================================================================
+
+  - id: PHASE-2
+    name: "Architecture"
+    days: "Days 2-3"
+    tier: 1
+    description: |
+      Select the right funnel type and design the complete architecture.
+      Brunson identifies 9 core funnel types across 3 categories:
+      Lead Funnels, Unboxing Funnels, and Presentation Funnels.
+      The right funnel depends on the Value Ladder entry point.
+
+      PRINCIPLE: "Don't try to invent a new funnel. Find one that's already
+      working and funnel hack it."
+
+    agents:
+      primary: brunson-funnels
+      secondary: brunson-offers
+
+    tasks:
+      - task_id: T2.1
+        name: "Select Funnel Type"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Choose from the 9 core funnels based on offer type and entry point:
+          LEAD FUNNELS: Squeeze Page, Survey, Summit
+          UNBOXING FUNNELS: Book/Cart, Challenge, Invisible
+          PRESENTATION FUNNELS: Webinar, Product Launch, Automated Webinar
+        output: "funnel_type_selection.yaml"
+
+      - task_id: T2.2
+        name: "Map the 7 Phases"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Apply the 7 Phases of a Funnel to the selected type:
+          1. Pre-Frame Bridge
+          2. Qualify Subscribers
+          3. Qualify Buyers
+          4. Identify Hyperactive Buyers
+          5. Age & Ascend
+          6. Change Selling Environment
+          7. Monetize
+        output: "seven_phases_map.yaml"
+
+      - task_id: T2.3
+        name: "Select Building Blocks"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Choose from the 31 Building Blocks to assemble the funnel:
+          Traffic blocks, pre-frame blocks, funnels, follow-up blocks.
+          Map which blocks serve which phase.
+        output: "building_blocks.yaml"
+
+      - task_id: T2.4
+        name: "Design Offer Architecture"
+        required: true
+        agent: brunson-offers
+        description: |
+          For each page in the funnel, design the offer:
+          - Main offer with value stack
+          - Order bumps
+          - OTO (One Time Offer) / upsells
+          - Downsells
+          - Guarantees for each offer level
+        output: "offer_architecture.yaml"
+
+      - task_id: T2.5
+        name: "Design Follow-Up Funnels"
+        required: true
+        agent: brunson-funnels
+        description: |
+          Map the email follow-up sequences that connect funnel steps:
+          - Soap Opera Sequence for new leads
+          - Seinfeld Emails for ongoing engagement
+          - Ascension sequences between Value Ladder tiers
+        output: "follow_up_funnels.yaml"
+
+    inline_structures:
+      nine_core_funnels:
+        lead_funnels:
+          purpose: "Generate leads and build your list"
+          types:
+            - name: "Squeeze Page Funnel"
+              when: "Simple lead generation"
+              pages: ["Squeeze Page", "Thank You Page"]
+              best_for: "Free report, checklist, video"
+
+            - name: "Survey Funnel"
+              when: "Need to segment leads"
+              pages: ["Survey Page", "Squeeze Page", "Thank You Page"]
+              best_for: "Multiple avatars, personalization"
+
+            - name: "Summit Funnel"
+              when: "Authority building + mass lead gen"
+              pages: ["Registration Page", "Content Pages", "Replay Page"]
+              best_for: "Launching in new market"
+
+        unboxing_funnels:
+          purpose: "Convert leads to buyers with low-ticket offers"
+          types:
+            - name: "Book/Cart Funnel"
+              when: "Free+shipping or low-ticket entry"
+              pages: ["Sales Page", "Order Form", "OTO 1", "OTO 2", "Thank You"]
+              best_for: "Books, physical products, SLO"
+
+            - name: "Challenge Funnel"
+              when: "Engagement-based conversion"
+              pages: ["Registration", "Daily Challenge Pages", "Close Page"]
+              best_for: "Courses, coaching, communities"
+
+            - name: "Invisible Funnel"
+              when: "Risk-reversal entry"
+              pages: ["Registration", "Content Delivery", "Billing Page"]
+              best_for: "High-value content, pay-after-value"
+
+        presentation_funnels:
+          purpose: "Sell mid to high-ticket offers"
+          types:
+            - name: "Webinar Funnel"
+              when: "Selling $297-$2997 products"
+              pages: ["Registration", "Thank You", "Webinar Page", "Close Page"]
+              best_for: "Courses, coaching, consulting"
+
+            - name: "Product Launch Funnel"
+              when: "Building anticipation for a launch"
+              pages: ["PLC Video 1-4", "Sales Page", "Order Page"]
+              best_for: "New product launches"
+
+            - name: "Automated Webinar Funnel"
+              when: "Evergreen selling"
+              pages: ["Registration", "Waiting Room", "Auto-Webinar", "Close"]
+              best_for: "Scaling proven webinar"
+
+      building_blocks_31:
+        traffic_blocks:
+          - "Blog post"
+          - "Email"
+          - "Social media post"
+          - "Ad (paid)"
+          - "Podcast episode"
+          - "YouTube video"
+          - "Affiliate/JV promotion"
+
+        pre_frame_blocks:
+          - "Presell page / article"
+          - "Quiz / survey"
+          - "Video presell"
+          - "Advertorial"
+
+        funnel_blocks:
+          - "Squeeze page"
+          - "Sales letter page"
+          - "Video sales letter page"
+          - "Webinar page"
+          - "Order form page"
+          - "OTO / upsell page"
+          - "Downsell page"
+          - "Thank you page"
+          - "Application page"
+          - "Member area"
+
+        follow_up_blocks:
+          - "Soap Opera Sequence (5 emails)"
+          - "Seinfeld Email series"
+          - "Retargeting ads"
+          - "Direct mail"
+          - "Ringless voicemail"
+
+    checkpoint:
+      id: CP_PHASE_2
+      name: "Architecture Complete"
+      criteria:
+        - "Funnel type selected with justification"
+        - "7 Phases mapped to specific pages"
+        - "Building blocks selected and ordered"
+        - "Offer architecture designed for each step"
+        - "Follow-up funnels mapped"
+      human_review: true
+      message: "Review the complete funnel architecture before page design."
+      veto_conditions:
+        - condition: "Funnel type doesn't match Value Ladder entry point"
+          action: "HALT - Realign funnel type with offer strategy"
+        - condition: "No follow-up funnel designed"
+          action: "BLOCK - Follow-up is where 80% of revenue comes from"
+
+  # ===============================================================================
+  # PHASE 3: PAGES — Page Architecture & Copy Framework
+  # ===============================================================================
+
+  - id: PHASE-3
+    name: "Pages"
+    days: "Day 3-4"
+    tier: 2
+    description: |
+      Design the specific pages in the funnel with wireframe layouts,
+      copy frameworks, and conversion elements. Every page follows
+      Hook-Story-Offer and has a specific job in the funnel.
+
+      PRINCIPLE: "Every page has ONE job. The squeeze page's job is to get
+      the opt-in. The sales page's job is to get the sale. Never confuse them."
+
+    agents:
+      primary: brunson-pages
+      secondary: brunson-offers
+
+    tasks:
+      - task_id: T3.1
+        name: "Design Landing/Squeeze Pages"
+        required: true
+        agent: brunson-pages
+        description: |
+          Create the lead capture pages with:
+          - Headline (hook)
+          - Sub-headline (story teaser)
+          - Opt-in form design
+          - Social proof elements
+          - Curiosity-based bullet points
+        output: "squeeze_page_specs.yaml"
+
+      - task_id: T3.2
+        name: "Design Sales Pages"
+        required: true
+        agent: brunson-pages
+        description: |
+          Create the sales page architecture:
+          - Above-the-fold hook
+          - Story section (Epiphany Bridge)
+          - Offer presentation with value stack
+          - Guarantee section
+          - FAQ section
+          - Close with CTA
+        output: "sales_page_specs.yaml"
+
+      - task_id: T3.3
+        name: "Design OTO/Upsell Pages"
+        required: true
+        agent: brunson-pages
+        description: |
+          Create one-time offer pages:
+          - Urgency-based headline
+          - Logical next-step positioning
+          - Quick decision copy (short page)
+          - One-click upsell mechanics
+        output: "oto_page_specs.yaml"
+
+      - task_id: T3.4
+        name: "Design Thank You & Delivery Pages"
+        required: true
+        agent: brunson-pages
+        description: |
+          Create confirmation and delivery pages:
+          - Confirmation of purchase/opt-in
+          - Next steps / what to expect
+          - Surprise bonuses or additional offers
+          - Community invitation
+        output: "thankyou_page_specs.yaml"
+
+      - task_id: T3.5
+        name: "Design Value Stack Presentation"
+        required: true
+        agent: brunson-offers
+        description: |
+          Create the visual value stack for the sales page:
+          - Individual component callouts with values
+          - Building momentum from smallest to largest
+          - Total value anchor
+          - Price reveal with contrast
+          - Bonus stack after main offer
+        output: "value_stack_presentation.yaml"
+
+    inline_structures:
+      page_design_principles:
+        rule_1:
+          name: "One Page, One Goal"
+          description: "Every page has exactly ONE conversion action. Never split attention."
+
+        rule_2:
+          name: "Hook Above the Fold"
+          description: "The first thing a visitor sees must stop the scroll and create curiosity."
+
+        rule_3:
+          name: "Congruence Chain"
+          description: "Ad → Pre-frame → Landing page must be congruent in message and design."
+
+        rule_4:
+          name: "Curiosity Over Clarity"
+          description: "On squeeze pages, create curiosity. Don't give away the answer."
+
+        rule_5:
+          name: "Stack the Value"
+          description: "On sales pages, present each component separately with individual value."
+
+      squeeze_page_template:
+        elements:
+          - "Headline: 'Free [Resource] Reveals How to [Result] Without [Pain]'"
+          - "Sub-headline: Amplify curiosity or add specificity"
+          - "Hero image or video (optional)"
+          - "3-5 curiosity bullets (what they'll discover)"
+          - "Opt-in form (name + email minimum)"
+          - "CTA button with benefit-oriented text"
+          - "Micro-commitment trust builder (e.g., 'Join 10,000+ entrepreneurs')"
+
+      sales_page_template:
+        sections:
+          - name: "Hook"
+            content: "Headline + sub-headline that stops the scroll"
+          - name: "Story"
+            content: "Epiphany Bridge or origin story"
+          - name: "Offer"
+            content: "What they get (value stack)"
+          - name: "Proof"
+            content: "Testimonials, case studies, results"
+          - name: "Guarantee"
+            content: "Risk reversal"
+          - name: "Scarcity"
+            content: "Why now (genuine urgency)"
+          - name: "Close"
+            content: "Final CTA with price justification"
+          - name: "FAQ"
+            content: "Handle remaining objections"
+
+    checkpoint:
+      id: CP_PHASE_3
+      name: "Page Architecture Complete"
+      criteria:
+        - "All funnel pages designed with wireframes"
+        - "Copy frameworks assigned to each page"
+        - "Value stack presentation designed"
+        - "Conversion elements mapped (CTAs, forms, buttons)"
+        - "Mobile-responsive considerations noted"
+      human_review: true
+      message: "Review page designs before final validation."
+      veto_conditions:
+        - condition: "Sales page without value stack"
+          action: "BLOCK - Value stack is essential for price justification"
+        - condition: "No guarantee on offer pages"
+          action: "WARNING - Guarantees significantly boost conversion"
+
+  # ===============================================================================
+  # PHASE 4: VALIDATION — Funnel Audit & Optimization
+  # ===============================================================================
+
+  - id: PHASE-4
+    name: "Validation"
+    days: "Day 5"
+    tier: 3
+    description: |
+      Final validation of the complete funnel architecture against
+      proven patterns. Cross-reference with the 74 Funnel Swipefile
+      and known high-converting funnel structures.
+
+      PRINCIPLE: "Funnel Hacking is not copying. It's understanding WHY
+      something works and adapting the principles to your business."
+
+    agent: brunson-advisor
+
+    tasks:
+      - task_id: T4.1
+        name: "Funnel Architecture Audit"
+        required: true
+        description: |
+          Review the complete funnel against best practices:
+          - Does the funnel type match the offer?
+          - Is the Value Ladder logical?
+          - Are there gaps in the ascension path?
+          - Is the follow-up funnel complete?
+        output: "architecture_audit.yaml"
+
+      - task_id: T4.2
+        name: "Conversion Optimization Review"
+        required: true
+        description: |
+          Review each page for conversion potential:
+          - Hook strength (will it stop the scroll?)
+          - Story relevance (does it build belief?)
+          - Offer irresistibility (would they feel stupid saying no?)
+          - Guarantee strength (does it remove all risk?)
+        output: "conversion_review.yaml"
+
+      - task_id: T4.3
+        name: "Competitive Funnel Comparison"
+        required: true
+        description: |
+          Compare the designed funnel against top competitors:
+          - What funnels are Dream 100 targets using?
+          - What's different about our approach?
+          - What proven elements should we incorporate?
+        output: "competitive_comparison.yaml"
+
+      - task_id: T4.4
+        name: "Compile Funnel Blueprint"
+        required: true
+        description: |
+          Package all artifacts into the final funnel blueprint:
+          - Complete funnel map (visual)
+          - Page-by-page specifications
+          - Copy frameworks per page
+          - Traffic plan
+          - Follow-up sequences
+          - KPIs and success metrics
+        output: "funnel_blueprint/"
+
+    inline_structures:
+      funnel_audit_checklist:
+        items:
+          - id: FA_001
+            check: "Does the funnel start with a hook that creates curiosity?"
+            critical: true
+          - id: FA_002
+            check: "Is there a clear Epiphany Bridge story?"
+            critical: true
+          - id: FA_003
+            check: "Does the offer follow Hook-Story-Offer structure?"
+            critical: true
+          - id: FA_004
+            check: "Is there a value stack with minimum 5 components?"
+            critical: true
+          - id: FA_005
+            check: "Is there a guarantee that reverses risk?"
+            critical: true
+          - id: FA_006
+            check: "Are there OTOs / upsells to maximize customer value?"
+            critical: false
+          - id: FA_007
+            check: "Is there a follow-up funnel (Soap Opera + Seinfeld)?"
+            critical: true
+          - id: FA_008
+            check: "Is the funnel entry point aligned with the Value Ladder?"
+            critical: true
+          - id: FA_009
+            check: "Is there genuine scarcity or urgency?"
+            critical: false
+          - id: FA_010
+            check: "Can this funnel be automated / made evergreen?"
+            critical: false
+
+    checkpoint:
+      id: CP_PHASE_4
+      name: "Validation Complete"
+      criteria:
+        - "All audit checks passed (0 critical failures)"
+        - "Competitive comparison completed"
+        - "Conversion optimization recommendations applied"
+        - "Final blueprint compiled and delivered"
+      human_review: true
+      message: "Final approval before implementation begins."
+      veto_conditions:
+        - condition: "Critical audit check failed"
+          action: "HALT - Fix critical issue before implementation"
+        - condition: "No follow-up funnel designed"
+          action: "BLOCK - Follow-up is mandatory for funnel success"
+
+# ===============================================================================
+# ERROR HANDLING
+# ===============================================================================
+
+error_handling:
+  on_phase_failure:
+    - log_error: true
+    - notify_user: true
+    - create_remediation_task: true
+    - halt_workflow: false
+
+  on_checkpoint_failure:
+    - log_failure_reason: true
+    - return_to_previous_phase: true
+    - max_retries: 2
+
+  on_veto_triggered:
+    - halt_immediately: true
+    - escalate_to: "brunson-chief"
+    - document_reason: true
+    - require_human_override: true
+
+  common_failures:
+    - failure: "Dream customer too broad"
+      phase: 0
+      resolution: "Narrow to specific submarket using Brunson's 3 Markets framework"
+
+    - failure: "Value Ladder has gaps"
+      phase: 1
+      resolution: "Create intermediate offers to bridge price jumps"
+
+    - failure: "Wrong funnel type selected"
+      phase: 2
+      resolution: "Re-evaluate based on offer price point and customer awareness"
+
+    - failure: "Pages lack conversion elements"
+      phase: 3
+      resolution: "Apply Hook-Story-Offer to each page individually"
+
+# ===============================================================================
+# SIGNALS
+# ===============================================================================
+
+signals:
+  completion:
+    type: "workflow_complete"
+    payload:
+      workflow_id: "wf-funnel-architecture"
+      status: "completed"
+      outputs:
+        - "funnel_blueprint/"
+        - "value_ladder.yaml"
+
+  checkpoint:
+    type: "checkpoint_reached"
+    payload:
+      phase_id: "PHASE-{N}"
+      status: "awaiting_review"
+      requires: "human_approval"
+
+  blocked:
+    type: "workflow_blocked"
+    payload:
+      phase_id: "PHASE-{N}"
+      reason: "veto_condition_triggered"
+      veto: "{veto_description}"
+
+# ===============================================================================
+# OUTPUTS
+# ===============================================================================
+
+outputs:
+  phase_0:
+    - "dream_customer_avatar.yaml"
+    - "customer_congregations.yaml"
+    - "bait_design.md"
+    - "result_definition.md"
+
+  phase_1:
+    - "current_offers_audit.yaml"
+    - "value_ladder.yaml"
+    - "funnel_entry_point.md"
+    - "ascension_path.yaml"
+
+  phase_2:
+    - "funnel_type_selection.yaml"
+    - "seven_phases_map.yaml"
+    - "building_blocks.yaml"
+    - "offer_architecture.yaml"
+    - "follow_up_funnels.yaml"
+
+  phase_3:
+    - "squeeze_page_specs.yaml"
+    - "sales_page_specs.yaml"
+    - "oto_page_specs.yaml"
+    - "thankyou_page_specs.yaml"
+    - "value_stack_presentation.yaml"
+
+  phase_4:
+    - "architecture_audit.yaml"
+    - "conversion_review.yaml"
+    - "competitive_comparison.yaml"
+    - "funnel_blueprint/"
+
+  final_deliverable:
+    name: "Funnel Architecture Blueprint"
+    location: "outputs/funnels/{funnel_id}/"
+    contents:
+      - "README.md - Funnel overview"
+      - "value_ladder.yaml - Complete ladder"
+      - "funnel_map.md - Visual funnel flow"
+      - "pages/ - Page specifications"
+      - "offers/ - Offer architecture per page"
+      - "follow_up/ - Email sequences"
+      - "validation.yaml - Audit results"
+
+# ===============================================================================
+# QUALITY CHECKLIST
+# ===============================================================================
+
+quality_checklist:
+  phase_0:
+    - "[ ] Dream customer defined with psychographics"
+    - "[ ] 10+ congregations mapped"
+    - "[ ] Bait solves specific problem"
+    - "[ ] Result is status-driven transformation"
+
+  phase_1:
+    - "[ ] Value Ladder has 3+ tiers"
+    - "[ ] Ascension path is logical"
+    - "[ ] Entry point identified"
+    - "[ ] Price points justified"
+
+  phase_2:
+    - "[ ] Funnel type matches offer"
+    - "[ ] 7 Phases mapped"
+    - "[ ] Building blocks selected"
+    - "[ ] Offers designed for each step"
+    - "[ ] Follow-up funnels mapped"
+
+  phase_3:
+    - "[ ] All pages have wireframes"
+    - "[ ] Hook-Story-Offer applied"
+    - "[ ] Value stack designed"
+    - "[ ] CTAs on every page"
+
+  phase_4:
+    - "[ ] 0 critical audit failures"
+    - "[ ] Competitive comparison done"
+    - "[ ] Blueprint compiled"
+    - "[ ] Ready for implementation"
+
+# ===============================================================================
+# METADATA
+# ===============================================================================
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-11"
+  author: "squad-architect"
+  source_frameworks:
+    - "SECRET_FORMULA"
+    - "VALUE_LADDER"
+    - "7_PHASES_OF_A_FUNNEL"
+    - "31_BUILDING_BLOCKS"
+    - "9_CORE_FUNNELS"
+    - "HOOK_STORY_OFFER"
+  source_mind: "russell_brunson"
+  quality_gate: "SC_WFL_001"
